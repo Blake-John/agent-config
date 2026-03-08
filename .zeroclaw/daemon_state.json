@@ -1,0 +1,43 @@
+{
+  "components": {
+    "channel:feishu": {
+      "last_error": null,
+      "last_ok": "2026-03-08T12:47:48.141611500+00:00",
+      "restart_count": 0,
+      "status": "ok",
+      "updated_at": "2026-03-08T12:47:48.141592500+00:00"
+    },
+    "channels": {
+      "last_error": null,
+      "last_ok": "2026-03-08T12:44:48.132593800+00:00",
+      "restart_count": 0,
+      "status": "ok",
+      "updated_at": "2026-03-08T12:44:48.132587700+00:00"
+    },
+    "daemon": {
+      "last_error": null,
+      "last_ok": "2026-03-08T12:44:18.327272500+00:00",
+      "restart_count": 0,
+      "status": "ok",
+      "updated_at": "2026-03-08T12:44:18.327240200+00:00"
+    },
+    "gateway": {
+      "last_error": null,
+      "last_ok": "2026-03-08T12:44:18.346185500+00:00",
+      "restart_count": 0,
+      "status": "ok",
+      "updated_at": "2026-03-08T12:44:18.346176900+00:00"
+    },
+    "scheduler": {
+      "last_error": null,
+      "last_ok": "2026-03-08T12:47:33.332011500+00:00",
+      "restart_count": 0,
+      "status": "ok",
+      "updated_at": "2026-03-08T12:47:33.332004800+00:00"
+    }
+  },
+  "pid": 35772,
+  "updated_at": "2026-03-08T12:47:48.329820900+00:00",
+  "uptime_seconds": 210,
+  "written_at": "2026-03-08T12:47:48.329904600+00:00"
+}

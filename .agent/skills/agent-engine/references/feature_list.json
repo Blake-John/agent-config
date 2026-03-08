@@ -1,0 +1,129 @@
+{
+  "project": "Project Name",
+  "description": "Project description from user prompt",
+  "features": [
+    {
+      "id": "1",
+      "category": "functional",
+      "description": "User can create a new account with email and password",
+      "steps": [
+        "Navigate to registration page",
+        "Fill in email field with valid email",
+        "Fill in password field (min 8 characters)",
+        "Click submit button",
+        "Verify confirmation email is sent",
+        "Verify user is redirected to dashboard"
+      ],
+      "passes": false,
+      "priority": "high"
+    },
+    {
+      "id": "2",
+      "category": "functional", 
+      "description": "User can log in with email and password",
+      "steps": [
+        "Navigate to login page",
+        "Enter registered email",
+        "Enter password",
+        "Click login button",
+        "Verify user is redirected to dashboard",
+        "Verify session persists on page refresh"
+      ],
+      "passes": false,
+      "priority": "high"
+    },
+    {
+      "id": "3",
+      "category": "functional",
+      "description": "User can log out of their account",
+      "steps": [
+        "While logged in, click logout button",
+        "Verify user is redirected to login page",
+        "Verify session is cleared",
+        "Verify cannot access protected routes"
+      ],
+      "passes": false,
+      "priority": "high"
+    },
+    {
+      "id": "4",
+      "category": "functional",
+      "description": "Theme toggle switches between light and dark mode",
+      "steps": [
+        "Click theme toggle button in header",
+        "Verify CSS variables change to dark theme",
+        "Click toggle again",
+        "Verify CSS variables change to light theme",
+        "Refresh page",
+        "Verify theme preference persists"
+      ],
+      "passes": false,
+      "priority": "medium"
+    },
+    {
+      "id": "5",
+      "category": "ui",
+      "description": "Navigation menu is responsive on mobile devices",
+      "steps": [
+        "Resize browser to mobile width (< 768px)",
+        "Verify navigation collapses to hamburger menu",
+        "Click hamburger menu",
+        "Verify navigation items are displayed",
+        "Click outside menu to close"
+      ],
+      "passes": false,
+      "priority": "medium"
+    },
+    {
+      "id": "6",
+      "category": "functional",
+      "description": "User can view their profile page",
+      "steps": [
+        "Log in as existing user",
+        "Click profile link in navigation",
+        "Verify profile page displays user email",
+        "Verify profile page displays account creation date"
+      ],
+      "passes": false,
+      "priority": "medium"
+    },
+    {
+      "id": "7",
+      "category": "error-handling",
+      "description": "Invalid login shows error message",
+      "steps": [
+        "Navigate to login page",
+        "Enter email: invalid@example.com",
+        "Enter password: wrongpassword",
+        "Click login button",
+        "Verify error message is displayed",
+        "Verify user stays on login page"
+      ],
+      "passes": false,
+      "priority": "high"
+    },
+    {
+      "id": "8",
+      "category": "functional",
+      "description": "User can reset their password",
+      "steps": [
+        "Click forgot password link",
+        "Enter registered email",
+        "Click submit",
+        "Verify password reset email is sent",
+        "Click reset link in email",
+        "Enter new password",
+        "Verify password is updated",
+        "Verify user can log in with new password"
+      ],
+      "passes": false,
+      "priority": "medium"
+    }
+  ],
+  "metadata": {
+    "total_features": 8,
+    "completed": 0,
+    "created": "2025-01-15",
+    "last_updated": "2025-01-15"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "version": 3,
+  "skills": {
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "c2f31172b6f256272305a5e6e7228b258446899f",
+      "installedAt": "2026-02-13T09:48:15.936Z",
+      "updatedAt": "2026-02-13T09:48:15.936Z"
+    },
+    "excalidraw-diagram": {
+      "source": "axtonliu/axton-obsidian-visual-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/axtonliu/axton-obsidian-visual-skills.git",
+      "skillPath": "excalidraw-diagram/SKILL.md",
+      "skillFolderHash": "dc5677963e87e5d9a1c9b31ccd2bf995b8a63078",
+      "pluginName": "obsidian-visual-skills",
+      "installedAt": "2026-03-07T15:40:58.959Z",
+      "updatedAt": "2026-03-07T15:40:58.959Z"
+    },
+    "mermaid-visualizer": {
+      "source": "axtonliu/axton-obsidian-visual-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/axtonliu/axton-obsidian-visual-skills.git",
+      "skillPath": "mermaid-visualizer/SKILL.md",
+      "skillFolderHash": "55a0115c2bc2c6b21d71b5d3a2be09d33fbe91d1",
+      "pluginName": "obsidian-visual-skills",
+      "installedAt": "2026-03-07T15:43:27.576Z",
+      "updatedAt": "2026-03-07T15:43:27.576Z"
+    },
+    "obsidian-canvas-creator": {
+      "source": "axtonliu/axton-obsidian-visual-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/axtonliu/axton-obsidian-visual-skills.git",
+      "skillPath": "obsidian-canvas-creator/SKILL.md",
+      "skillFolderHash": "d3ad114c28c7d8a52bdf34784d4f9086778a8dec",
+      "pluginName": "obsidian-visual-skills",
+      "installedAt": "2026-03-07T15:43:52.887Z",
+      "updatedAt": "2026-03-07T15:43:52.887Z"
+    },
+    "obsidian-markdown": {
+      "source": "kepano/obsidian-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/kepano/obsidian-skills.git",
+      "skillPath": "skills/obsidian-markdown/SKILL.md",
+      "skillFolderHash": "5caf5d9e7de204f3904216857545f2aa36bcfcac",
+      "installedAt": "2026-03-07T15:47:17.863Z",
+      "updatedAt": "2026-03-07T15:47:17.863Z"
+    },
+    "skill-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "skillPath": "skills/skill-creator/SKILL.md",
+      "skillFolderHash": "98a510d1cfef9f82c3b1eec200229ca68725e613",
+      "pluginName": "example-skills",
+      "installedAt": "2026-03-08T09:03:55.273Z",
+      "updatedAt": "2026-03-08T09:03:55.273Z"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git",
+      "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
+      "skillFolderHash": "986c64ad9b8e196a4a737c01872c2eda790daba1",
+      "pluginName": "ui-ux-pro-max",
+      "installedAt": "2026-03-08T09:07:05.852Z",
+      "updatedAt": "2026-03-08T09:07:05.852Z"
+    },
+    "codebase-search": {
+      "source": "supercent-io/skills-template",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/supercent-io/skills-template.git",
+      "skillPath": ".agent-skills/codebase-search/SKILL.md",
+      "skillFolderHash": "e7d10e1a7c71261341f83fff9b62841e11dc5afa",
+      "installedAt": "2026-03-08T11:32:13.845Z",
+      "updatedAt": "2026-03-08T11:32:13.845Z"
+    },
+    "playwright-best-practices": {
+      "source": "currents-dev/playwright-best-practices-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/currents-dev/playwright-best-practices-skill.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "0752275e89ed23655fe8e2b14bd45f8e8c17aec0",
+      "installedAt": "2026-03-08T11:54:35.061Z",
+      "updatedAt": "2026-03-08T11:54:35.061Z"
+    },
+    "playwright-skill": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/sickn33/antigravity-awesome-skills.git",
+      "skillPath": "skills/playwright-skill/SKILL.md",
+      "skillFolderHash": "27ac225c6fbba2cee3910601559bb55d5dd51b55",
+      "installedAt": "2026-03-08T11:56:07.512Z",
+      "updatedAt": "2026-03-08T11:56:07.512Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "cline",
+    "codex",
+    "cursor",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode"
+  ]
+}

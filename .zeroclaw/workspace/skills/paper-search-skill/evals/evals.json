@@ -1,0 +1,23 @@
+{
+  "skill_name": "paper-search-skill",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "帮我搜索最近关于大型语言模型(LLM)推理能力提升的学术论文，找出5篇最相关的",
+      "expected_output": "搜索结果应包含5篇相关论文，每篇包含标题、作者、日期、来源、arXiv ID/DOI、摘要",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我需要找arXiv上关于diffusion model的最新研究，最好是2024年以后的",
+      "expected_output": "搜索结果应包含arXiv上2024年以后的diffusion model相关论文",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "请帮我下载并总结论文 'Attention Is All You Need' 的主要内容",
+      "expected_output": "应能下载论文PDF并总结主要贡献、研究方法和关键结果",
+      "files": []
+    }
+  ]
+}

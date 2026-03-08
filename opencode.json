@@ -1,0 +1,32 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "mcp": {
+        "context7": {
+            "type": "remote",
+            "url": "https://mcp.context7.com/mcp",
+            "headers": {
+                "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+            }
+        },
+        "mcp-deepwiki": {
+            "type": "local",
+            "command": [ "npx", "-y", "mcp-deepwiki@latest" ]
+        },
+        "fetch": {
+            "type": "local",
+            "command": [ "npx", "-y", "fetch-mcp" ]
+        },
+        "paper_search_server": {
+            "type": "local",
+            "command": [ "python", "-m", "paper_search_mcp.server" ]
+        },
+        "bing-cn": {
+            "type": "local",
+            "command": [ "npx", "-y", "bing-cn-mcp" ]
+        },
+        "sequential-thinking": {
+            "type": "local",
+            "command": [ "npx", "-y", "@modelcontextprotocol/server-sequential-thinking" ]
+        }
+    }
+}
