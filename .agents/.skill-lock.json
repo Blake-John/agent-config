@@ -1,0 +1,320 @@
+{
+  "version": 3,
+  "skills": {
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "c2f31172b6f256272305a5e6e7228b258446899f",
+      "installedAt": "2026-02-13T09:48:15.936Z",
+      "updatedAt": "2026-02-13T09:48:15.936Z"
+    },
+    "excalidraw-diagram": {
+      "source": "axtonliu/axton-obsidian-visual-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/axtonliu/axton-obsidian-visual-skills.git",
+      "skillPath": "excalidraw-diagram/SKILL.md",
+      "skillFolderHash": "dc5677963e87e5d9a1c9b31ccd2bf995b8a63078",
+      "pluginName": "obsidian-visual-skills",
+      "installedAt": "2026-03-07T15:40:58.959Z",
+      "updatedAt": "2026-03-07T15:40:58.959Z"
+    },
+    "mermaid-visualizer": {
+      "source": "axtonliu/axton-obsidian-visual-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/axtonliu/axton-obsidian-visual-skills.git",
+      "skillPath": "mermaid-visualizer/SKILL.md",
+      "skillFolderHash": "55a0115c2bc2c6b21d71b5d3a2be09d33fbe91d1",
+      "pluginName": "obsidian-visual-skills",
+      "installedAt": "2026-03-07T15:43:27.576Z",
+      "updatedAt": "2026-03-07T15:43:27.576Z"
+    },
+    "obsidian-canvas-creator": {
+      "source": "axtonliu/axton-obsidian-visual-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/axtonliu/axton-obsidian-visual-skills.git",
+      "skillPath": "obsidian-canvas-creator/SKILL.md",
+      "skillFolderHash": "d3ad114c28c7d8a52bdf34784d4f9086778a8dec",
+      "pluginName": "obsidian-visual-skills",
+      "installedAt": "2026-03-07T15:43:52.887Z",
+      "updatedAt": "2026-03-07T15:43:52.887Z"
+    },
+    "obsidian-markdown": {
+      "source": "kepano/obsidian-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/kepano/obsidian-skills.git",
+      "skillPath": "skills/obsidian-markdown/SKILL.md",
+      "skillFolderHash": "5caf5d9e7de204f3904216857545f2aa36bcfcac",
+      "installedAt": "2026-03-07T15:47:17.863Z",
+      "updatedAt": "2026-03-07T15:47:17.863Z"
+    },
+    "skill-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "skillPath": "skills/skill-creator/SKILL.md",
+      "skillFolderHash": "98a510d1cfef9f82c3b1eec200229ca68725e613",
+      "pluginName": "example-skills",
+      "installedAt": "2026-03-08T09:03:55.273Z",
+      "updatedAt": "2026-03-08T09:03:55.273Z"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git",
+      "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
+      "skillFolderHash": "986c64ad9b8e196a4a737c01872c2eda790daba1",
+      "pluginName": "ui-ux-pro-max",
+      "installedAt": "2026-03-08T09:07:05.852Z",
+      "updatedAt": "2026-03-08T09:07:05.852Z"
+    },
+    "codebase-search": {
+      "source": "supercent-io/skills-template",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/supercent-io/skills-template.git",
+      "skillPath": ".agent-skills/codebase-search/SKILL.md",
+      "skillFolderHash": "e7d10e1a7c71261341f83fff9b62841e11dc5afa",
+      "installedAt": "2026-03-08T11:32:13.845Z",
+      "updatedAt": "2026-03-08T11:32:13.845Z"
+    },
+    "playwright-best-practices": {
+      "source": "currents-dev/playwright-best-practices-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/currents-dev/playwright-best-practices-skill.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "0752275e89ed23655fe8e2b14bd45f8e8c17aec0",
+      "installedAt": "2026-03-08T11:54:35.061Z",
+      "updatedAt": "2026-03-08T11:54:35.061Z"
+    },
+    "playwright-skill": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/sickn33/antigravity-awesome-skills.git",
+      "skillPath": "skills/playwright-skill/SKILL.md",
+      "skillFolderHash": "27ac225c6fbba2cee3910601559bb55d5dd51b55",
+      "installedAt": "2026-03-08T11:56:07.512Z",
+      "updatedAt": "2026-03-08T11:56:07.512Z"
+    },
+    "feishu-lark": {
+      "source": "openclaudia/openclaudia-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/openclaudia/openclaudia-skills.git",
+      "skillPath": "skills/feishu-lark/SKILL.md",
+      "skillFolderHash": "cd72df1443f253604d962759148d67d6bb47ff04",
+      "installedAt": "2026-03-12T01:42:43.692Z",
+      "updatedAt": "2026-03-12T01:42:43.692Z"
+    },
+    "agent-browser": {
+      "source": "m1heng/clawdbot-feishu",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/m1heng/clawdbot-feishu.git",
+      "skillPath": ".agents/skills/agent-browser/SKILL.md",
+      "skillFolderHash": "055f4a89276ed2c51b335c2e492ce863afb0cf8f",
+      "installedAt": "2026-03-12T01:44:10.557Z",
+      "updatedAt": "2026-03-12T01:44:10.557Z"
+    },
+    "feishu-doc": {
+      "source": "m1heng/clawdbot-feishu",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/m1heng/clawdbot-feishu.git",
+      "skillPath": "skills/feishu-doc/SKILL.md",
+      "skillFolderHash": "7e60c96db3ee2e0ef4279f999c78f9f6b26a1e5b",
+      "installedAt": "2026-03-12T01:44:10.658Z",
+      "updatedAt": "2026-03-12T01:44:10.658Z"
+    },
+    "feishu-drive": {
+      "source": "m1heng/clawdbot-feishu",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/m1heng/clawdbot-feishu.git",
+      "skillPath": "skills/feishu-drive/SKILL.md",
+      "skillFolderHash": "7e35acadf5ae5ea0b5acba7093d46accd9c13d70",
+      "installedAt": "2026-03-12T01:44:10.759Z",
+      "updatedAt": "2026-03-12T01:44:10.759Z"
+    },
+    "feishu-e2e-test": {
+      "source": "m1heng/clawdbot-feishu",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/m1heng/clawdbot-feishu.git",
+      "skillPath": ".claude/skills/feishu-e2e-test/SKILL.md",
+      "skillFolderHash": "446027186b1836db73fb91305a5adf9928ff3822",
+      "installedAt": "2026-03-12T01:44:10.868Z",
+      "updatedAt": "2026-03-12T01:44:10.868Z"
+    },
+    "feishu-perm": {
+      "source": "m1heng/clawdbot-feishu",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/m1heng/clawdbot-feishu.git",
+      "skillPath": "skills/feishu-perm/SKILL.md",
+      "skillFolderHash": "804bcb04d07a5a36fdbc83683137d535a14fb821",
+      "installedAt": "2026-03-12T01:44:10.965Z",
+      "updatedAt": "2026-03-12T01:44:10.965Z"
+    },
+    "feishu-task": {
+      "source": "m1heng/clawdbot-feishu",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/m1heng/clawdbot-feishu.git",
+      "skillPath": "skills/feishu-task/SKILL.md",
+      "skillFolderHash": "85cd26df8e9defc7e592a6329b18aaf6456e64f4",
+      "installedAt": "2026-03-12T01:44:11.066Z",
+      "updatedAt": "2026-03-12T01:44:11.066Z"
+    },
+    "feishu-urgent": {
+      "source": "m1heng/clawdbot-feishu",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/m1heng/clawdbot-feishu.git",
+      "skillPath": "skills/feishu-urgent/SKILL.md",
+      "skillFolderHash": "6c73f074087e0469ffa1e49e342888c3d60b6e8b",
+      "installedAt": "2026-03-12T01:44:11.167Z",
+      "updatedAt": "2026-03-12T01:44:11.167Z"
+    },
+    "feishu-wiki": {
+      "source": "m1heng/clawdbot-feishu",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/m1heng/clawdbot-feishu.git",
+      "skillPath": "skills/feishu-wiki/SKILL.md",
+      "skillFolderHash": "5b2ef376c001a5dccb95d87810713370abe1ea71",
+      "installedAt": "2026-03-12T01:44:11.267Z",
+      "updatedAt": "2026-03-12T01:44:11.267Z"
+    },
+    "release": {
+      "source": "m1heng/clawdbot-feishu",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/m1heng/clawdbot-feishu.git",
+      "skillPath": ".claude/skills/release/SKILL.md",
+      "skillFolderHash": "8d86d9b228827c8ab82d457477797ce187e26d3c",
+      "installedAt": "2026-03-12T01:44:11.367Z",
+      "updatedAt": "2026-03-12T01:44:11.367Z"
+    },
+    "feishu-automation": {
+      "source": "aaaaqwq/claude-code-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/aaaaqwq/claude-code-skills.git",
+      "skillPath": "skills/feishu-automation/SKILL.md",
+      "skillFolderHash": "af4c41c73eab35c5c76dad97282edfeed078bd6c",
+      "installedAt": "2026-03-12T01:46:22.737Z",
+      "updatedAt": "2026-03-12T01:46:22.737Z"
+    },
+    "lark-mcp": {
+      "source": "whatevertogo/feishuskill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/whatevertogo/feishuskill.git",
+      "skillPath": "lark-mcp/SKILL.md",
+      "skillFolderHash": "552ae5f73ffd1cf8fcddcbe5723e58b6996e0d8d",
+      "installedAt": "2026-03-12T04:29:38.943Z",
+      "updatedAt": "2026-03-12T04:29:38.943Z"
+    },
+    "feishu-cli-auth": {
+      "source": "riba2534/feishu-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/riba2534/feishu-cli.git",
+      "skillPath": "skills/feishu-cli-auth/SKILL.md",
+      "skillFolderHash": "53eec7b6f90b3987d76a3343f8060e4bf44eb091",
+      "installedAt": "2026-03-12T05:22:01.801Z",
+      "updatedAt": "2026-03-12T05:22:01.801Z"
+    },
+    "feishu-cli-board": {
+      "source": "riba2534/feishu-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/riba2534/feishu-cli.git",
+      "skillPath": "skills/feishu-cli-board/SKILL.md",
+      "skillFolderHash": "e9b56f552a9cb3d401627227b58d63260e557591",
+      "installedAt": "2026-03-12T05:22:02.551Z",
+      "updatedAt": "2026-03-12T05:22:02.551Z"
+    },
+    "feishu-cli-doc-guide": {
+      "source": "riba2534/feishu-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/riba2534/feishu-cli.git",
+      "skillPath": "skills/feishu-cli-doc-guide/SKILL.md",
+      "skillFolderHash": "e09697ad4a44ab3555a53329fa6172d00fc5477a",
+      "installedAt": "2026-03-12T05:22:02.654Z",
+      "updatedAt": "2026-03-12T05:22:02.654Z"
+    },
+    "feishu-cli-export": {
+      "source": "riba2534/feishu-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/riba2534/feishu-cli.git",
+      "skillPath": "skills/feishu-cli-export/SKILL.md",
+      "skillFolderHash": "a7eafe18b64cc4fac50dedcc8c8afb996c85c6f9",
+      "installedAt": "2026-03-12T05:22:02.754Z",
+      "updatedAt": "2026-03-12T05:22:02.754Z"
+    },
+    "feishu-cli-import": {
+      "source": "riba2534/feishu-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/riba2534/feishu-cli.git",
+      "skillPath": "skills/feishu-cli-import/SKILL.md",
+      "skillFolderHash": "322dbfcd19ddf02522b7a8203b2a3df8cbafb1b1",
+      "installedAt": "2026-03-12T05:22:02.847Z",
+      "updatedAt": "2026-03-12T05:22:02.847Z"
+    },
+    "feishu-cli-msg": {
+      "source": "riba2534/feishu-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/riba2534/feishu-cli.git",
+      "skillPath": "skills/feishu-cli-msg/SKILL.md",
+      "skillFolderHash": "bddae2cb6970edeacfb7f66b06011b62c87a34f3",
+      "installedAt": "2026-03-12T05:22:02.938Z",
+      "updatedAt": "2026-03-12T05:22:02.938Z"
+    },
+    "feishu-cli-perm": {
+      "source": "riba2534/feishu-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/riba2534/feishu-cli.git",
+      "skillPath": "skills/feishu-cli-perm/SKILL.md",
+      "skillFolderHash": "dbfea66d6df02fc429abbcf9a67069cc40079ab1",
+      "installedAt": "2026-03-12T05:22:03.132Z",
+      "updatedAt": "2026-03-12T05:22:03.132Z"
+    },
+    "feishu-cli-read": {
+      "source": "riba2534/feishu-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/riba2534/feishu-cli.git",
+      "skillPath": "skills/feishu-cli-read/SKILL.md",
+      "skillFolderHash": "dd341c1367a6d8b6c11a67868563146c8c6de366",
+      "installedAt": "2026-03-12T05:22:03.321Z",
+      "updatedAt": "2026-03-12T05:22:03.321Z"
+    },
+    "feishu-cli-search": {
+      "source": "riba2534/feishu-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/riba2534/feishu-cli.git",
+      "skillPath": "skills/feishu-cli-search/SKILL.md",
+      "skillFolderHash": "fc67e98a76acbc7be3a219523b536a21fb97f9b1",
+      "installedAt": "2026-03-12T05:22:03.416Z",
+      "updatedAt": "2026-03-12T05:22:03.416Z"
+    },
+    "feishu-cli-toolkit": {
+      "source": "riba2534/feishu-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/riba2534/feishu-cli.git",
+      "skillPath": "skills/feishu-cli-toolkit/SKILL.md",
+      "skillFolderHash": "45eaec008b9b48fe75dbd7a4bd4216a3de10c27d",
+      "installedAt": "2026-03-12T05:22:03.515Z",
+      "updatedAt": "2026-03-12T05:22:03.515Z"
+    },
+    "feishu-cli-write": {
+      "source": "riba2534/feishu-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/riba2534/feishu-cli.git",
+      "skillPath": "skills/feishu-cli-write/SKILL.md",
+      "skillFolderHash": "3f2ca363dc6208b2735551dc47faf76d6f932afa",
+      "installedAt": "2026-03-12T05:22:03.613Z",
+      "updatedAt": "2026-03-12T05:22:03.613Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "cline",
+    "codex",
+    "cursor",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode"
+  ]
+}
