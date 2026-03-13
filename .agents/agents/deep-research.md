@@ -8,6 +8,9 @@ description: >-
   quantum computing" or "Can you do a deep dive into renewable energy storage
   technologies?"
 mode: all
+permission:
+    task: 
+        "*": allow
 tools:
     write: true
     edit: true

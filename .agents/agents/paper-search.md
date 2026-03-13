@@ -2,6 +2,9 @@
 description: >
     学术论文研究助手。帮助用户搜索、下载和管理学术论文。当用户提到搜索论文、查找学术文献、寻找研究资料、下载论文、阅读论文、查找某个研究主题的最新进展时，必须使用此 agent。此 agent 提供完整的学术论文研究工作流，包括搜索、筛选、下载和管理论文核心内容。
 mode: all
+permission:
+    task: 
+        "*": allow
 tools:
     write: true
     edit: true
