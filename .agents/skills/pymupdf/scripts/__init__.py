@@ -1,0 +1,1 @@
+# pymupdf skill - Python package

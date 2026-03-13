@@ -2,11 +2,8 @@
     "$schema": "https://opencode.ai/config.json",
     "mcp": {
         "context7": {
-            "type": "remote",
-            "url": "https://mcp.context7.com/mcp",
-            "headers": {
-                "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
-            }
+            "type": "local",
+            "command": [ "npx", "-y", "ctx7" ]
         },
         "mcp-deepwiki": {
             "type": "local",
@@ -27,6 +24,14 @@
         "sequential-thinking": {
             "type": "local",
             "command": [ "npx", "-y", "@modelcontextprotocol/server-sequential-thinking" ]
+        },
+        "lark-mcp": {
+            "type": "local",
+            "command": [ "npx", "-y", "@larksuiteoapi/lark-mcp", "mcp" ]
+        },
+        "mineru-mcp": {
+            "type": "local",
+            "command": [ "mineru-mcp" ]
         }
     }
 }
