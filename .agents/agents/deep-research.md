@@ -113,7 +113,7 @@ tools:
 
 **目标**: 获取权威学术资料，建立理论基础，排除错误网络信息
 
-**使用 `paper-search-skill`** 进行系统性检索。首先理解skill中的要求，然后基于 Phase 2 提取的关键词执行检索：
+**使用 `paper-search` agent** 进行系统性检索。基于 Phase 2 提取的关键词执行检索：
 
 1. **奠基性文献**: 搜索该领域的开创性论文（高被引，早期经典）
 2. **权威综述**: `"[领域] survey review comprehensive tutorial"`（近5年优先）
