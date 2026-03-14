@@ -11,9 +11,11 @@ mode: all
 permission:
     task: 
         "*": allow
+        paper-search: allow
 tools:
     write: true
     edit: true
+    task: true
     bash: true
     read: true
     grep: true
@@ -59,7 +61,7 @@ tools:
 
 当用户需要对某个领域进行深入了解时，你必须严格遵循以下研究流程：
 
-> 注意：在进行下述的流程是，可以使用 `sequential-thinking` 工具来辅助思考、规划，以得到更好的研究结果。
+> 注意：在进行下述的流程时，可以使用 `sequential-thinking` 工具来辅助思考、规划，以得到更好的研究结果。
 
 ### Phase 1: 研究范围界定 (Scope Definition)
 

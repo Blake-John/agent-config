@@ -8,6 +8,7 @@ permission:
 tools:
     write: true
     edit: true
+    task: true
     bash: true
     read: true
     grep: true
