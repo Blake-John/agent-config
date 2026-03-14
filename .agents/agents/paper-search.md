@@ -146,6 +146,8 @@ tools:
 | bioRxiv | `paper_search_server_download_biorxiv` |
 | medRxiv | `paper_search_server_download_medrxiv` |
 
+**重要**：下载后的论文存放到 `papers/pending/` 目录，状态为 `pending`，等待 deep-research 阅读后进行分类管理。
+
 ---
 
 ### 功能 3：论文阅读
@@ -163,7 +165,7 @@ tools:
 
 ### 功能 4：论文管理（结构化目录）
 
-建立结构化的论文目录体系，每篇论文都有自己的目录：
+建立结构化的论文目录体系，支持两种状态：**待分类** 和 **已分类**。
 
 #### 目录结构
 
@@ -172,15 +174,25 @@ papers/
 ├── metadata.json                 # 所有论文的元数据索引
 ├── search_results/               # 搜索结果
 │   └── [timestamp]_search.json  # 每次搜索的结果
+├── pending/                      # 待分类论文（下载后尚未阅读分类）
+│   └── [author]_[year]_[title_short]/
+│       ├── metadata.json         # 论文元数据
+│       ├── paper.pdf             # PDF 文件
+│       ├── extracted.md          # 提取的文本内容（如有）
+│       └── summary.md            # 论文总结（如有）
 ├── [领域名称]/
 │   ├── metadata.json             # 该领域的论文索引
-│   ├── [author]_[year]_[title_short]/
-│   │   ├── metadata.json         # 论文元数据
-│   │   ├── paper.pdf             # PDF 文件（如有）
-│   │   ├── extracted.md          # 提取的文本内容
-│   │   ├── summary.md            # 论文总结
-│   │   └── notes.md              # 阅读笔记
-│   └── ...
+│   ├── P0/                       # 必读论文（奠基性、综述、直接相关）
+│   │   └── [author]_[year]_[title_short]/
+│   │       ├── metadata.json
+│   │       ├── paper.pdf
+│   │       ├── extracted.md
+│   │       ├── summary.md
+│   │       └── notes.md         # 阅读笔记
+│   ├── P1/                       # 重要论文（方法论、高引、对比）
+│   │   └── ...
+│   └── P2/                       # 参考论文（最新进展、交叉领域）
+│       └── ...
 └── ...
 ```
 
@@ -200,16 +212,36 @@ papers/
   "abstract": "论文摘要",
   "keywords": ["关键词1", "关键词2"],
   "citations": 100,
-  "pdf_path": "papers/领域名/作者_年_标题/paper.pdf",
-  "extracted_path": "papers/领域名/作者_年_标题/extracted.md",
-  "summary_path": "papers/领域名/作者_年_标题/summary.md",
-  "notes_path": "papers/领域名/作者_年_标题/notes.md",
+  "pdf_path": "papers/领域名/P0/作者_年_标题/paper.pdf",
+  "extracted_path": "papers/领域名/P0/作者_年_标题/extracted.md",
+  "summary_path": "papers/领域名/P0/作者_年_标题/summary.md",
+  "notes_path": "papers/领域名/P0/作者_年_标题/notes.md",
   "download_date": "2024-01-01",
   "priority": "P0",
   "category": "奠基性/方法论/最新进展/综述",
+  "status": "pending/classified",
   "tags": ["标签1", "标签2"]
 }
 ```
+
+#### 管理流程
+
+**重要**：论文下载后**不立即分类**，需要经过 deep-research agent 阅读后才能进行分类管理。
+
+1. **下载阶段**（任务类型：下载）
+   - 论文下载到 `papers/pending/` 目录
+   - 状态标记为 `pending`
+
+2. **阅读阶段**（由 deep-research 执行）
+   - deep-research 阅读论文
+   - 确定论文的优先级（P0/P1/P2）
+   - 将优先级信息传递给 paper-search agent
+
+3. **分类管理阶段**（任务类型：管理）
+   - 接收 deep-research 传递的分类信息
+   - 将论文从 `pending/` 移动到对应领域/P0（或P1/P2）目录
+   - 更新元数据中的 priority 和 status 字段
+   - 更新相关的 metadata.json 索引
 
 ---
 
@@ -238,6 +270,28 @@ papers/
 ## 附加要求
 
 [任何额外的具体要求]
+```
+
+### 管理任务格式（重要）
+
+当任务类型为"管理"时，用于将 pending 目录中的论文分类到 P0/P1/P2 目录：
+
+```
+## 任务要求
+
+- **任务类型**: 管理
+- **研究领域**: [领域名称]
+- **分类列表**: 
+  - 论文ID1: P0  # 理由：奠基性论文
+  - 论文ID2: P1  # 理由：高引方法论论文
+  - 论文ID3: P2  # 理由：最新进展参考
+- **操作**: classify  # 将论文从 pending 移动到对应优先级目录
+
+## 说明
+
+- 论文ID 格式：arxiv:2101.12345 或 DOI 或 PMID
+- 分类后状态从 pending 变为 classified
+- 同时更新 papers/metadata.json 和领域目录的 metadata.json
 ```
 
 ---
@@ -275,8 +329,22 @@ papers/
   "task": "download",
   "paper_id": "arxiv:2101.12345",
   "status": "success",
-  "file_path": "papers/领域/作者_年_标题/paper.pdf",
-  "file_size": "2.5MB"
+  "file_path": "papers/pending/作者_年_标题/paper.pdf",
+  "file_size": "2.5MB",
+  "note": "论文已下载到 pending 目录，等待阅读后分类"
+}
+```
+
+### 管理结果输出（分类）
+
+```json
+{
+  "task": "classify",
+  "paper_id": "arxiv:2101.12345",
+  "status": "success",
+  "from": "papers/pending/作者_年_标题/",
+  "to": "papers/领域名/P0/作者_年_标题/",
+  "priority": "P0"
 }
 ```
 
@@ -298,14 +366,29 @@ papers/
 
 ### 作为 Subagent 执行的完整流程
 
+#### 流程 1：搜索任务
+
 1. **接收任务**: 解析主 agent 传递的结构化要求
 2. **加载技能**: 使用 `skill` 加载 `paper-search-skill`
 3. **执行搜索**: 根据关键词和筛选条件搜索论文
 4. **筛选结果**: 根据优先级和相关度筛选
-5. **下载论文**: 如果需要，下载 PDF 到结构化目录
-6. **阅读论文**: 如果需要，提取并总结论文内容
-7. **更新索引**: 更新 metadata.json 索引文件
-8. **返回结果**: 返回结构化的执行结果给主 agent
+5. **返回结果**: 返回结构化的搜索结果给主 agent
+
+#### 流程 2：下载任务
+
+1. **接收任务**: 解析下载任务要求
+2. **执行下载**: 下载 PDF 到 `papers/pending/` 目录
+3. **创建元数据**: 生成 metadata.json
+4. **标记状态**: status 设为 "pending"
+5. **返回结果**: 返回下载位置，提示等待阅读后分类
+
+#### 流程 3：管理任务（分类）
+
+1. **接收分类信息**: 接收 deep-research 传递的论文优先级分类
+2. **移动文件**: 将论文从 pending 目录移动到 领域/P0(P1,P2) 目录
+3. **更新元数据**: 更新 priority 和 status 字段
+4. **更新索引**: 更新相关的 metadata.json
+5. **返回结果**: 返回分类结果
 
 ---
 

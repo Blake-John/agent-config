@@ -113,7 +113,7 @@ tools:
 
 **目标**: 获取权威学术资料，建立理论基础，排除错误网络信息
 
-**使用 `paper-search` agent** 进行系统性检索。基于 Phase 2 提取的关键词执行检索：
+**使用 `paper-search` agent 进行系统性检索**。基于 Phase 2 提取的关键词执行检索：
 
 1. **奠基性文献**: 搜索该领域的开创性论文（高被引，早期经典）
 2. **权威综述**: `"[领域] survey review comprehensive tutorial"`（近5年优先）
@@ -121,19 +121,26 @@ tools:
 4. **前沿进展**: 近3年高引论文、顶会论文（区分不同流派）
 5. **交叉领域**: 如适用，搜索跨学科应用与融合
 
-**检索策略**(更详细的策略可以参考 `paper-search-skill`，但对于不同的领域可以灵活变化):
+**检索策略**:
 
 - 使用布尔逻辑: `(keyword1 AND keyword2) OR (keyword3 AND survey)`
 - 优先高被引(>100)、顶会/顶刊、权威团队
 - **时间跨度**: 20%经典(5-10年前) + 50%近期重要(2-5年) + 30%最新(<2年)
 
-**使用 paper-search-skill 的正确方式**:
+**使用 paper-search agent 的正确方式**:
 
-1. 调用 `skill` 加载 `paper-search-skill`
-2. 告诉skill你的研究领域和关键词
-3. 说明需要检索的论文数量（建议10-20篇）
-4. 说明时间范围偏好（经典/近期/最新）
-5. skill会自动选择合适的数据库并返回格式化结果
+1. 使用 `task` 工具调用 `paper-search` subagent
+2. 传递结构化的任务要求，包括：
+   - 任务类型：搜索
+   - 研究领域：[领域名称]
+   - 关键词：[关键词列表]
+   - 论文数量：10-20篇
+   - 时间范围：经典 + 近期 + 最新
+   - 优先级：综述文章、奠基性工作、高被引论文
+   - 数据源偏好：根据领域选择（CS → arXiv/Semantic Scholar，医学 → PubMed/bioRxiv）
+   - 是否下载PDF：否（仅检索）
+   - 输出格式：JSON
+3. 接收 paper-search agent 返回的搜索结果
 
 **文献筛选与分级**:
 
@@ -149,17 +156,59 @@ tools:
 
 **目标**: 深度理解文献内容，提取核心知识，**以教学视角整理**
 
-**必须使用 `paper-search-skill`** 下载和阅读论文：
+**必须使用 `paper-search` agent** 下载和阅读论文：
 
-1. **批量下载**: 使用 `paper-search-skill` 中提及的下载功能下载 P0/P1 文献 PDF 到 `papers/<target_paper>/paper.pdf` 目录
-2. **结构化精读**: 使用 `pymupdf` skill 来提取论文内容并阅读，为每篇核心文献创建提取结果 `papers/<target_paper>/extracted.md` 和笔记 `papers/<target_paper>/author_year_title.md`：
+1. **批量下载**: 使用 `paper-search` agent 下载 P0/P1 文献 PDF，保存到 `papers/pending/` 目录（待分类状态）
+2. **结构化精读**: 使用 `pymupdf` skill 来提取论文内容并阅读，为每篇核心文献创建提取结果 `papers/pending/<target_paper>/extracted.md` 和笔记 `papers/pending/<target_paper>/notes.md`
+3. **分类管理**: 阅读完成后，调用 `paper-search` agent 将论文分类到 P0/P1/P2 目录
 
-**使用 paper-search-skill 下载论文的正确方式**:
+```
+papers/
+├── metadata.json                 # 所有论文的元数据索引
+├── pending/                     # 待分类论文（下载后尚未阅读分类）
+│   └── [author]_[year]_[title_short]/
+│       ├── metadata.json         # 论文元数据
+│       ├── paper.pdf            # PDF 文件
+│       ├── extracted.md         # 提取的文本内容
+│       └── notes.md             # 阅读笔记
+├── [领域名称]/
+│   ├── metadata.json            # 该领域的论文索引
+│   ├── P0/                     # 必读论文
+│   │   └── ...
+│   ├── P1/                     # 重要论文
+│   │   └── ...
+│   └── P2/                     # 参考论文
+│       └── ...
+└── ...
+```
 
-1. 提供论文的 arXiv ID / DOI / PMID 给skill
-2. 使用 `download_arxiv` / `download_biorxiv` / `download_medrxiv` 下载PDF
-3. 使用 `read_arxiv_paper` / `read_biorxiv_paper` 或者 `pdf` skill提取并阅读文本内容
-4. 对于扫描版PDF，使用 `mineru-mcp_parse_documents` 进行OCR识别
+> 注意：仍然需要在 `./research` 的目录下进行操作，所有文件/目录的创建与操作均在这个目录下进行，严禁越界。
+
+**使用 paper-search agent 下载论文的正确方式**:
+
+1. 使用 `task` 工具调用 `paper-search` subagent
+2. 传递结构化的下载任务：
+   - 任务类型：下载
+   - 论文ID列表：[arXiv ID / DOI / PMID 列表]
+   - 领域：[领域名称]
+   - 输出目录：`papers/pending/`
+3. paper-search agent 会下载 PDF 到 pending 目录，状态为 pending
+
+**阅读完成后调用 paper-search agent 进行分类管理**:
+
+1. 每篇论文阅读完后，确定其优先级（P0/P1/P2）
+2. 使用 `task` 工具调用 `paper-search` subagent
+3. 传递结构化的管理任务：
+   - 任务类型：管理
+   - 研究领域：[领域名称]
+   - 分类列表：
+     - 论文ID1: P0
+     - 论文ID2: P1
+     - 论文ID3: P2
+   - 操作：classify
+4. paper-search agent 会将论文从 pending 移动到对应优先级目录
+
+> 注意：可在搜索文献的时候就同时让 paper-search agent 下载 PDF，这样可以节省时间。但是仍然需要等待 Phase 4 的精读完成后再进行分类管理。
 
 **笔记模板**:
 
@@ -302,22 +351,26 @@ tools:
 
 ---
 
-### Phase 3 学术文献检索 - 必须使用 paper-search-skill
+### Phase 3 学术文献检索 - 必须使用 paper-search agent
 
 **使用场景**: 获取权威学术资料、建立理论基础
 
 **正确方式**:
 
 ```
-使用 skill 加载 paper-search-skill，然后告诉它：
+使用 task 工具调用 paper-search subagent，传递结构化任务：
+- 任务类型：搜索
 - 研究领域：[领域名称]
 - 关键词：[关键词列表]
-- 需要的论文数量：10-20篇
+- 论文数量：10-20篇
 - 时间范围：经典(5-10年前) + 近期(2-5年) + 最新(<2年)
-- 优先级：高被引论文、综述文章、奠基性工作
+- 优先级：综述文章、奠基性工作、高被引论文
+- 数据源偏好：根据领域选择
+- 是否下载PDF：否
+- 输出格式：JSON
 ```
 
-**skill会自动**:
+**paper-search agent 会**:
 
 - 根据领域选择合适的数据库（arXiv/PubMed/Google Scholar/Semantic Scholar等）
 - 执行搜索并返回格式化结果
@@ -331,31 +384,51 @@ tools:
 
 ---
 
-### Phase 4 文献获取与精读 - 必须使用 paper-search-skill + mineru-mcp
+### Phase 4 文献获取与精读 - 必须使用 paper-search agent + mineru-mcp
 
 **使用场景**: 下载PDF、提取文献内容
 
 **正确方式**:
 
-1. **下载论文**: 调用 `paper-search-skill`，提供论文ID (arXiv/DOI/PMID)
-   - skill 会使用 `download_arxiv` / `download_biorxiv` / `download_medrxiv` 下载
+1. **下载论文**: 使用 `task` 工具调用 `paper-search` subagent
+   - 传递结构化下载任务：
+     - 任务类型：下载
+     - 论文ID列表：[arXiv ID / DOI / PMID]
+     - 领域：[领域名称]
+     - 输出目录：`papers/pending/`
+   - paper-search agent 会下载 PDF 到 pending 目录，状态为 pending
 
-2. **阅读论文**: 调用 `paper-search-skill` 读取论文内容
-   - skill 会使用 `read_arxiv_paper` / `read_biorxiv_paper` 提取文本
+2. **阅读论文**: 使用 `paper_search_server_read_*` 工具或 `pdf` skill 提取文本
+   - 对于 arXiv 论文：使用 `paper_search_server_read_arxiv_paper`
+   - 对于 bioRxiv 论文：使用 `paper_search_server_read_biorxiv_paper`
+   - 对于扫描版 PDF：使用 `mineru-mcp_parse_documents` 进行 OCR
 
-3. **扫描版PDF**: 使用 `mineru-mcp_parse_documents` 进行OCR识别
+3. **分类管理**: 阅读完成后，调用 paper-search agent 进行分类
+   - 传递结构化管理任务：
+     - 任务类型：管理
+     - 研究领域：[领域名称]
+     - 分类列表：论文ID → P0/P1/P2
+     - 操作：classify
+   - paper-search agent 将论文从 pending 移动到对应优先级目录
 
 **输出结构**:
 
 ```
 research/
 ├── papers/
-├   ├── paper1/
-├   ├   ├── paper1.pdf
-├   ├   └── author_year_title1.md
-├   ├── paper2/
-├   ├   ├── paper2.pdf
-├   ├   └── author_year_title2.md
+│   ├── metadata.json
+│   ├── pending/                      # 待分类论文
+│   │   └── [author]_[year]_[title]/
+│   │       ├── metadata.json
+│   │       └── paper.pdf
+│   └── [领域名]/
+│       ├── metadata.json
+│       ├── P0/                       # 必读论文
+│       │   └── ...
+│       ├── P1/                       # 重要论文
+│       │   └── ...
+│       └── P2/                       # 参考论文
+│           └── ...
 └── ...
 ```
 
