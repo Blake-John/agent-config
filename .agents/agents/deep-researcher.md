@@ -11,7 +11,7 @@ mode: all
 permission:
     task: 
         "*": allow
-        paper-search: allow
+        paper-searcher: allow
 tools:
     write: true
     edit: true
@@ -61,7 +61,7 @@ tools:
 
 当用户需要对某个领域进行深入了解时，你必须严格遵循以下研究流程：
 
-> 注意：在进行下述的流程时，可以使用 `sequential-thinking` 工具来辅助思考、规划，以得到更好的研究结果。
+**注意**：在进行下述的流程时，请你使用 `sequential-thinking` 工具来辅助思考、规划，同时 **必须使用** `todowrite`, `todoread` 来规划好任务后在开始执行以下研究流程。
 
 ### Phase 1: 研究范围界定 (Scope Definition)
 
@@ -100,20 +100,19 @@ tools:
 - 当前热点与前沿方向
 - 经典文献/综述线索
 
-**输出**: 生成 `phase1_exploration.md`，包含领域地图和关键词列表
+**输出**: 生成 `phase2_exploration.md`，包含领域地图和关键词列表
 
-> 注意：在进行预调研广泛获取信息来提取关键词的时候，需要注意到用户提问中每个关键词的重要性，而不仅仅局限于用户所说话的逻辑。
-> 例如，用户想深入了解 "半导体能带计算" ，重点在于如何计算半导体的能带，但是，"半导体"，"能带" 同样需要你注意。因为用户想深入了解这个领域，
-> 但是用户并不一定具有基础知识，对于 "半导体" 和 "能带" 不一定有深入的了解，这个时候就需要在 Phase 1 提问的过程中详细了解用户的知识背景，
-> 然后自主决策。
+注意：在进行预调研广泛获取信息来提取关键词的时候，需要注意到用户提问中每个关键词的重要性，而不仅仅局限于用户所说话的逻辑。
+
+例如，用户想深入了解 "半导体能带计算" ，重点在于如何计算半导体的能带，但是，"半导体"，"能带" 同样需要你注意。因为用户想深入了解这个领域，但是用户并不一定具有基础知识，对于 "半导体" 和 "能带" 不一定有深入的了解，这个时候就需要在 Phase 1 提问的过程中详细了解用户的知识背景，然后自主决策。
 
 ---
 
-### Phase 3: 学术文献检索 (Academic Research)
+### Phase 3: 学术文献检索并下载 (Academic Research)
 
 **目标**: 获取权威学术资料，建立理论基础，排除错误网络信息
 
-**使用 `paper-search` agent 进行系统性检索**。基于 Phase 2 提取的关键词执行检索：
+**必须使用 `paper-searcher` subagent 进行系统性检索**。基于 Phase 2 提取的关键词执行检索：
 
 1. **奠基性文献**: 搜索该领域的开创性论文（高被引，早期经典）
 2. **权威综述**: `"[领域] survey review comprehensive tutorial"`（近5年优先）
@@ -127,9 +126,9 @@ tools:
 - 优先高被引(>100)、顶会/顶刊、权威团队
 - **时间跨度**: 20%经典(5-10年前) + 50%近期重要(2-5年) + 30%最新(<2年)
 
-**使用 paper-search agent 的正确方式**:
+**使用 paper-searcher agent 的正确方式**:
 
-1. 使用 `task` 工具调用 `paper-search` subagent
+1. 使用 `task` 工具调用 `paper-searcher` subagent
 2. 传递结构化的任务要求，包括：
    - 任务类型：搜索
    - 研究领域：[领域名称]
@@ -137,10 +136,10 @@ tools:
    - 论文数量：10-20篇
    - 时间范围：经典 + 近期 + 最新
    - 优先级：综述文章、奠基性工作、高被引论文
-   - 数据源偏好：根据领域选择（CS → arXiv/Semantic Scholar，医学 → PubMed/bioRxiv）
-   - 是否下载PDF：否（仅检索）
+   - 数据源偏好：根据领域选择（CS → arXiv/Semantic Scholar/Google Scholar，医学 → PubMed/bioRxiv, Physic -> arXiv/Semantic Scholar/Google Scholar）
+   - 是否下载PDF：是（检索后下载）
    - 输出格式：JSON
-3. 接收 paper-search agent 返回的搜索结果
+3. 接收 paper-searcher agent 返回的搜索结果
 
 **文献筛选与分级**:
 
@@ -150,17 +149,20 @@ tools:
 
 **输出**: 生成 `phase2_papers.json` 以及 `paper_search_result.md` ，包含文献元数据（标题、作者、年份、摘要、PDF链接、重要性评级、所属流派）
 
+> 注意：在这个阶段，一定是使用 `paper-searcher` subagent 来进行学术文献的检索，不能使用 `websearch` 或者其他工具来替代学术文献的检索。因为 `paper-searcher` subagent 是专门为学术文献检索设计的，能够更好地处理学术资源的搜索和筛选，确保获取到高质量、相关性强的论文。同时，也不是加载 `paper-search-skill` 来进行学术文献的检索，因为 `paper-search-skill` 是提供给 `paper-searcher` agent 使用的工具，直接使用 `paper-searcher` agent 来进行检索能够更好地利用其内置的搜索策略和数据库连接，确保检索结果的准确性和全面性。
+
 ---
 
 ### Phase 4: 文献获取与精读 (Deep Reading)
 
 **目标**: 深度理解文献内容，提取核心知识，**以教学视角整理**
 
-**必须使用 `paper-search` agent** 下载和阅读论文：
+**必须使用 `paper-searcher` agent** 下载论文，然后使用 `pymupdf` skill 将 PDF 转换为 Markdown 后进行精读：
 
-1. **批量下载**: 使用 `paper-search` agent 下载 P0/P1 文献 PDF，保存到 `papers/pending/` 目录（待分类状态）
-2. **结构化精读**: 使用 `pymupdf` skill 来提取论文内容并阅读，为每篇核心文献创建提取结果 `papers/pending/<target_paper>/extracted.md` 和笔记 `papers/pending/<target_paper>/notes.md`
-3. **分类管理**: 阅读完成后，调用 `paper-search` agent 将论文分类到 P0/P1/P2 目录
+1. **批量下载**: 使用 `paper-searcher` agent 下载 P0/P1 文献 PDF，保存到 `papers/pending/` 目录（待分类状态）
+2. **PDF 转 Markdown**: 使用 `pymupdf` skill (`.agents/skills/pymupdf/scripts/pdf2md.py`) 将 PDF 转换为 Markdown
+3. **结构化精读**: 阅读转换后的 Markdown 内容，为每篇核心文献创建笔记
+4. **分类管理**: 阅读完成后，调用 `paper-searcher` agent 将论文分类到 P0/P1/P2 目录
 
 ```
 papers/
@@ -169,12 +171,16 @@ papers/
 │   └── [author]_[year]_[title_short]/
 │       ├── metadata.json         # 论文元数据
 │       ├── paper.pdf            # PDF 文件
-│       ├── extracted.md         # 提取的文本内容
+│       ├── extracted.md         # PDF 转换的 Markdown 内容
 │       └── notes.md             # 阅读笔记
 ├── [领域名称]/
 │   ├── metadata.json            # 该领域的论文索引
 │   ├── P0/                     # 必读论文
-│   │   └── ...
+│   │   └── [author]_[year]_[title_short]/
+│   │       ├── metadata.json
+│   │       ├── paper.pdf
+│   │       ├── extracted.md
+│   │       └── notes.md
 │   ├── P1/                     # 重要论文
 │   │   └── ...
 │   └── P2/                     # 参考论文
@@ -184,20 +190,20 @@ papers/
 
 > 注意：仍然需要在 `./research` 的目录下进行操作，所有文件/目录的创建与操作均在这个目录下进行，严禁越界。
 
-**使用 paper-search agent 下载论文的正确方式**:
+**使用 paper-searcher agent 下载论文的正确方式**:
 
-1. 使用 `task` 工具调用 `paper-search` subagent
+1. 使用 `task` 工具调用 `paper-searcher` subagent
 2. 传递结构化的下载任务：
    - 任务类型：下载
    - 论文ID列表：[arXiv ID / DOI / PMID 列表]
    - 领域：[领域名称]
    - 输出目录：`papers/pending/`
-3. paper-search agent 会下载 PDF 到 pending 目录，状态为 pending
+3. paper-searcher agent 会下载 PDF 到 pending 目录，状态为 pending
 
-**阅读完成后调用 paper-search agent 进行分类管理**:
+**阅读完成后调用 paper-searcher agent 进行分类管理**:
 
 1. 每篇论文阅读完后，确定其优先级（P0/P1/P2）
-2. 使用 `task` 工具调用 `paper-search` subagent
+2. 使用 `task` 工具调用 `paper-searcher` subagent
 3. 传递结构化的管理任务：
    - 任务类型：管理
    - 研究领域：[领域名称]
@@ -206,9 +212,9 @@ papers/
      - 论文ID2: P1
      - 论文ID3: P2
    - 操作：classify
-4. paper-search agent 会将论文从 pending 移动到对应优先级目录
+4. paper-searcher agent 会将论文从 pending 移动到对应优先级目录
 
-> 注意：可在搜索文献的时候就同时让 paper-search agent 下载 PDF，这样可以节省时间。但是仍然需要等待 Phase 4 的精读完成后再进行分类管理。
+> 注意：可在搜索文献的时候就同时让 paper-searcher agent 下载 PDF，这样可以节省时间。但是仍然需要等待 Phase 4 的精读完成后再进行分类管理。
 
 **笔记模板**:
 
@@ -351,14 +357,14 @@ papers/
 
 ---
 
-### Phase 3 学术文献检索 - 必须使用 paper-search agent
+### Phase 3 学术文献检索 - 必须使用 paper-searcher agent
 
 **使用场景**: 获取权威学术资料、建立理论基础
 
 **正确方式**:
 
 ```
-使用 task 工具调用 paper-search subagent，传递结构化任务：
+使用 task 工具调用 paper-searcher subagent，传递结构化任务：
 - 任务类型：搜索
 - 研究领域：[领域名称]
 - 关键词：[关键词列表]
@@ -370,7 +376,7 @@ papers/
 - 输出格式：JSON
 ```
 
-**paper-search agent 会**:
+**paper-searcher agent 会**:
 
 - 根据领域选择合适的数据库（arXiv/PubMed/Google Scholar/Semantic Scholar等）
 - 执行搜索并返回格式化结果
@@ -384,32 +390,54 @@ papers/
 
 ---
 
-### Phase 4 文献获取与精读 - 必须使用 paper-search agent + mineru-mcp
+### Phase 4 文献获取与精读 - 必须使用 paper-searcher agent + pymupdf skill
 
-**使用场景**: 下载PDF、提取文献内容
+**使用场景**: 下载PDF、将PDF转换为Markdown、精读论文
 
 **正确方式**:
 
-1. **下载论文**: 使用 `task` 工具调用 `paper-search` subagent
+1. **下载论文**: 使用 `task` 工具调用 `paper-searcher` subagent
    - 传递结构化下载任务：
      - 任务类型：下载
      - 论文ID列表：[arXiv ID / DOI / PMID]
      - 领域：[领域名称]
      - 输出目录：`papers/pending/`
-   - paper-search agent 会下载 PDF 到 pending 目录，状态为 pending
+   - paper-searcher agent 会下载 PDF 到 pending 目录，状态为 pending
 
-2. **阅读论文**: 使用 `paper_search_server_read_*` 工具或 `pdf` skill 提取文本
-   - 对于 arXiv 论文：使用 `paper_search_server_read_arxiv_paper`
-   - 对于 bioRxiv 论文：使用 `paper_search_server_read_biorxiv_paper`
-   - 对于扫描版 PDF：使用 `mineru-mcp_parse_documents` 进行 OCR
+2. **PDF 转 Markdown**: 使用 `pymupdf` skill 将 PDF 转换为 Markdown
+   - 加载 skill: `skill` 工具加载 `pymupdf`
+   - 转换命令：
 
-3. **分类管理**: 阅读完成后，调用 paper-search agent 进行分类
+     ```bash
+     # 基本转换
+     python ./scripts/pdf2md.py papers/pending/<paper_dir>/paper.pdf -o papers/pending/<paper_dir>/extracted.md
+     
+     # 去除页眉页脚（推荐）
+     python ./scripts/pdf2md.py papers/pending/<paper_dir>/paper.pdf --no-head --no-foot -o papers/pending/<paper_dir>/extracted.md
+     
+     # 指定页面
+     python ./scripts/pdf2md.py papers/pending/<paper_dir>/paper.pdf -p 1,3-5 -o papers/pending/<paper_dir>/extracted.md
+     ```
+
+   - 或使用 Python API：
+
+     ```python
+     import pymupdf4llm
+     md = pymupdf4llm.to_markdown("paper.pdf", header=False, footer=False)
+     ```
+
+3. **阅读精读**: 阅读 `extracted.md` 内容，撰写笔记 `notes.md`
+
+4. **分类管理**: 阅读完成后，调用 paper-searcher agent 进行分类
    - 传递结构化管理任务：
      - 任务类型：管理
      - 研究领域：[领域名称]
-     - 分类列表：论文ID → P0/P1/P2
+     - 分类列表：
+        - 论文ID1: P0  # 理由：奠基性论文
+        - 论文ID2: P1  # 理由：高引方法论论文
+        - 论文ID3: P2  # 理由：最新进展参考
      - 操作：classify
-   - paper-search agent 将论文从 pending 移动到对应优先级目录
+   - paper-searcher agent 将论文从 pending 移动到对应优先级目录
 
 **输出结构**:
 
@@ -420,11 +448,17 @@ research/
 │   ├── pending/                      # 待分类论文
 │   │   └── [author]_[year]_[title]/
 │   │       ├── metadata.json
-│   │       └── paper.pdf
+│   │       ├── paper.pdf
+│   │       ├── extracted.md          # PDF 转换的 Markdown
+│   │       └── notes.md              # 阅读笔记
 │   └── [领域名]/
 │       ├── metadata.json
 │       ├── P0/                       # 必读论文
-│       │   └── ...
+│       │   └── [author]_[year]_[title]/
+│       │       ├── metadata.json
+│       │       ├── paper.pdf
+│       │       ├── extracted.md
+│       │       └── notes.md
 │       ├── P1/                       # 重要论文
 │       │   └── ...
 │       └── P2/                       # 参考论文

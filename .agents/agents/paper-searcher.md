@@ -58,10 +58,10 @@ tools:
 
 ### 模式 1：作为 Subagent（由主 agent 调用）
 
-当主 agent 以 subagent 方式调用你时，会传递结构化的任务要求。你需要解析并执行：
+当主 agent 以 subagent 方式调用你时，会传递结构化的任务要求。例如，你需要解析并执行：
 
 ```
-- 任务：搜索/下载/阅读/管理
+- 任务类型：搜索/下载/阅读/管理
 - 领域：...    
 - 关键词：...
 - 文章数量：...
@@ -72,6 +72,7 @@ tools:
 - 数据源偏好：arXiv/PubMed/Google Scholar/Semantic Scholar/全部
 - 是否下载PDF：是/否
 - 输出格式：JSON/Markdown
+- ...
 ```
 
 **执行流程**：
@@ -98,7 +99,7 @@ tools:
 
 ### 功能 1：论文搜索
 
-使用 `paper-search-skill` 中的搜索策略执行搜索：
+当传入的结构化任务要求中的 **任务类型** 为 **搜索时**， 使用 skill 加载 `paper-search-skill`，并使用中的搜索策略执行搜索：
 
 #### 搜索策略选择
 
@@ -106,7 +107,7 @@ tools:
 
 | 需求类型 | 推荐策略 | 数据源 |
 |---------|---------|--------|
-| 了解领域概览 | 策略3（综述）+ 策略1（经典） | Google Scholar, Semantic Scholar |
+| 了解领域概览 | 策略3（综述）+ 策略1（经典） | Google Scholar, Semantic Scholar, arXiv |
 | 学习特定方法 | 策略4（方法论）+ 策略1（奠基） | arXiv, Semantic Scholar |
 | 了解最新进展 | 策略2（最新）+ 策略5（对比） | arXiv, Google Scholar |
 | 实际项目应用 | 策略7（代码）+ 策略5（基准） | Google Scholar, arXiv |
@@ -127,6 +128,10 @@ tools:
 | 物理学 | arXiv | Google Scholar |
 | 数学 | arXiv | Google Scholar |
 
+根据传入的 **关键词** 选择和时的检测策略在相应的源进行论文的检索。
+
+> 注意：当一个数据源没有足够的结果时，尝试切换到备用数据源。如果无法连接到目标数据源，请使用 arXiv 作为默认数据源。
+
 #### 关键词扩展技巧
 
 - **同义词扩展**: "neural network" → "neural net", "deep learning"
@@ -145,6 +150,8 @@ tools:
 | PubMed | `paper_search_server_download_pubmed` |
 | bioRxiv | `paper_search_server_download_biorxiv` |
 | medRxiv | `paper_search_server_download_medrxiv` |
+
+根据传入的 **论文ID列表** 在相应的源下载论文，如 `arXiv ID` 使用 `paper_search_server_download_arxiv`。
 
 **重要**：下载后的论文存放到 `papers/pending/` 目录，状态为 `pending`，等待 deep-research 阅读后进行分类管理。
 
@@ -249,6 +256,8 @@ papers/
 
 当主 agent 向你传递任务时，期望的格式如下：
 
+### 文献检索功能格式
+
 ```
 ## 任务要求
 
@@ -270,6 +279,16 @@ papers/
 ## 附加要求
 
 [任何额外的具体要求]
+```
+
+### 文献下载格式
+
+```
+
+- **任务类型**：下载
+- **论文ID列表**：[arXiv ID / DOI / PMID]
+- **领域**：[领域名称]
+- **输出目录**：`papers/pending/`
 ```
 
 ### 管理任务格式（重要）
