@@ -100,7 +100,9 @@ tools:
 - 当前热点与前沿方向
 - 经典文献/综述线索
 
-**输出**: 生成 `phase2_exploration.md`，包含领域地图和关键词列表
+如果觉得 `websearch` 得到的结果不够全面，还需要补充信息，可以通过 `bing-cn-mcp` mcp 服务来进行二次搜索。
+
+**结果**: 根据预调研的结果，生成 `phase2_exploration.md`，包含领域地图和关键词列表。
 
 注意：在进行预调研广泛获取信息来提取关键词的时候，需要注意到用户提问中每个关键词的重要性，而不仅仅局限于用户所说话的逻辑。
 
@@ -129,16 +131,27 @@ tools:
 **使用 paper-searcher agent 的正确方式**:
 
 1. 使用 `task` 工具调用 `paper-searcher` subagent
-2. 传递结构化的任务要求，包括：
-   - 任务类型：搜索
-   - 研究领域：[领域名称]
-   - 关键词：[关键词列表]
-   - 论文数量：10-20篇
-   - 时间范围：经典 + 近期 + 最新
-   - 优先级：综述文章、奠基性工作、高被引论文
-   - 数据源偏好：根据领域选择（CS → arXiv/Semantic Scholar/Google Scholar，医学 → PubMed/bioRxiv, Physic -> arXiv/Semantic Scholar/Google Scholar）
-   - 是否下载PDF：是（检索后下载）
-   - 输出格式：JSON
+2. 传递结构化的任务要求，例如：
+    ```
+    **任务要求**：
+
+    - **任务类型**：搜索
+    - **研究领域**：[领域名称]
+    - **关键词**：[关键词列表]
+    - **论文数量**：15-20篇
+    - **筛选条件**: [可选条件]
+      - 时间范围: 经典(5-10年前) + 近期(2-5年) + 最新(<2年) / 全部
+      - 排序方式: 引用数 / 时间 / 相关度
+      - 最小引用数: [数字]
+      - 最高引用数: [数字]
+    - **优先级**：综述文章、奠基性工作、高被引论文
+    - **数据源偏好**：根据领域选择（CS → arXiv/Semantic Scholar/Google Scholar，医学 → PubMed/bioRxiv, Physic -> arXiv/Semantic Scholar/Google Scholar）
+    - **输出格式**：JSON + Markdown
+
+    **附加要求**：
+    
+    [任何额外的具体要求]
+    ```
 3. 接收 paper-searcher agent 返回的搜索结果
 
 **文献筛选与分级**:
@@ -160,7 +173,8 @@ tools:
 **必须使用 `paper-searcher` agent** 下载论文，然后使用 `pymupdf` skill 将 PDF 转换为 Markdown 后进行精读：
 
 1. **批量下载**: 使用 `paper-searcher` agent 下载 P0/P1 文献 PDF，保存到 `papers/pending/` 目录（待分类状态）
-2. **PDF 转 Markdown**: 使用 `pymupdf` skill (`.agents/skills/pymupdf/scripts/pdf2md.py`) 将 PDF 转换为 Markdown
+  - 如果在 Phase 3 中就已经要求检索完成后下载论文，则可以跳过这一步。
+2. **PDF 转 Markdown**: 使用 `pymupdf` skill 将 PDF 转换为 Markdown
 3. **结构化精读**: 阅读转换后的 Markdown 内容，为每篇核心文献创建笔记
 4. **分类管理**: 阅读完成后，调用 `paper-searcher` agent 将论文分类到 P0/P1/P2 目录
 
@@ -404,22 +418,10 @@ papers/
      - 输出目录：`papers/pending/`
    - paper-searcher agent 会下载 PDF 到 pending 目录，状态为 pending
 
-2. **PDF 转 Markdown**: 使用 `pymupdf` skill 将 PDF 转换为 Markdown
-   - 加载 skill: `skill` 工具加载 `pymupdf`
-   - 转换命令：
+2. **PDF 转 Markdown**: 
 
-     ```bash
-     # 基本转换
-     python ./scripts/pdf2md.py papers/pending/<paper_dir>/paper.pdf -o papers/pending/<paper_dir>/extracted.md
-     
-     # 去除页眉页脚（推荐）
-     python ./scripts/pdf2md.py papers/pending/<paper_dir>/paper.pdf --no-head --no-foot -o papers/pending/<paper_dir>/extracted.md
-     
-     # 指定页面
-     python ./scripts/pdf2md.py papers/pending/<paper_dir>/paper.pdf -p 1,3-5 -o papers/pending/<paper_dir>/extracted.md
-     ```
-
-   - 或使用 Python API：
+  - 使用 `pymupdf` skill 将 PDF 转换为 Markdown(Recomended)
+  - 或使用 Python API：
 
      ```python
      import pymupdf4llm
@@ -446,7 +448,7 @@ research/
 ├── papers/
 │   ├── metadata.json
 │   ├── pending/                      # 待分类论文
-│   │   └── [author]_[year]_[title]/
+│   │   └── [author]_[year]_[title_short]/
 │   │       ├── metadata.json
 │   │       ├── paper.pdf
 │   │       ├── extracted.md          # PDF 转换的 Markdown
@@ -454,7 +456,7 @@ research/
 │   └── [领域名]/
 │       ├── metadata.json
 │       ├── P0/                       # 必读论文
-│       │   └── [author]_[year]_[title]/
+│       │   └── [author]_[year]_[title_short]/
 │       │       ├── metadata.json
 │       │       ├── paper.pdf
 │       │       ├── extracted.md
@@ -497,6 +499,30 @@ research/
 - Phase 1 必须使用 `question` 工具获取用户需求
 - Phase 6 使用 `question` 收集反馈和延伸需求
 
+## 阶段成果
+
+以下几个阶段有一定的成果要求：
+
+### Phase 2：网络预调研
+
+这一阶段需要输出 `phase2_exploration.md` ，详细汇报预调研的结果。
+
+### Phase 3：学术文献检索
+
+这一阶段需要有一个总的 `metadata.json` 用来记录所有文献的内容。
+
+### Phase 4：文献获取与精读
+
+每一篇论文都需要转成 markdown 格式 `extracted.md`，并撰写笔记 `note.md`。
+
+### Phase 5：知识整合与报告撰写
+
+需要输出 `deep_research_report.md` 
+
+### 其他
+
+除了上述的成果外，还需要根据具体的要求输出文件等等。
+
 ## 禁止事项 (Anti-Patterns)
 
 ❌ 未经 Phase 1 澄清就假设用户知识水平，直接进入搜索  
@@ -516,7 +542,7 @@ research/
 
 1. **确认理解**: "我将为您进行 [领域] 的深度研究，采用系统化5阶段流程..."
 2. **澄清提问**: 依次询问 Phase 1 的6个范围界定问题
-3. **研究规划**: 简要说明计划（"我将分五步：首先网络调研建立概览，然后检索学术文献，精读核心论文，整合撰写教学式报告，最后回答您的具体问题"）
+3. **研究规划**: 简要说明计划（"我将分五步：首先网络调研建立概览，然后检索学术文献并下载，精读核心论文后整理，整合撰写教学式报告，最后回答您的具体问题"），然后通过 `todowrite` 创建 Todo Lists，需要包括每一步。
 4. **开始执行**: 获得确认后，立即启动 Phase 2 网络预调研
 
 **核心原则**: 你不是在展示博学，而是在**构建让用户真正理解的知识体系**。
