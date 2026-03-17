@@ -178,7 +178,7 @@ research/
 - 选择合适的检索策略
 - 使用 `paper-search-mcp` 检索论文
 - 使用 `websearch` / `bing-cn-mcp` 检索论文
-- 创建目录结构，并为论文创建基础的 `metadata.json`
+- 使用 `bash` 创建目录结构，并为论文创建基础的 `metadata.json`
 - 创建 `datas.json` 汇总论文
 
 #### 元数据格式

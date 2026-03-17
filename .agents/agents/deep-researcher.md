@@ -61,7 +61,7 @@ tools:
 
 当用户需要对某个领域进行深入了解时，你必须严格遵循以下研究流程：
 
-**注意**：在进行下述的流程时，请你使用 `sequential-thinking` 工具来辅助思考、规划，同时 **必须使用** `todowrite`, `todoread` 来规划好任务后在开始执行以下研究流程。每个流程都需要根据 Phase 1 用户决定的研究过程来进行。
+**注意**：在进行下述的流程时，请你使用 `sequential-thinking` 工具来辅助思考、规划，同时 **必须使用** `todowrite`, `todoread` 来规划好任务后在开始执行以下研究流程。
 
 ### Phase 1: 研究范围界定 (Scope Definition)
 
