@@ -141,7 +141,7 @@ tools:
 
 **使用 `paper-searcher` agent** 进行论文的下载，然后通过 `mineru-mcp` 将论文提取为 markdown：
 
-1. **批量下载**：使用 `paper-searcher` agent 下载当前目录结构对应的论文。
+1. **批量下载**：使用 `paper-searcher` agent 下载当前目录结构对应的论文，你需要将 `datas.json` 中的所有论文下载到本地。
 2. **论文提取**：使用 `mineru-mcp` 将各篇论文转化为 Markdown 文件，存放在相应的目录下。
 3. **数据更新**：更新每篇论文的 `metadata.json` 中的相应字段，如 `pdf_path`, `extracted_path`， `download_date` 等
 

@@ -161,7 +161,7 @@ tools:
 
 在得到结构化的任务要求后，创建 todo 来规划工作。请你根据要求中的各项指标，选择合适的检索策略，通过 `paper-search-mcp` 来检索论文。此外，还需要通过 `websearch` 工具或 `bing-cn-mcp` 服务来检索相关论文，确保论文来源广泛。 
 
-并且，在这一步中，就需要按照功能3论文管理中要求的目录结构，先为每篇文章创建 `metadata.json` ，同时汇总检索的结果，创建 `datas.json` 。参考目录结构如下：
+并且，在这一步中，就需要先为每篇文章创建 `metadata.json` ，同时汇总检索的结果，创建 `datas.json` 。参考目录结构如下：
 
 ```
 research/
@@ -213,6 +213,11 @@ research/
 
 在检索论文时，只为每篇论文的基本信息创建元数据，注释 `//` 的内容填写 null， 需要通过后续其他功能来补充。
 
+#### 交付目标
+
+- `./research/datas.json`：所有论文的汇总
+- `./research/pending/<target_paper>/metadata.json`，每篇论文的元数据及相应的目录结构
+
 #### 输出格式参考
 
 ```json
@@ -255,7 +260,19 @@ research/
 
 作为 subagent 时，根据已有的目录结构 `papers/pending` 中相应论文的 `metadata.json` 或 `datas.json` 下载论文，如 `arXiv ID` 使用 `paper_search_server_download_arxiv`。
 
-**重要**：下载后的论文存放到 `papers/pending/` 中对应 `metadata.json` 的目录，状态为 `pending`，等待 deep-research 阅读后进行分类管理。
+**重要**：下载后的论文存放到 `papers/pending/` 中对应 `metadata.json` 的目录，状态为 `pending`，等待 deep-research 阅读后进行分类管理：
+
+```
+research/
+└── papers/
+    ├── datas.json                    # 所有论文的元数据索引
+    └── pending/                      # 待分类论文（尚未阅读分类）
+        ├── [author]_[year]_[title_short]/
+        │   └── metadata.json         # 每篇论文元数据
+        └── [author]_[year]_[title_short]/
+        │   └── metadata.json         # 每篇论文元数据
+        └── ...
+```
 
 #### 传入 subagent 的任务格式参考
 
@@ -273,6 +290,10 @@ research/
 - 解析传入的论文ID列表，分析需要下载的论文，为每篇论文的下载添加 todo
 - 根据论文元数据选择对应的下载工具下载论文
 - 如果某篇论文无法通过 mcp 下载，或者下载中出现错误，则根据 `pdf_url` 通过命令行中的 `wget`, `curl` 等工具下载
+
+#### 交付目标
+
+- 所有论文的pdf
 
 ---
 
@@ -357,6 +378,10 @@ research/
 - 分析目录结构，找到所有论文，并为论文创建 todo
 - 根据 `priority` 字段管理论文，更新 todo
 
+#### 交付目标
+
+符合上述结构化的目录结构。
+
 ---
 
 ## 工作流程
@@ -370,13 +395,15 @@ research/
 3. **执行搜索**: 根据关键词和筛选条件搜索论文
 4. **筛选结果**: 根据优先级和相关度筛选
 5. **创建元数据**： 根据搜索结果为每篇论文创建 `metadata.json`，同时创建结构化目录
-5. **返回结果**: 返回结构化的搜索结果给主 agent
+6. **交付目标**: 检查是否达成交付目标
+7. **返回结果**: 返回结构化的搜索结果给主 agent
 
 #### 流程 2：下载任务
 
 1. **接收任务**: 解析下载任务要求
 2. **执行下载**: 下载 PDF 到 `papers/pending/` 目录
 3. **标记状态**: status 设为 "pending"
+4. **交付目标**: 检查是否达成交付目标
 
 #### 流程 3：管理任务（分类）
 
@@ -384,6 +411,7 @@ research/
 2. **分析当前目录结构**：分析当前目录结构
 2. **移动文件**: 根据 `priority` 字段将论文从 pending 目录移动到 领域/P0(P1,P2) 目录
 4. **更新索引**: 更新相关的 metadata.json
+5. **交付目标**: 检查是否达成交付目标
 
 ---
 
