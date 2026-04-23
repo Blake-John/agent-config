@@ -1,0 +1,23 @@
+{
+  "skill_name": "agent-engine",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我需要构建一个复杂的项目管理应用，包含用户认证、项目创建、任务管理、团队协作等功能，预计需要多天才能完成。请帮我设置一个适合长运行开发的初始环境。",
+      "expected_output": "应该创建 feature_list.json（包含所有功能点）、init.sh（启动脚本）、claude-progress.txt（进度日志）、初始化 git 仓库",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "这是一个已有的项目，里面有 feature_list.json 和 claude-progress.txt。请问下一个需要实现的功能是什么？请帮我开始实现它。",
+      "expected_output": "应该读取现有文件，分析进度，选择下一个功能，实现并测试，更新 feature_list.json 状态，提交 git",
+      "files": ["feature_list.json", "claude-progress.txt"]
+    },
+    {
+      "id": 3,
+      "prompt": "我需要开始一个新会话。请帮我了解当前项目状态，启动开发服务器，并验证基本功能是否正常工作。",
+      "expected_output": "应该读取 git log 和 progress 文件，启动 init.sh，验证应用可以正常运行",
+      "files": []
+    }
+  ]
+}
