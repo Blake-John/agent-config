@@ -20,19 +20,39 @@
   "mcp": {
     "mcp-deepwiki": {
       "type": "local",
-      "command": ["npx", "-y", "mcp-deepwiki@latest"]
+      "command": [
+        "npx",
+        "-y",
+        "mcp-deepwiki@latest"
+      ],
+      "enabled": true
     },
     "fetch": {
       "type": "local",
-      "command": ["npx", "-y", "fetch-mcp"]
+      "command": [
+        "npx",
+        "-y",
+        "fetch-mcp"
+      ],
+      "enabled": true
     },
     "paper_search_mcp": {
       "type": "local",
-      "command": ["python", "-m", "paper_search_mcp.server"]
+      "command": [
+        "python",
+        "-m",
+        "paper_search_mcp.server"
+      ],
+      "enabled": true
     },
     "bing-cn": {
       "type": "local",
-      "command": ["npx", "-y", "bing-cn-mcp"]
+      "command": [
+        "npx",
+        "-y",
+        "bing-cn-mcp"
+      ],
+      "enabled": true
     },
     "sequential-thinking": {
       "type": "local",
@@ -40,28 +60,43 @@
         "npx",
         "-y",
         "@modelcontextprotocol/server-sequential-thinking"
-      ]
+      ],
+      "enabled": true
     },
     "lark-mcp": {
       "type": "local",
-      "command": ["npx", "-y", "@larksuiteoapi/lark-mcp", "mcp"]
+      "command": [
+        "npx",
+        "-y",
+        "@larksuiteoapi/lark-mcp",
+        "mcp"
+      ],
+      "enabled": true
     },
     "mineru-mcp": {
       "type": "local",
-      "command": ["mineru-mcp"]
+      "command": [
+        "mineru-mcp"
+      ],
+      "enabled": true
     },
     "playwright": {
       "type": "local",
-      "command": ["npx", "-y", "@playwright/mcp@latest"]
+      "command": [
+        "npx",
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "enabled": true
     }
   },
   "default_agent": "build",
   "instructions": [
-      "AGENTS.md",
-      "INSTRUCTIONS.md",
-      "~/.config/opencode/instructions/INSTRUCTIONS.md",
-      "~/.config/opencode/instructions/GENERAL-PRINCIPLE.md",
-      "~/.config/opencode/instructions/DEVWORKFLOW.md",
-      "~/.config/opencode/instructions/CODING-STYLE.md"
-  ],
+    "AGENTS.md",
+    "INSTRUCTIONS.md",
+    "~/.config/opencode/instructions/INSTRUCTIONS.md",
+    "~/.config/opencode/instructions/GENERAL-PRINCIPLE.md",
+    "~/.config/opencode/instructions/DEVWORKFLOW.md",
+    "~/.config/opencode/instructions/CODING-STYLE.md"
+  ]
 }

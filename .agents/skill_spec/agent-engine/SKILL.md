@@ -17,6 +17,7 @@ description: 长运行自主编码 Agent 引擎。用于指导项目的自动化
 2. **Coding Agent**（编码 Agent）：每个后续会话被要求做增量进度，同时为下一个会话留下清晰的产物
 
 可以参考 reference 文件夹中的示例 prompt 和产物：
+
 - [initializer-prompt.md](./references/initializer-prompt.md)：Initializer Agent 的示例 prompt
 - [agent-progress.md](./references/agent-progress.md)：增量开发过程中的进度日志示例
 - [feature_list.json](./references/feature_list.json)：功能列表的示例
@@ -69,11 +70,9 @@ python app.py
 ```
 ## Session History
 
-### Session 1 (2025-01-15)
-- Initialized project structure
-- Set up feature list with 50 features
-- Created init.sh script
-- Basic project scaffold complete
+### Session 3 (2025-01-17)
+- Started work on messaging feature
+- ...
 
 ### Session 2 (2025-01-16)
 - Implemented user authentication
@@ -81,9 +80,11 @@ python app.py
 - Created user dashboard page
 - Fixed session persistence bug
 
-### Session 3 (2025-01-17)
-- Started work on messaging feature
-- ...
+### Session 1 (2025-01-15)
+- Initialized project structure
+- Set up feature list with 50 features
+- Created init.sh script
+- Basic project scaffold complete
 ```
 
 具体可见 [agent-progress.md](./references/agent-progress.md) 示例。
@@ -126,6 +127,7 @@ python app.py
 ```
 
 **重要规则**：
+
 - 所有功能初始标记为 `"passes": false`
 - Coding Agent 只能通过更改 `passes` 字段来更新状态
 - 禁止删除或编辑测试，因为这可能导致功能缺失或 bug
@@ -209,13 +211,16 @@ python app.py
 
 1. **运行完整测试**：确保没有破坏现有功能
 2. **更新 agent-progress.md**：
+
    ```
    ### Session N (YYYY-MM-DD)
    - Completed feature: [feature description]
    - Fixed bugs: [list of fixes]
    - Tests added: [test descriptions]
    ```
+
 3. **Git 提交**：
+
    ```bash
    git add -A
    git commit -m "feat: implement [feature name]
@@ -224,6 +229,7 @@ python app.py
    - Fixed [bugs fixed]
    - Tests: [test results]"
    ```
+
 4. **确保代码整洁**：
    - 没有 major bugs
    - 代码有序且有文档
@@ -310,6 +316,7 @@ Tests: All passing
 ### 多 Agent 架构
 
 未来方向可能包括专门的 Agent：
+
 - **Testing Agent**：专门负责测试
 - **QA Agent**：专门负责质量保证
 - **Code Cleanup Agent**：专门负责代码清理
@@ -317,6 +324,7 @@ Tests: All passing
 ### 跨领域泛化
 
 这些实践可以应用于：
+
 - 科学研究
 - 金融建模
 - 数据分析
