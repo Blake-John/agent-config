@@ -1,6 +1,32 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "permission": {
+      "lsp": "allow"
+  },
   "provider": {
+    "sensenova": {
+        "name": "SenseNova",
+        "npm": "@ai-sdk/openai-compatible",
+        "options": {
+            "baseURL": "https://token.sensenova.cn/v1",
+        },
+        "models": {
+            "deepseek-v4-flash": {
+                "name": "DeepSeek V4 Flash",
+                "limit": {
+                  "context": 1000000,
+                  "output": 384000
+                }
+            },
+            "sensenova-6.7-flash-lite": {
+                "name": "SenseNova 6.7 Flash Lite",
+                "limit": {
+                  "context": 256000,
+                  "output": 64000
+                }
+            }
+        }
+    },
     "llamacpp": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "llamacpp",
