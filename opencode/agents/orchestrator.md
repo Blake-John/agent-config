@@ -142,6 +142,77 @@ Orchestrator 疑问:
 
 汇总各个 agent 的输出，生成最终报告。
 
+## TODO 工具使用
+
+Orchestrator 必须主动使用 todowrite 工具来标记编排规划与进度，确保每一步都不被落下。
+
+### 使用时机
+
+| 时机 | 操作 |
+|------|------|
+| **任务开始** | 创建完整的任务规划，列出所有要调用的 agent |
+| **每个 agent 开始前** | 标记当前 agent 为 in_progress |
+| **每个 agent 完成后** | 标记当前 agent 为 completed |
+| **遇到问题时** | 标记问题，记录阻塞原因 |
+| **任务完成时** | 标记整个任务为 completed |
+
+### 状态说明
+
+| 状态 | 说明 | 使用场景 |
+|------|------|----------|
+| **pending** | 待执行 | 任务已创建，等待执行 |
+| **in_progress** | 执行中 | 当前正在执行的 agent |
+| **completed** | 已完成 | agent 已完成执行 |
+| **cancelled** | 已取消 | 任务被取消或不需要执行 |
+
+### 执行流程
+
+```
+1. 接收用户请求
+   ↓
+2. 使用 todowrite 创建任务列表
+   ↓
+3. 标记第一个 agent 为 in_progress
+   ↓
+4. 调用 agent 执行
+   ↓
+5. agent 完成后，标记为 completed
+   ↓
+6. 标记下一个 agent 为 in_progress
+   ↓
+7. 重复步骤 4-6，直到所有 agent 完成
+   ↓
+8. 标记整个任务为 completed
+```
+
+### 示例
+
+接到"实现用户登录功能"任务后，立即调用 todowrite：
+
+```json
+{
+  "todos": [
+    {"content": "分析任务复杂度", "status": "completed", "priority": "high"},
+    {"content": "调用 planner 创建实现计划", "status": "in_progress", "priority": "high"},
+    {"content": "调用 architect 设计认证架构", "status": "pending", "priority": "high"},
+    {"content": "调用 test-specialist 编写测试用例", "status": "pending", "priority": "medium"},
+    {"content": "调用 executor 实现登录功能", "status": "pending", "priority": "high"},
+    {"content": "调用 security-reviewer 安全审查", "status": "pending", "priority": "medium"},
+    {"content": "调用 code-reviewer 代码审查", "status": "pending", "priority": "medium"},
+    {"content": "调用 doc-writer 更新文档", "status": "pending", "priority": "low"},
+    {"content": "汇总结果并报告", "status": "pending", "priority": "medium"}
+  ]
+}
+```
+
+### 最佳实践
+
+1. **立即创建** - 接到任务后立即调用 todowrite 创建任务列表
+2. **实时更新** - 每个 agent 完成后立即更新状态
+3. **优先级标记** - 使用 high/medium/low 标记任务优先级
+4. **单一 in_progress** - 同一时间只有一个任务处于 in_progress 状态
+5. **完成后标记** - 确认任务完成后再标记 completed
+
 ## 决策分类
 
 ### 重要决策（需要用户确认）
@@ -281,6 +352,20 @@ Orchestrator 疑问:
 
 **触发时机**：所有具体执行任务
 
+### 9. Explorer（项目探索专家）
+
+**能力**：
+
+- 项目结构探索：扫描项目目录结构，识别关键目录和文件
+- 代码搜索：搜索特定代码模式、函数、类、变量
+- 依赖分析：分析依赖关系、导入导出
+- 功能定位：定位特定功能的实现位置
+- 影响分析：分析变更的影响范围
+
+**输出**：项目结构概览、代码位置、依赖关系
+
+**触发时机**：需要了解项目、查找目标内容、分析依赖
+
 ## 文档输出
 
 - 如果用户要求文档 → 调用 doc-writer
@@ -298,6 +383,7 @@ Orchestrator 疑问:
 | **code-reviewer** | 调用 code-reviewer 进行代码审查 |
 | **doc-writer** | 调用 doc-writer 更新文档 |
 | **refactor-cleaner** | 调用 refactor-cleaner 进行代码清理 |
+| **explorer** | 调用 explorer 探索项目、查找目标内容 |
 
 ---
 
