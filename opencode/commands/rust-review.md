@@ -1,73 +1,57 @@
 ---
-description: Rust code review for ownership, safety, and idiomatic patterns
+description: Rust 代码审查，关注所有权、安全性和惯用模式
 agent: code-reviewer
 subtask: true
 ---
 
-# Rust Review Command
+# Rust 审查命令
 
-Review Rust code for idiomatic patterns and best practices: $ARGUMENTS
+审查 Rust 代码的惯用模式和最佳实践：$ARGUMENTS
 
-## Your Task
+## 审查清单
 
-1. **Analyze Rust code** for idioms and patterns
-2. **Check ownership** - borrowing, lifetimes, unnecessary clones
-3. **Review error handling** - proper `?` propagation, no unwrap in production
-4. **Verify safety** - unsafe usage, injection, secrets
+### 安全性（CRITICAL）
 
-## Review Checklist
+- [ ] 生产路径中没有未检查的 `unwrap()`/`expect()`
+- [ ] `unsafe` 块带有 `// SAFETY:` 注释
+- [ ] 无 SQL/命令注入
+- [ ] 无硬编码密钥
 
-### Safety (CRITICAL)
+### 所有权（HIGH）
 
-- [ ] No unchecked `unwrap()`/`expect()` in production paths
-- [ ] `unsafe` blocks have `// SAFETY:` comments
-- [ ] No SQL/command injection
-- [ ] No hardcoded secrets
+- [ ] 无不必要的 `.clone()`
+- [ ] 函数参数中优先使用 `&str` 而非 `String`
+- [ ] 函数参数中优先使用 `&[T]` 而非 `Vec<T>`
+- [ ] 无多余的生命周期标注
 
-### Ownership (HIGH)
+### 错误处理（HIGH）
 
-- [ ] No unnecessary `.clone()` to satisfy borrow checker
-- [ ] `&str` preferred over `String` in function parameters
-- [ ] `&[T]` preferred over `Vec<T>` in function parameters
-- [ ] No excessive lifetime annotations where elision works
+- [ ] 使用 `?` 传播错误
+- [ ] 无被静默忽略的错误（`let _ = result;`）
+- [ ] 库代码用 `thiserror`，应用代码用 `anyhow`
 
-### Error Handling (HIGH)
+### 并发（HIGH）
 
-- [ ] Errors propagated with `?`; use `.context()` in `anyhow`/`eyre` application code
-- [ ] No silenced errors (`let _ = result;`)
-- [ ] `thiserror` for library errors, `anyhow` for applications
+- [ ] 异步上下文中无阻塞调用
+- [ ] 优先使用有界通道
+- [ ] `Mutex` 中毒已处理
+- [ ] `Send`/`Sync` 约束正确
 
-### Concurrency (HIGH)
+### 代码质量（MEDIUM）
 
-- [ ] No blocking in async context
-- [ ] Bounded channels preferred
-- [ ] `Mutex` poisoning handled
-- [ ] `Send`/`Sync` bounds correct
+- [ ] 函数不超过 50 行
+- [ ] 无深层嵌套（>4 层）
+- [ ] 业务枚举使用穷尽匹配
+- [ ] Clippy 警告已处理
 
-### Code Quality (MEDIUM)
+## 报告格式
 
-- [ ] Functions under 50 lines
-- [ ] No deep nesting (>4 levels)
-- [ ] Exhaustive matching on business enums
-- [ ] Clippy warnings addressed
+### CRITICAL 问题
+- [file:line] 问题描述：修复建议
 
-## Report Format
-
-### CRITICAL Issues
-
-- [file:line] Issue description
-  Suggestion: How to fix
-
-### HIGH Issues
-
-- [file:line] Issue description
-  Suggestion: How to fix
-
-### MEDIUM Issues
-
-- [file:line] Issue description
-  Suggestion: How to fix
+### HIGH 问题
+- [file:line] 问题描述：修复建议
 
 ---
 
-**TIP**: Run `cargo clippy -- -D warnings` and `cargo fmt --check` for automated checks.
+**提示**：运行 `cargo clippy -- -D warnings` 和 `cargo fmt --check` 进行自动化检查。

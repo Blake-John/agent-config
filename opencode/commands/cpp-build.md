@@ -1,177 +1,64 @@
 ---
-description: Fix C++ build errors, CMake issues, and linker problems incrementally. Invokes the cpp-build-resolver agent for minimal, surgical fixes.
+description: 修复 C++ 构建错误、CMake 问题和链接错误
 agent: build
 subtask: true
 ---
 
-# C++ Build and Fix
+# C++ 构建修复命令
 
-This command invokes the **cpp-build-resolver** agent to incrementally fix C++ build errors with minimal changes.
+逐步修复 C++ 构建错误：$ARGUMENTS
 
-## What This Command Does
+## 工作流程
 
-1. **Run Diagnostics**: Execute `cmake --build`, `clang-tidy`, `cppcheck`
-2. **Parse Errors**: Group by file and sort by severity
-3. **Fix Incrementally**: One error at a time
-4. **Verify Each Fix**: Re-run build after each change
-5. **Report Summary**: Show what was fixed and what remains
+1. **运行诊断**：执行 `cmake --build`、`clang-tidy`、`cppcheck`
+2. **解析错误**：按文件分组，按严重程度排序
+3. **逐步修复**：每次只修复一个错误
+4. **验证每次修复**：每次变更后重新构建
+5. **报告摘要**：显示修复和剩余问题
 
-## When to Use
+## 何时使用
 
-Use `/cpp-build` when:
+- `cmake --build build` 失败
+- 链接错误（未定义引用、多重定义）
+- 模板实例化失败
+- 包含/依赖问题
+- 拉取变更后构建中断
 
-- `cmake --build build` fails with errors
-- Linker errors (undefined references, multiple definitions)
-- Template instantiation failures
-- Include/dependency issues
-- After pulling changes that break the build
-
-## Diagnostic Commands Run
+## 诊断命令
 
 ```bash
-# CMake configure
 cmake -B build -S .
-
-# Build
 cmake --build build 2>&1 | head -100
-
-# Static analysis (if available)
 clang-tidy src/*.cpp -- -std=c++17
 cppcheck --enable=all src/
 ```
 
-## Example Session
+## 常见错误
 
-```text
-User: /cpp-build
+| 错误 | 典型修复 |
+|------|----------|
+| `undeclared identifier` | 添加 `#include` 或修正拼写 |
+| `no matching function` | 修正参数类型或添加重载 |
+| `undefined reference` | 链接库或添加实现 |
+| `multiple definition` | 使用 `inline` 或移到 .cpp |
+| `CMake Error` | 修复 CMakeLists.txt 配置 |
 
-Agent:
-# C++ Build Resolution
+## 修复策略
 
-## Initial Diagnostics
+1. **先编绎错误** — 代码必须能编绎
+2. **再链接错误** — 解析未定义引用
+3. **最后警告** — 使用 `-Wall -Wextra` 修复
+4. **每次一个修复** — 每次变更后验证
+5. **最小变更** — 只修复，不重构
 
-```bash
-$ cmake --build build
-src/service/user.cpp:25:15: error: use of undeclared identifier 'UserRepository'
-src/handler/api.cpp:42:9: error: no matching function for call to 'process'
-src/handler/api.cpp:58:1: error: non-void function does not return a value
-```
+## 停止条件
 
-Errors found: 3
+- 同一错误持续 3 次仍未解决
+- 修复引入了更多错误
+- 需要架构层面的变更
+- 缺少外部依赖
 
-## Fix 1: Undeclared Identifier
+## 相关命令
 
-File: src/service/user.cpp:25
-Error: use of undeclared identifier 'UserRepository'
-Cause: Missing include
-
-```cpp
-// Added include
-#include "repository/user_repository.hpp"
-```
-
-```bash
-$ cmake --build build
-# 2 errors remaining
-```
-
-## Fix 2: No Matching Function
-
-File: src/handler/api.cpp:42
-Error: no matching function for call to 'process'
-
-```cpp
-// Changed
-process(params.get("count"));
-// To
-process(std::stoi(params.get("count")));
-```
-
-```bash
-$ cmake --build build
-# 1 error remaining
-```
-
-## Fix 3: Missing Return
-
-File: src/handler/api.cpp:58
-Error: non-void function does not return a value
-
-```cpp
-std::optional<User> getUser(const std::string& id) {
-    if (id.empty()) {
-        return std::nullopt;
-    }
-    auto user = findUser(id);
-    // Added missing return
-    return user;
-}
-```
-
-```bash
-$ cmake --build build
-# Build successful!
-```
-
-## Final Verification
-
-```bash
-$ ctest --test-dir build --output-on-failure
-Test project build
-    1/5 Test #1: unit_tests ........   Passed    0.02 sec
-    2/5 Test #2: integration_tests    Passed    0.15 sec
-All tests passed.
-```
-
-## Summary
-
-| Metric | Count |
-|--------|-------|
-| Build errors fixed | 3 |
-| Linker errors fixed | 0 |
-| Files modified | 2 |
-| Remaining issues | 0 |
-
-Build Status: PASS: SUCCESS
-
-```
-
-## Common Errors Fixed
-
-| Error | Typical Fix |
-|-------|-------------|
-| `undeclared identifier` | Add `#include` or fix typo |
-| `no matching function` | Fix argument types or add overload |
-| `undefined reference` | Link library or add implementation |
-| `multiple definition` | Use `inline` or move to .cpp |
-| `incomplete type` | Replace forward decl with `#include` |
-| `no member named X` | Fix member name or include |
-| `cannot convert X to Y` | Add appropriate cast |
-| `CMake Error` | Fix CMakeLists.txt configuration |
-
-## Fix Strategy
-
-1. **Compilation errors first** - Code must compile
-2. **Linker errors second** - Resolve undefined references
-3. **Warnings third** - Fix with `-Wall -Wextra`
-4. **One fix at a time** - Verify each change
-5. **Minimal changes** - Don't refactor, just fix
-
-## Stop Conditions
-
-The agent will stop and report if:
-- Same error persists after 3 attempts
-- Fix introduces more errors
-- Requires architectural changes
-- Missing external dependencies
-
-## Related Commands
-
-- `/cpp-test` - Run tests after build succeeds
-- `/cpp-review` - Review code quality
-- `/verify` - Full verification loop
-
-## Related
-
-- Agent: `agents/cpp-build-resolver.md`
-- Skill: `skills/cpp-coding-standards/`
+- `/cpp-test` — 构建成功后运行测试
+- `/cpp-review` — 审查代码质量

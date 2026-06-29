@@ -1,85 +1,62 @@
 ---
-description: Orchestrate multiple agents for complex tasks
+description: 编排多个 agent 处理复杂任务
 agent: planner
 subtask: true
 ---
 
-# Orchestrate Command
+# 编排命令
 
-Orchestrate multiple specialized agents for this complex task: $ARGUMENTS
+为复杂任务编排多个专业 agent：$ARGUMENTS
 
-## Your Task
+## 你的任务
 
-1. **Analyze task complexity** and break into subtasks
-2. **Identify optimal agents** for each subtask
-3. **Create execution plan** with dependencies
-4. **Coordinate execution** - parallel where possible
-5. **Synthesize results** into unified output
+1. **分析任务复杂度**并拆分为子任务
+2. **为每个子任务选择合适的 agent**
+3. **创建带依赖关系的执行计划**
+4. **协调执行** — 尽可能并行
+5. **汇总结果**为统一输出
 
-## Available Agents
+## 可用 Agent
 
-| Agent | Specialty | Use For |
-|-------|-----------|---------|
-| planner | Implementation planning | Complex feature design |
-| architect | System design | Architectural decisions |
-| code-reviewer | Code quality | Review changes |
-| security-reviewer | Security analysis | Vulnerability detection |
-| tdd-guide | Test-driven dev | Feature implementation |
-| build-error-resolver | Build fixes | TypeScript/build errors |
-| doc-updater | Documentation | Updating docs |
-| refactor-cleaner | Code cleanup | Dead code removal |
-| database-reviewer | Database | Query optimization |
+| Agent | 专长 | 用途 |
+|-------|------|------|
+| planner | 实现规划 | 复杂功能设计 |
+| arch-designer | 系统设计 | 架构决策 |
+| code-reviewer | 代码质量 | 审查变更 |
+| security-reviewer | 安全分析 | 漏洞检测 |
+| test-specialist | 测试驱动开发 | 功能实现 |
+| executor | 构建修复 | 构建错误修复 |
+| doc-writer | 文档编写 | 更新文档 |
+| refactor-cleaner | 代码清理 | 移除死代码 |
 
-## Orchestration Patterns
+## 编排模式
 
-### Sequential Execution
+### 串行执行
 ```
-planner → tdd-guide → code-reviewer → security-reviewer
+planner → test-specialist → code-reviewer → security-reviewer
 ```
-Use when: Later tasks depend on earlier results
+适用：后置任务依赖前置结果
 
-### Parallel Execution
+### 并行执行
 ```
-┌→ security-reviewer
+         ┌→ security-reviewer
 planner →├→ code-reviewer
-└→ architect
+         └→ arch-designer
 ```
-Use when: Tasks are independent
+适用：任务之间独立
 
-### Fan-Out/Fan-In
+### 扇出/扇入
 ```
          ┌→ agent-1 ─┐
-planner →├→ agent-2 ─┼→ synthesizer
+planner →├→ agent-2 ─┼→ 汇总
          └→ agent-3 ─┘
 ```
-Use when: Multiple perspectives needed
+适用：需要多方视角
 
-## Execution Plan Format
+## 协调规则
 
-### Phase 1: [Name]
-- Agent: [agent-name]
-- Task: [specific task]
-- Depends on: [none or previous phase]
-
-### Phase 2: [Name] (parallel)
-- Agent A: [agent-name]
-  - Task: [specific task]
-- Agent B: [agent-name]
-  - Task: [specific task]
-- Depends on: Phase 1
-
-### Phase 3: Synthesis
-- Combine results from Phase 2
-- Generate unified output
-
-## Coordination Rules
-
-1. **Plan before execute** - Create full execution plan first
-2. **Minimize handoffs** - Reduce context switching
-3. **Parallelize when possible** - Independent tasks in parallel
-4. **Clear boundaries** - Each agent has specific scope
-5. **Single source of truth** - One agent owns each artifact
-
----
-
-**NOTE**: Complex tasks benefit from multi-agent orchestration. Simple tasks should use single agents directly.
+1. **先计划再执行** — 先创建完整执行计划
+2. **最少交接** — 减少上下文切换
+3. **尽可能并行** — 独立任务并行执行
+4. **清晰边界** — 每个 agent 有明确范围
+5. **唯一信源** — 每个工件只有一个 agent 负责

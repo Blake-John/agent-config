@@ -1,61 +1,51 @@
 ---
-description: Extract patterns and learnings from current session
+description: 从当前会话中提取模式和经验
 agent: build
 ---
 
-# Learn Command
+# 学习命令
 
-Extract patterns, learnings, and reusable insights from the current session: $ARGUMENTS
+从当前会话中提取模式、经验和可复用的见解：$ARGUMENTS
 
-## Your Task
+## 提取内容
 
-Analyze the conversation and code changes to extract:
+1. **发现的模式** — 反复出现的解决方案或方法
+2. **应用的最佳实践** — 效果好的技术
+3. **需要避免的错误** — 遇到的问题及解决方案
+4. **可复用的片段** — 值得保存的代码模式
 
-1. **Patterns discovered** - Recurring solutions or approaches
-2. **Best practices applied** - Techniques that worked well
-3. **Mistakes to avoid** - Issues encountered and solutions
-4. **Reusable snippets** - Code patterns worth saving
+## 输出格式
 
-## Output Format
+### 发现的模式
 
-### Patterns Discovered
+**模式：[名称]**
+- 上下文：何时使用此模式
+- 实现：如何应用
+- 示例：代码片段
 
-**Pattern: [Name]**
-- Context: When to use this pattern
-- Implementation: How to apply it
-- Example: Code snippet
+### 应用的最佳实践
 
-### Best Practices Applied
+1. [实践名称]
+   - 为什么有效
+   - 何时应用
 
-1. [Practice name]
-   - Why it works
-   - When to apply
+### 需要避免的错误
 
-### Mistakes to Avoid
+1. [错误描述]
+   - 出了什么问题
+   - 如何预防
 
-1. [Mistake description]
-   - What went wrong
-   - How to prevent it
-
-### Suggested Skill Updates
-
-If patterns are significant, suggest updates to:
-- `skills/coding-standards/SKILL.md`
-- `skills/[domain]/SKILL.md`
-- `rules/[category].md`
-
-## Instinct Format (for continuous-learning-v2)
+## Instinct 格式
 
 ```json
 {
-  "trigger": "[situation that triggers this learning]",
-  "action": "[what to do]",
+  "trigger": "[触发此学习的情境]",
+  "action": "[要做什么]",
   "confidence": 0.7,
-  "source": "session-extraction",
-  "timestamp": "[ISO timestamp]"
+  "source": "session-extraction"
 }
 ```
 
 ---
 
-**TIP**: Run `/learn` periodically during long sessions to capture insights before context compaction.
+**提示**：在长会话期间定期运行 `/learn`，在上下文压缩前捕获见解。

@@ -1,36 +1,34 @@
 ---
-description: Analyze instincts and suggest or generate evolved structures
+description: 分析 instinct 并建议或生成演化的组件
 agent: build
 ---
 
-# Evolve Command
+# 演化命令
 
-Analyze and evolve instincts in continuous-learning-v2: $ARGUMENTS
+分析并演化 continuous-learning-v2 中的 instinct：$ARGUMENTS
 
-## Your Task
+## 你的任务
 
-Run:
+运行：
 
 ```bash
-python3 "<path_to_skills>/continuous-learning-v2/scripts/instinct-cli.py" evolve $ARGUMENTS
+python3 "<skills_path>/continuous-learning-v2/scripts/instinct-cli.py" evolve $ARGUMENTS
 ```
 
-`<path_to_skills>` maybe:
+`<skills_path>` 可能是：
 
 - `~/.agents/skills`
 - `~/.config/opencode/skills`
 - `./.agents/skills`
-- ...
 
-## Supported Args (v2.1)
+## 支持的参数（v2.1）
 
-- no args: analysis only
-- `--generate`: also generate files under `evolved/{skills,commands,agents}`
+- 无参数：仅分析
+- `--generate`：同时在 `evolved/{skills,commands,agents}` 下生成文件
 
-## Behavior Notes
+## 行为说明
 
-- Uses project + global instincts for analysis.
-- Shows skill/command/agent candidates from trigger and domain clustering.
-- Shows project -> global promotion candidates.
-- With `--generate`, output path is:
-  - project context: `<project_path>/evolved/`
+- 使用项目 + 全局 instinct 进行分析
+- 通过触发词和领域聚类显示 skill/command/agent 候选
+- 显示项目 → 全局的提建议候选
+- 使用 `--generate` 时，输出路径为项目上下文：`<project_path>/evolved/`

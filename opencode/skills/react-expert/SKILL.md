@@ -1,6 +1,6 @@
 ---
 name: react-expert
-description: Use when building React 18+ applications in .jsx or .tsx files, Next.js App Router projects, or create-react-app setups. Creates components, implements custom hooks, debugs rendering issues, migrates class components to functional, and implements state management. Invoke for Server Components, Suspense boundaries, useActionState forms, performance optimization, or React 19 features.
+description: 当你使用 .jsx 或 .tsx 文件构建 React 18+ 应用、Next.js App Router 项目或 create-react-app 时使用。创建组件、实现自定义 hooks、调试渲染问题、将类组件迁移为函数组件、以及实现状态管理。适用于 Server Components、Suspense 边界、useActionState 表单、性能优化或 React 19 特性。
 license: MIT
 metadata:
   author: https://github.com/Jeffallan
@@ -10,49 +10,49 @@ metadata:
   role: specialist
   scope: implementation
   output-format: code
-  related-skills: fullstack-guardian, playwright-expert, test-master
+  related-skills: fullstack-guardian
 ---
 
 # React Expert
 
-Senior React specialist with deep expertise in React 19, Server Components, and production-grade application architecture.
+资深 React 专家，对 React 19、Server Components 和生产级应用架构有深入的专业知识。
 
-## When to Use This Skill
+## 何时使用此技能
 
-- Building new React components or features
-- Implementing state management (local, Context, Redux, Zustand)
-- Optimizing React performance
-- Setting up React project architecture
-- Working with React 19 Server Components
-- Implementing forms with React 19 actions
-- Data fetching patterns with TanStack Query or `use()`
+- 构建新的 React 组件或功能
+- 实现状态管理（local、Context、Redux、Zustand）
+- 优化 React 性能
+- 搭建 React 项目架构
+- 使用 React 19 Server Components
+- 使用 React 19 actions 实现表单
+- 使用 TanStack Query 或 `use()` 的数据获取模式
 
-## Core Workflow
+## 核心工作流程
 
-1. **Analyze requirements** - Identify component hierarchy, state needs, data flow
-2. **Choose patterns** - Select appropriate state management, data fetching approach
-3. **Implement** - Write TypeScript components with proper types
-4. **Validate** - Run `tsc --noEmit`; if it fails, review reported errors, fix all type issues, and re-run until clean before proceeding
-5. **Optimize** - Apply memoization where needed, ensure accessibility; if new type errors are introduced, return to step 4
-6. **Test** - Write tests with React Testing Library; if any assertions fail, debug and fix before submitting
+1. **分析需求** - 确定组件层次结构、状态需求和数据流
+2. **选择模式** - 选择合适的状态管理和数据获取方案
+3. **实现** - 使用正确的类型编写 TypeScript 组件
+4. **验证** - 运行 `tsc --noEmit`；如果失败，检查报告的错误，修复所有类型问题，并重新运行直到无错误后再继续
+5. **优化** - 在需要的地方应用 memoization，确保可访问性；如果引入了新的类型错误，返回步骤 4
+6. **测试** - 使用 React Testing Library 编写测试；如果有断言失败，在提交前调试并修复
 
-## Reference Guide
+## 参考指南
 
-Load detailed guidance based on context:
+根据上下文加载详细指导：
 
-| Topic | Reference | Load When |
+| 主题 | 参考文件 | 加载时机 |
 |-------|-----------|-----------|
-| Server Components | `references/server-components.md` | RSC patterns, Next.js App Router |
-| React 19 | `references/react-19-features.md` | use() hook, useActionState, forms |
-| State Management | `references/state-management.md` | Context, Zustand, Redux, TanStack |
-| Hooks | `references/hooks-patterns.md` | Custom hooks, useEffect, useCallback |
-| Performance | `references/performance.md` | memo, lazy, virtualization |
-| Testing | `references/testing-react.md` | Testing Library, mocking |
-| Class Migration | `references/migration-class-to-modern.md` | Converting class components to hooks/RSC |
+| Server Components | `references/server-components.md` | RSC 模式、Next.js App Router |
+| React 19 | `references/react-19-features.md` | use() hook、useActionState、表单 |
+| State Management | `references/state-management.md` | Context、Zustand、Redux、TanStack |
+| Hooks | `references/hooks-patterns.md` | 自定义 hooks、useEffect、useCallback |
+| Performance | `references/performance.md` | memo、lazy、虚拟化 |
+| Testing | `references/testing-react.md` | Testing Library、模拟（mock） |
+| Class Migration | `references/migration-class-to-modern.md` | 将类组件转换为 hooks/RSC |
 
-## Key Patterns
+## 关键模式
 
-### Server Component (Next.js App Router)
+### 服务器组件（Next.js App Router）
 ```tsx
 // app/users/page.tsx — Server Component, no "use client"
 import { db } from '@/lib/db';
@@ -75,7 +75,7 @@ export default async function UsersPage() {
 }
 ```
 
-### React 19 Form with `useActionState`
+### 使用 `useActionState` 的 React 19 表单
 ```tsx
 'use client';
 import { useActionState } from 'react';
@@ -101,7 +101,7 @@ export function GreetForm() {
 }
 ```
 
-### Custom Hook with Cleanup
+### 自定义 Hook 与清理
 ```tsx
 import { useState, useEffect } from 'react';
 
@@ -118,32 +118,32 @@ function useWindowWidth(): number {
 }
 ```
 
-## Constraints
+## 约束
 
-### MUST DO
-- Use TypeScript with strict mode
-- Implement error boundaries for graceful failures
-- Use `key` props correctly (stable, unique identifiers)
-- Clean up effects (return cleanup function)
-- Use semantic HTML and ARIA for accessibility
-- Memoize when passing callbacks/objects to memoized children
-- Use Suspense boundaries for async operations
+### 必须做
+- 使用 TypeScript strict 模式
+- 实现 error boundaries 以优雅处理错误
+- 正确使用 `key` prop（稳定、唯一的标识符）
+- 清理 effects（返回清理函数）
+- 使用语义化 HTML 和 ARIA 确保可访问性
+- 将回调/对象传递给已 memoized 的子组件时使用 memoization
+- 对异步操作使用 Suspense 边界
 
-### MUST NOT DO
-- Mutate state directly
-- Use array index as key for dynamic lists
-- Create functions inside JSX (causes re-renders)
-- Forget useEffect cleanup (memory leaks)
-- Ignore React strict mode warnings
-- Skip error boundaries in production
+### 禁止做
+- 直接修改状态
+- 对动态列表使用数组索引作为 key
+- 在 JSX 内部创建函数（会导致重新渲染）
+- 忘记 useEffect 清理（内存泄漏）
+- 忽略 React strict 模式警告
+- 在生产环境中跳过 error boundaries
 
-## Output Templates
+## 输出模板
 
-When implementing React features, provide:
-1. Component file with TypeScript types
-2. Test file if non-trivial logic
-3. Brief explanation of key decisions
+实现 React 功能时，提供：
+1. 带有 TypeScript 类型的组件文件
+2. 逻辑复杂时的测试文件
+3. 关键决策的简要说明
 
-## Knowledge Reference
+## 知识参考
 
 React 19, Server Components, use() hook, Suspense, TypeScript, TanStack Query, Zustand, Redux Toolkit, React Router, React Testing Library, Vitest/Jest, Next.js App Router, accessibility (WCAG)

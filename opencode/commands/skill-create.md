@@ -1,117 +1,62 @@
 ---
-description: Generate skills from git history analysis
+description: 从 git 历史分析生成 skill
 agent: build
 ---
 
-# Skill Create Command
+# Skill 创建命令
 
-Analyze git history to generate Claude Code skills: $ARGUMENTS
+分析 git 历史生成 skill：$ARGUMENTS
 
-## Your Task
+## 分析流程
 
-1. **Analyze commits** - Pattern recognition from history
-2. **Extract patterns** - Common practices and conventions
-3. **Generate SKILL.md** - Structured skill documentation
-4. **Create instincts** - For continuous-learning-v2
-
-## Analysis Process
-
-### Step 1: Gather Commit Data
+### 步骤 1：收集提交数据
 ```bash
-# Recent commits
-git log --oneline -100
-
-# Commits by file type
-git log --name-only --pretty=format: | sort | uniq -c | sort -rn
-
-# Most changed files
-git log --pretty=format: --name-only | sort | uniq -c | sort -rn | head -20
+git log --oneline -100                              # 最近提交
+git log --name-only --pretty=format: | sort | uniq -c | sort -rn  # 按文件类型
+git log --pretty=format: --name-only | sort | uniq -c | sort -rn | head -20  # 最常变更的文件
 ```
 
-### Step 2: Identify Patterns
+### 步骤 2：识别模式
 
-**Commit Message Patterns**:
-- Common prefixes (feat, fix, refactor)
-- Naming conventions
-- Co-author patterns
+**提交信息模式**：
+- 常用前缀（feat、fix、refactor）
+- 命名约定
+- 合作者模式
 
-**Code Patterns**:
-- File structure conventions
-- Import organization
-- Error handling approaches
+**代码模式**：
+- 文件结构约定
+- 导入组织方式
+- 错误处理方法
 
-**Review Patterns**:
-- Common review feedback
-- Recurring fix types
-- Quality gates
-
-### Step 3: Generate SKILL.md
+### 步骤 3：生成 SKILL.md
 
 ```markdown
-# [Skill Name]
+# [Skill 名称]
 
-## Overview
-[What this skill teaches]
+## 概述
+[此 skill 教授什么]
 
-## Patterns
+## 模式
 
-### Pattern 1: [Name]
-- When to use
-- Implementation
-- Example
+### 模式 1：[名称]
+- 何时使用
+- 实现
+- 示例
 
-### Pattern 2: [Name]
-- When to use
-- Implementation
-- Example
+## 最佳实践
+1. [实践 1]
+2. [实践 2]
 
-## Best Practices
-
-1. [Practice 1]
-2. [Practice 2]
-3. [Practice 3]
-
-## Common Mistakes
-
-1. [Mistake 1] - How to avoid
-2. [Mistake 2] - How to avoid
-
-## Examples
-
-### Good Example
-```[language]
-// Code example
+## 常见错误
+1. [错误 1] — 如何避免
 ```
 
-### Anti-pattern
-```[language]
-// What not to do
-```
-```
+## 输出
 
-### Step 4: Generate Instincts
-
-For continuous-learning-v2:
-
-```json
-{
-  "instincts": [
-    {
-      "trigger": "[situation]",
-      "action": "[response]",
-      "confidence": 0.8,
-      "source": "git-history-analysis"
-    }
-  ]
-}
-```
-
-## Output
-
-Creates:
-- `skills/[name]/SKILL.md` - Skill documentation
-- `skills/[name]/instincts.json` - Instinct collection
+创建：
+- `skills/[name]/SKILL.md` — Skill 文档
+- `skills/[name]/instincts.json` — Instinct 集合
 
 ---
 
-**TIP**: Run `/skill-create --instincts` to also generate instincts for continuous learning.
+**提示**：运行 `/skill-create --instincts` 以同时生成 instinct。

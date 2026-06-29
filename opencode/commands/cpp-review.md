@@ -1,145 +1,57 @@
 ---
-description: Comprehensive C++ code review for memory safety, modern C++ idioms, concurrency, and security. Invokes the cpp-reviewer agent.
+description: 全面的 C++ 代码审查，关注内存安全、现代 C++ 惯用法和并发安全
 agent: code-reviewer
 subtask: true
 ---
 
-# C++ Code Review
+# C++ 代码审查命令
 
-This command invokes the **cpp-reviewer** agent for comprehensive C++-specific code review.
+对 C++ 代码进行全面审查：$ARGUMENTS
 
-## What This Command Does
+## 工作流程
 
-1. **Identify C++ Changes**: Find modified `.cpp`, `.hpp`, `.cc`, `.h` files via `git diff`
-2. **Run Static Analysis**: Execute `clang-tidy` and `cppcheck`
-3. **Memory Safety Scan**: Check for raw new/delete, buffer overflows, use-after-free
-4. **Concurrency Review**: Analyze thread safety, mutex usage, data races
-5. **Modern C++ Check**: Verify code follows C++17/20 conventions and best practices
-6. **Generate Report**: Categorize issues by severity
+1. **识别 C++ 变更**：通过 `git diff` 找出修改的 .cpp/.hpp 文件
+2. **运行静态分析**：执行 `clang-tidy` 和 `cppcheck`
+3. **内存安全检查**：检查裸 new/delete、缓冲区溢出、use-after-free
+4. **并发审查**：分析线程安全、互斥锁使用、数据竞争
+5. **现代 C++ 检查**：确保代码遵循 C++17/20 约定
 
-## When to Use
+## 审查类别
 
-Use `/cpp-review` when:
+### CRITICAL（必须修复）
 
-- After writing or modifying C++ code
-- Before committing C++ changes
-- Reviewing pull requests with C++ code
-- Onboarding to a new C++ codebase
-- Checking for memory safety issues
+- 裸 `new`/`delete` 未使用 RAII
+- 缓冲区溢出和 use-after-free
+- 无同步机制的数据竞争
+- 通过 `system()` 的命令注入
+- 未初始化变量读取
+- 空指针解引用
 
-## Review Categories
+### HIGH（应该修复）
 
-### CRITICAL (Must Fix)
+- Rule of Five 违反
+- 缺少 `std::lock_guard` / `std::scoped_lock`
+- 分离线程未正确处理生命周期
+- C 风格强制转换
+- 缺少 `const` 正确性
 
-- Raw `new`/`delete` without RAII
-- Buffer overflows and use-after-free
-- Data races without synchronization
-- Command injection via `system()`
-- Uninitialized variable reads
-- Null pointer dereferences
+### MEDIUM（考虑修复）
 
-### HIGH (Should Fix)
+- 不必要的拷贝（值传递而非 `const&`）
+- 已知大小的容器缺少 `reserve()`
+- 头文件中使用 `using namespace std;`
+- 重要的返回值缺少 `[[nodiscard]]`
 
-- Rule of Five violations
-- Missing `std::lock_guard` / `std::scoped_lock`
-- Detached threads without proper lifetime management
-- C-style casts instead of `static_cast`/`dynamic_cast`
-- Missing `const` correctness
+## 批准标准
 
-### MEDIUM (Consider)
+| 状态 | 条件 |
+|------|------|
+| 通过 | 无 CRITICAL 或 HIGH 问题 |
+| 警告 | 仅 MEDIUM 问题（谨慎合入） |
+| 阻止 | 存在 CRITICAL 或 HIGH 问题 |
 
-- Unnecessary copies (pass by value instead of `const&`)
-- Missing `reserve()` on known-size containers
-- `using namespace std;` in headers
-- Missing `[[nodiscard]]` on important return values
-- Overly complex template metaprogramming
+## 相关命令
 
-## Automated Checks Run
-
-```bash
-# Static analysis
-clang-tidy --checks='*,-llvmlibc-*' src/*.cpp -- -std=c++17
-
-# Additional analysis
-cppcheck --enable=all --suppress=missingIncludeSystem src/
-
-# Build with warnings
-cmake --build build -- -Wall -Wextra -Wpedantic
-```
-
-## Example Usage
-
-```text
-User: /cpp-review
-
-Agent:
-# C++ Code Review Report
-
-## Files Reviewed
-- src/handler/user.cpp (modified)
-- src/service/auth.cpp (modified)
-
-## Static Analysis Results
-✓ clang-tidy: 2 warnings
-✓ cppcheck: No issues
-
-## Issues Found
-
-[CRITICAL] Memory Leak
-File: src/service/auth.cpp:45
-Issue: Raw `new` without matching `delete`
-```cpp
-auto* session = new Session(userId);  // Memory leak!
-cache[userId] = session;
-```
-
-Fix: Use `std::unique_ptr`
-
-```cpp
-auto session = std::make_unique<Session>(userId);
-cache[userId] = std::move(session);
-```
-
-[HIGH] Missing const Reference
-File: src/handler/user.cpp:28
-Issue: Large object passed by value
-
-```cpp
-void processUser(User user) {  // Unnecessary copy
-```
-
-Fix: Pass by const reference
-
-```cpp
-void processUser(const User& user) {
-```
-
-## Summary
-
-- CRITICAL: 1
-- HIGH: 1
-- MEDIUM: 0
-
-Recommendation: FAIL: Block merge until CRITICAL issue is fixed
-
-```
-
-## Approval Criteria
-
-| Status | Condition |
-|--------|-----------|
-| PASS: Approve | No CRITICAL or HIGH issues |
-| WARNING: Warning | Only MEDIUM issues (merge with caution) |
-| FAIL: Block | CRITICAL or HIGH issues found |
-
-## Integration with Other Commands
-
-- Use `/cpp-test` first to ensure tests pass
-- Use `/cpp-build` if build errors occur
-- Use `/cpp-review` before committing
-- Use `/code-review` for non-C++ specific concerns
-
-## Related
-
-- Agent: `agents/cpp-reviewer.md`
-- Skills: `skills/cpp-coding-standards/`, `skills/cpp-testing/`
+- `/cpp-test` — 先确保测试通过
+- `/cpp-build` — 如有构建错误先修复
+- `/code-review` — 非 C++ 特定的全面审查

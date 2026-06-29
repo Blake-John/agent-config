@@ -1,28 +1,30 @@
 ---
 name: agent-engine
-description: 长运行自主编码 Agent 引擎。用于指导项目的自动化开发，实现多会话跨上下文窗口的持续开发。实现两阶段 Agent 架构：Initializer Agent（初始化环境）和 Coding Agent（增量开发）。当用户需要构建复杂的、需要多会话完成的项目时，当用户提到需要自主编码、长运行 agent、多会话开发、增量开发时，必须使用此 skill。此 skill 提供完整的工作流程，包括环境初始化、功能列表管理、增量进度追踪、Git 提交规范和端到端测试。
+description: Orchestrator 的扩展，专注于长运行任务的跨会话管理。用于识别长运行任务、管理多个会话的执行、跨会话传递进度和上下文、支持暂停和恢复。当用户需要构建复杂的、需要多会话完成的项目时，当用户提到需要自主编码、长运行 agent、多会话开发、增量开发时，必须使用此 skill。
+license: MIT
+metadata:
+  author: ECC
+  version: "2.0.0"
+  domain: agent-orchestration
+  triggers: 长运行任务, 多会话开发, 自主编码, 增量开发, 跨会话管理, long-running agent, multi-session, autonomous coding
+  role: specialist
+  scope: orchestration
+  output-format: structured
+  related-skills: orchestrator, planner, executor
+  languages: all
+  tools: Read Write Edit Bash Todowrite
+  requires-installation: false
+  auto-sync: false
+  local-only: true
 ---
 
 # Agent Engine
 
-长运行自主编码 Agent 引擎，用于指导项目的自动化开发。
+Orchestrator 的扩展，专注于长运行任务的跨会话管理。
 
-## 核心理念
+## 定位
 
-长运行 Agent 的核心挑战是：它们必须以离散会话工作，每个新会话开始时没有之前的记忆。由于上下文窗口有限，且大多数复杂项目无法在单个窗口内完成，Agent 需要一种方式来弥合编码会话之间的差距。
-
-**解决方案：两阶段 Agent 架构**
-
-1. **Initializer Agent**（初始化 Agent）：第一个会话使用专门的 prompt 设置初始环境
-2. **Coding Agent**（编码 Agent）：每个后续会话被要求做增量进度，同时为下一个会话留下清晰的产物
-
-可以参考 reference 文件夹中的示例 prompt 和产物：
-
-- [initializer-prompt.md](./references/initializer-prompt.md)：Initializer Agent 的示例 prompt
-- [agent-progress.md](./references/agent-progress.md)：增量开发过程中的进度日志示例
-- [feature_list.json](./references/feature_list.json)：功能列表的示例
-- [init.sh](./references/init.sh)：开发服务器启动脚本示例
-- [coding-agent-prompt.md](./references/coding-agent-prompt.md)：Coding Agent 的示例 prompt
+Agent-Engine 是 Orchestrator 的扩展，专注于长运行任务的跨会话管理。
 
 ## 触发场景
 
@@ -33,306 +35,316 @@ description: 长运行自主编码 Agent 引擎。用于指导项目的自动化
 - 需要增量开发工作流
 - 需要多会话跨上下文窗口的持续开发
 - 需要功能级别的进度追踪
-- 需要端到端自动化测试
 - 用户明确提及需要使用这个 skill
+
+## 核心功能
+
+### 1. 识别长运行任务
+
+识别需要多个会话完成的任务。
+
+**识别标准**：
+- 任务复杂度高，无法在单个会话内完成
+- 任务需要多个阶段（规划、实现、测试、审查）
+- 任务需要跨多个文件或模块
+- 用户明确表示需要多会话完成
+
+### 2. 管理多个会话的执行
+
+管理多个会话的执行顺序。
+
+**管理内容**：
+- 会话的创建和销毁
+- 会话的执行顺序
+- 会话之间的依赖关系
+- 会话的暂停和恢复
+
+### 3. 跨会话传递进度和上下文
+
+跨会话传递进度和上下文，确保任务连续性。
+
+**传递内容**：
+- 任务的当前状态
+- 已完成的工作
+- 未完成的工作
+- 遇到的问题
+- 重大决策
+
+### 4. 支持暂停和恢复
+
+支持任务的暂停和恢复。
+
+**暂停场景**：
+- 用户主动暂停
+- 遇到阻塞问题
+- 资源限制
+- 时间限制
+
+**恢复场景**：
+- 用户主动恢复
+- 阻塞问题解决
+- 资源可用
+- 时间允许
+
+## 与 Orchestrator 的关系
+
+```
+用户请求
+   ↓
+Orchestrator（调度中心）
+   ↓
+任务类型？
+   ├─ 单次任务 → 直接调度 Agent
+   └─ 长运行任务 → 调用 Agent-Engine
+                      ↓
+                  Agent-Engine（跨会话管理）
+                      ↓
+                  识别长运行任务、管理会话、传递进度
+                      ↓
+                  调用其他 Agent 执行具体任务
+```
+
+- Orchestrator 负责单次任务的调度
+- Agent-Engine 负责长运行任务的跨会话管理
+- Orchestrator 可以调用 Agent-Engine 来处理长运行任务
+
+## 与其他 Agent 的关系
+
+| 组件 | 关系 |
+|------|------|
+| **plan.md** | 宏观规划文件，记录整体计划 |
+| **feature_list.json** | 微观追踪文件，记录功能实现状态 |
+| **agent-progress.md** | 进度文件，记录跨会话执行进度 |
+
+## 工作流程
+
+### 1. 初始化
+
+Orchestrator 调用 Agent-Engine 初始化长运行任务。
+
+```
+1. 接收长运行任务
+   ↓
+2. 识别任务类型和复杂度
+   ↓
+3. 创建会话管理结构
+   ↓
+4. 创建计划（plan.md）
+    ↓
+5. 创建功能列表（feature_list.json）
+   ↓
+6. 初始化进度文件（agent-progress.md）
+```
+
+### 2. 会话管理
+
+Agent-Engine 管理多个会话的执行。
+
+```
+1. 读取 plan.md 了解整体规划
+   ↓
+2. 读取 feature_list.json 选择要实现的功能
+   ↓
+3. 读取 agent-progress.md 了解当前进度
+   ↓
+4. 执行任务
+   ↓
+5. 更新 feature_list.json 的 passes 状态
+   ↓
+6. 更新 agent-progress.md 记录进度
+   ↓
+7. 检查是否需要继续
+   - 如果有更多功能 → 继续下一个会话
+   - 如果所有功能完成 → 结束
+```
+
+### 3. 进度传递
+
+Agent-Engine 跨会话传递进度和上下文。
+
+**传递内容**：
+- 任务的当前状态
+- 已完成的工作
+- 未完成的工作
+- 遇到的问题
+- 重大决策
+
+**传递方式**：
+- 更新 agent-progress.md
+- 更新 feature_list.json
+- 更新 plan.md（如需要）
+
+### 4. 状态管理
+
+Agent-Engine 管理任务的状态，支持暂停和恢复。
+
+**状态类型**：
+- pending：待执行
+- in_progress：执行中
+- paused：暂停
+- completed：已完成
+- failed：失败
+
+**状态转换**：
+```
+pending → in_progress → completed
+pending → in_progress → paused → in_progress → completed
+pending → in_progress → failed
+```
+
+### 5. 完成
+
+Agent-Engine 汇总结果，生成报告。
+
+```
+1. 汇总 feature_list.json 的结果
+   ↓
+2. 生成最终报告
+   ↓
+3. 更新 agent-progress.md
+   ↓
+4. 通知 Orchestrator 任务完成
+```
 
 ## 核心组件
 
-### 1. init.sh - 开发服务器启动脚本
+### 1. plan.md
 
-初始化 Agent 应该创建一个 `init.sh` 脚本，用于启动开发服务器：
+宏观规划，记录整体计划。
 
-```bash
-#!/bin/bash
-# 启动开发服务器
-cd /path/to/project
-npm install
-npm run dev
+**格式**：
+```markdown
+# 实现计划: [功能名称]
+
+## 概述
+[2-3 句摘要]
+
+## 需求
+- [需求 1]
+- [需求 2]
+
+## 架构变更
+- [变更 1: 文件路径和描述]
+- [变更 2: 文件路径和描述]
+
+## 实现阶段
+
+### 阶段 1: [阶段名称]
+1. **[步骤名称]** (文件: path/to/file.ts)
+   - 行动: 要采取的具体行动
+   - 原因: 此步骤的原因
+   - 依赖: 无 / 需要步骤 X
+   - 风险: 低/中/高
+
+### 阶段 2: [阶段名称]
+...
+
+## 测试策略
+- 单元测试: [要测试的文件]
+- 集成测试: [要测试的流程]
+- E2E 测试: [要测试的用户旅程]
+
+## 风险与缓解措施
+- **风险**: [描述]
+  - 缓解: [如何处理]
+
+## 成功标准
+- [ ] 标准 1
+- [ ] 标准 2
 ```
 
-或者是 Python 项目：
+### 2. feature_list.json
 
-```bash
-#!/bin/bash
-# 启动开发服务器
-cd /path/to/project
-source venv/bin/activate # 或者使用 uv/conda 等
-pip install -r requirements.txt
-python app.py
-```
+微观追踪，用于追踪具体功能的实现状态。
 
-具体可见 [init.sh](./references/init.sh) 示例。
-
-### 2. agent-progress.md - 进度日志
-
-记录每个会话完成的工作：
-
-```
-## Session History
-
-### Session 3 (2025-01-17)
-- Started work on messaging feature
-- ...
-
-### Session 2 (2025-01-16)
-- Implemented user authentication
-- Added login/logout functionality
-- Created user dashboard page
-- Fixed session persistence bug
-
-### Session 1 (2025-01-15)
-- Initialized project structure
-- Set up feature list with 50 features
-- Created init.sh script
-- Basic project scaffold complete
-
-```
-
-具体可见 [agent-progress.md](./references/agent-progress.md) 示例。
-
-### 3. feature_list.json - 功能列表
-
-这是最关键的组件。初始化 Agent 应该创建一个结构化的 JSON 文件，列出所有需要实现的功能：
-
+**格式**：
 ```json
 {
   "features": [
     {
       "id": "1",
       "category": "functional",
-      "description": "User can open a new chat, type in a query, press enter, and see an AI response",
+      "description": "功能描述",
       "steps": [
-        "Navigate to main interface",
-        "Click the 'New Chat' button",
-        "Verify a new conversation is created",
-        "Check that chat area shows welcome state",
-        "Verify conversation appears in sidebar"
+        "步骤 1: 描述",
+        "步骤 2: 描述",
+        "步骤 3: 描述"
       ],
       "passes": false,
       "priority": "high"
-    },
-    {
-      "id": "2", 
-      "category": "functional",
-      "description": "Theme toggle switches between light and dark mode",
-      "steps": [
-        "Click theme toggle button",
-        "Verify CSS variables change",
-        "Verify persistence across page reload"
-      ],
-      "passes": false,
-      "priority": "medium"
     }
   ]
 }
 ```
 
-**重要规则**：
+**字段说明**：
+- id：功能 ID
+- category：功能类别（functional/non-functional）
+- description：功能描述
+- steps：实现步骤
+- passes：是否通过（true/false）
+- priority：优先级（high/medium/low）
 
-- 所有功能初始标记为 `"passes": false`
-- Coding Agent 只能通过更改 `passes` 字段来更新状态
-- 禁止删除或编辑测试，因为这可能导致功能缺失或 bug
-- 使用 JSON 格式，因为模型不太可能不当更改 JSON 文件
+### 3. agent-progress.md
 
-具体可见 [feature_list.json](./references/feature_list.json) 示例。
+进度文件，记录跨会话的执行进度。
 
-## 工作流程
+**格式**：
+```markdown
+# 进度追踪
 
-### 阶段 1：初始化（Initializer Agent）
+## 执行进度
 
-第一个会话执行以下任务：
+**当前任务**: [任务名称]
+**总体进度**: [已完成/总数] ([百分比]%)
+**当前状态**: [执行中/验证中/修复中]
 
-1. **分析需求**：理解用户的初始 prompt，扩展为完整的功能列表
-2. **创建 feature_list.json**：
-   - 将需求分解为具体的、可测试的功能
-   - 每个功能包含步骤说明
-   - 所有功能初始标记为 failing
-3. **创建 init.sh**：
-   - 安装依赖的命令
-   - 启动开发服务器的命令
-4. **创建 agent-progress.md**：
-   - 记录初始化进度
-5. **初始化 Git 仓库**：
-   - 创建初始 commit
-   - 显示添加了哪些文件
-6. **验证环境**：
-   - 运行 init.sh 启动服务器
-   - 验证基本功能工作
+### 子任务列表
+- [x] 子任务 1: 已完成
+- [ ] 子任务 2: 执行中
+- [ ] 子任务 3: 待执行
 
-具体步骤可见 [initializer-prompt.md](./references/initializer-prompt.md) 示例。
+---
 
-### 阶段 2：增量开发（Coding Agent）
+## 历史记录
 
-每个后续会话遵循以下流程：
+### [YYYY-MM-DD HH:mm:ss] [任务名称]
 
-#### 开始时：获取 bearings
+**完成的任务**:
+- 完成了什么任务
 
-```
-[Assistant] I'll start by getting my bearings and understanding the current state of the project.
-[Tool Use] <bash - pwd>
-[Tool Use] <read - agent-progress.md>
-[Tool Use] <read - feature_list.json>
-[Assistant] Let me check the git log to see recent work.
-[Tool Use] <bash - git log --oneline -20>
-[Assistant] Now let me check if there's an init.sh script to restart the servers.
-<Starts the development server>
-[Assistant] Excellent! Now let me navigate to the application and verify that some fundamental features are still working.
-<Tests basic functionality>
+**实现的功能**:
+- 实现了什么功能
+
+**遇到的问题**:
+- 问题: 描述
+
+**重大决策**:
+- 决策: 原因
+
+### [YYYY-MM-DD HH:mm:ss] [上一个任务]
+...
 ```
 
-具体步骤：
+## 最佳实践
 
-1. **运行 `pwd`**：确认工作目录
-2. **读取 git logs 和 progress 文件**：了解最近的工作
-3. **读取 feature list**：选择最高优先级的未完成功能
-4. **启动开发服务器**：运行 `init.sh`
-5. **基本功能验证测试**：确保应用没有被破坏
-6. **选择一个功能开始工作**
-
-#### 工作中：增量实现
-
-1. **选择一个功能**：
-   - 选择最高优先级且未通过的功能
-   - 不要尝试一次实现多个功能
-
-2. **实现功能**：
-   - 按照 feature 中的步骤实现
-   - 编写必要的代码
-
-3. **端到端测试**：
-   - 使用 Puppeteer MCP 或 Playwright 进行浏览器自动化测试
-   - 模拟用户操作验证功能
-   - 记录测试截图
-
-4. **更新 feature 状态**：
-   - 测试通过后，将 `passes` 改为 `true`
-   - 记录测试结果
-
-#### 结束时：留下干净的产物
-
-1. **运行完整测试**：确保没有破坏现有功能
-2. **更新 agent-progress.md**：
-
-   ```
-   ### Session N (YYYY-MM-DD)
-   - Completed feature: [feature description]
-   - Fixed bugs: [list of fixes]
-   - Tests added: [test descriptions]
-   ```
-
-3. **Git 提交**：
-
-   ```bash
-   git add -A
-   git commit -m "feat: implement [feature name]
-   
-   - Added [specific changes]
-   - Fixed [bugs fixed]
-   - Tests: [test results]"
-   ```
-
-4. **确保代码整洁**：
-   - 没有 major bugs
-   - 代码有序且有文档
-   - 可以轻松开始新功能
+1. **识别长运行任务** - 准确识别需要多会话完成的任务
+2. **管理会话顺序** - 合理安排会话的执行顺序
+3. **传递进度和上下文** - 确保跨会话的进度和上下文传递
+4. **支持暂停和恢复** - 支持任务的暂停和恢复
+5. **保持状态一致** - 确保状态的一致性
 
 ## 常见失败模式及解决方案
 
 | 问题 | 解决方案 |
 |------|---------|
-| Agent 过早宣布项目完成 | 设置 feature list 文件，每次只做一个功能 |
-| Agent 留下有 bug 或未记录的进度 | 开始时读取 progress 和 git log，结束时写 commit 和 progress 更新 |
-| Agent 过早标记功能为完成 | 自我验证所有功能，只有经过仔细测试后才标记为 passing |
-| Agent 花时间弄清楚如何运行应用 | 创建 init.sh 脚本，会话开始时读取并运行 |
+| 无法识别长运行任务 | 使用识别标准进行判断 |
+| 会话顺序混乱 | 使用 plan.md 管理会话顺序 |
+| 进度丢失 | 使用 agent-progress.md 追踪进度 |
+| 上下文丢失 | 使用 feature_list.json 传递上下文 |
+| 状态不一致 | 使用状态管理机制保持一致 |
 
-## 测试最佳实践
+## 参考文件
 
-### 使用浏览器自动化
-
-使用 Puppeteer MCP 或 Playwright 进行端到端测试：
-
-1. **启动应用**：导航到本地开发服务器
-2. **模拟用户操作**：
-   - 点击按钮
-   - 填写表单
-   - 提交数据
-3. **验证结果**：
-   - 检查页面内容
-   - 验证状态变化
-   - 截图记录
-
-### 测试优先级
-
-1. **基本功能测试**：每次会话开始时运行
-2. **新功能测试**：实现后立即测试
-3. **回归测试**：确保没有破坏现有功能
-
-## 输出格式
-
-### 功能列表更新
-
-```json
-{
-  "id": "feature-id",
-  "description": "功能描述",
-  "passes": true,
-  "test_results": {
-    "screenshot": "path/to/screenshot.png",
-    "notes": "测试备注"
-  }
-}
-```
-
-### Progress 更新
-
-``` Session N (YYYYmarkdown
-###-MM-DD)
-**Completed:**
-- Feature: [name]
-- Tests: [results]
-
-**In Progress:**
-- Feature: [name]
-
-**Next:**
-- Feature: [name]
-```
-
-## Git 提交规范
-
-使用清晰的提交信息：
-
-```
-feat: add user authentication
-
-- Implement login/logout functionality  
-- Add session persistence
-- Create user dashboard
-
-Tests: All passing
-```
-
-## 进阶主题
-
-### 多 Agent 架构
-
-未来方向可能包括专门的 Agent：
-
-- **Testing Agent**：专门负责测试
-- **QA Agent**：专门负责质量保证
-- **Code Cleanup Agent**：专门负责代码清理
-
-### 跨领域泛化
-
-这些实践可以应用于：
-
-- 科学研究
-- 金融建模
-- 数据分析
-- 其他长运行 Agent 任务
-
-## 参考
-
-- Anthropic 官方文章：[Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
-- Claude Quickstarts: [Autonomous Coding](https://github.com/anthropics/claude-quickstarts/tree/main/autonomous-coding)
-- Claude Agent SDK: [Quickstart](https://platform.claude.com/docs/en/agent-sdk/quickstart)
+- [feature_list.json](./references/feature_list.json)：功能列表示例
+- [agent-progress.md](./references/agent-progress.md)：进度文件示例

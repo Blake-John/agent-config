@@ -1,67 +1,53 @@
 ---
-description: Save verification state and progress checkpoint
+description: 保存验证状态和进度检查点
 agent: build
 ---
 
-# Checkpoint Command
+# 检查点命令
 
-Save current verification state and create progress checkpoint: $ARGUMENTS
+保存当前验证状态并创建进度检查点：$ARGUMENTS
 
-## Your Task
+## 你的任务
 
-Create a snapshot of current progress including:
+创建当前进度的快照，包括：
 
-1. **Tests status** - Which tests pass/fail
-2. **Coverage** - Current coverage metrics
-3. **Build status** - Build succeeds or errors
-4. **Code changes** - Summary of modifications
-5. **Next steps** - What remains to be done
+1. **测试状态** — 哪些测试通过/失败
+2. **覆盖率** — 当前覆盖率指标
+3. **构建状态** — 构建成功或报错
+4. **代码变更** — 修改摘要
+5. **下一步** — 剩余工作
 
-## Checkpoint Format
+## 检查点格式
 
-### Checkpoint: [Timestamp]
+### 检查点：[时间戳]
 
-**Tests**
-- Total: X
-- Passing: Y
-- Failing: Z
-- Coverage: XX%
+**测试**
+- 总数：X
+- 通过：Y
+- 失败：Z
+- 覆盖率：XX%
 
-**Build**
-- Status: PASS: Passing / FAIL: Failing
-- Errors: [if any]
+**构建**
+- 状态：通过 / 失败
+- 错误：[如有]
 
-**Changes Since Last Checkpoint**
+**自上次检查点以来的变更**
 ```
-git diff --stat [last-checkpoint-commit]
-```
-
-**Completed Tasks**
-- [x] Task 1
-- [x] Task 2
-- [ ] Task 3 (in progress)
-
-**Blocking Issues**
-- [Issue description]
-
-**Next Steps**
-1. Step 1
-2. Step 2
-
-## Usage with Verification Loop
-
-Checkpoints integrate with the verification loop:
-
-```
-/plan → implement → /checkpoint → /verify → /checkpoint → implement → ...
+git diff --stat [上次检查点提交]
 ```
 
-Use checkpoints to:
-- Save state before risky changes
-- Track progress through phases
-- Enable rollback if needed
-- Document verification points
+**已完成任务**
+- [x] 任务 1
+- [x] 任务 2
+- [ ] 任务 3（进行中）
+
+**阻塞问题**
+- [问题描述]
+
+**下一步**
+1. 步骤 1
+2. 步骤 2
 
 ---
 
-**TIP**: Create checkpoints at natural breakpoints: after each phase, before major refactoring, after fixing critical bugs.
+**提示**：在自然断点处创建检查点：每个阶段完成后、重大重构前、修复关键 bug 后。

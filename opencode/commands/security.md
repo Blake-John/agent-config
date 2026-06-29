@@ -1,89 +1,82 @@
 ---
-description: Run comprehensive security review
+description: 运行全面的安全审查
 agent: security-reviewer
 subtask: true
 ---
 
-# Security Review Command
+# 安全审查命令
 
-Conduct a comprehensive security review: $ARGUMENTS
+对指定代码进行全面的安全审查：$ARGUMENTS
 
-## Your Task
+## OWASP Top 10 检查清单
 
-Analyze the specified code for security vulnerabilities following OWASP guidelines and security best practices.
+### 1. 注入（SQL、NoSQL、OS 命令、LDAP）
+- [ ] 使用参数化查询
+- [ ] 输入过滤已验证
+- [ ] 动态查询构建已审查
 
-## Security Checklist
+### 2. 认证缺陷
+- [ ] 密码存储（bcrypt、argon2）
+- [ ] 会话管理
+- [ ] 多因素认证
+- [ ] 密码重置流程
 
-### OWASP Top 10
+### 3. 敏感数据泄露
+- [ ] 传输和存储加密
+- [ ] 密钥管理
+- [ ] PII 处理
 
-1. **Injection** (SQL, NoSQL, OS command, LDAP)
-   - Check for parameterized queries
-   - Verify input sanitization
-   - Review dynamic query construction
+### 4. XML 外部实体（XXE）
+- [ ] 禁用 DTD 处理
+- [ ] XML 输入验证
 
-2. **Broken Authentication**
-   - Password storage (bcrypt, argon2)
-   - Session management
-   - Multi-factor authentication
-   - Password reset flows
+### 5. 访问控制缺陷
+- [ ] 每个端点都有授权检查
+- [ ] 基于角色的访问控制
+- [ ] 资源所有权验证
 
-3. **Sensitive Data Exposure**
-   - Encryption at rest and in transit
-   - Proper key management
-   - PII handling
+### 6. 安全配置错误
+- [ ] 默认凭据已移除
+- [ ] 错误处理不泄露信息
+- [ ] 安全头已配置
 
-4. **XML External Entities (XXE)**
-   - Disable DTD processing
-   - Input validation for XML
+### 7. 跨站脚本（XSS）
+- [ ] 输出编码
+- [ ] 内容安全策略
+- [ ] 输入过滤
 
-5. **Broken Access Control**
-   - Authorization checks on every endpoint
-   - Role-based access control
-   - Resource ownership validation
+### 8. 不安全的反序列化
+- [ ] 验证序列化数据
+- [ ] 实现完整性检查
 
-6. **Security Misconfiguration**
-   - Default credentials removed
-   - Error handling doesn't leak info
-   - Security headers configured
+### 9. 使用已知漏洞组件
+- [ ] 运行 `npm audit`
+- [ ] 检查过期的依赖
 
-7. **Cross-Site Scripting (XSS)**
-   - Output encoding
-   - Content Security Policy
-   - Input sanitization
+### 10. 日志和监控不足
+- [ ] 安全事件已记录
+- [ ] 日志中无敏感数据
 
-8. **Insecure Deserialization**
-   - Validate serialized data
-   - Implement integrity checks
+### 额外检查
 
-9. **Using Components with Known Vulnerabilities**
-   - Run `npm audit`
-   - Check for outdated dependencies
+- [ ] 代码中的密钥（API 密钥、密码）
+- [ ] 环境变量处理
+- [ ] CORS 配置
+- [ ] 限流
+- [ ] CSRF 防护
+- [ ] 安全 cookie 标志
 
-10. **Insufficient Logging & Monitoring**
-    - Security events logged
-    - No sensitive data in logs
-    - Alerting configured
+## 报告格式
 
-### Additional Checks
+### Critical 问题
+[必须立即修复的问题]
 
-- [ ] Secrets in code (API keys, passwords)
-- [ ] Environment variable handling
-- [ ] CORS configuration
-- [ ] Rate limiting
-- [ ] CSRF protection
-- [ ] Secure cookie flags
+### High 优先级
+[应在发布前修复的问题]
 
-## Report Format
-
-### Critical Issues
-[Issues that must be fixed immediately]
-
-### High Priority
-[Issues that should be fixed before release]
-
-### Recommendations
-[Security improvements to consider]
+### 建议
+[可以考虑的安全改进]
 
 ---
 
-**IMPORTANT**: Security issues are blockers. Do not proceed until critical issues are resolved.
+**重要**：安全问题是阻塞项。在关键问题解决前不得继续。

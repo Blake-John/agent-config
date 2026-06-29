@@ -1,102 +1,97 @@
 ---
-description: Remove dead code and consolidate duplicates
+description: 移除死代码并合并重复代码
 agent: refactor-cleaner
 subtask: true
 ---
 
-# Refactor Clean Command
+# 重构清理命令
 
-Analyze and clean up the codebase: $ARGUMENTS
+分析并清理代码库：$ARGUMENTS
 
-## Your Task
+## 你的任务
 
-1. **Detect dead code** using analysis tools
-2. **Identify duplicates** and consolidation opportunities
-3. **Safely remove** unused code with documentation
-4. **Verify** no functionality broken
+1. **检测死代码** — 使用分析工具
+2. **识别重复代码** — 发现合并机会
+3. **安全移除** — 未使用的代码并做好记录
+4. **验证** — 确保功能不受影响
 
-## Detection Phase
+## 检测阶段
 
-### Run Analysis Tools
+### 运行分析工具
 
 ```bash
-# Find unused exports
-npx knip
-
-# Find unused dependencies
-npx depcheck
-
-# Find unused TypeScript exports
-npx ts-prune
+npx knip            # 查找未使用的导出
+npx depcheck        # 查找未使用的依赖
+npx ts-prune        # 查找未使用的 TypeScript 导出
 ```
 
-### Manual Checks
+### 手动检查
 
-- Unused functions (no callers)
-- Unused variables
-- Unused imports
-- Commented-out code
-- Unreachable code
-- Unused CSS classes
+- 未使用的函数（无调用者）
+- 未使用的变量
+- 未使用的导入
+- 注释掉的代码
+- 不可达代码
+- 未使用的 CSS 类
 
-## Removal Phase
+## 移除阶段
 
-### Before Removing
+### 移除前检查
 
-1. **Search for usage** - grep, find references
-2. **Check exports** - might be used externally
-3. **Verify tests** - no test depends on it
-4. **Document removal** - git commit message
+1. **搜索用途** — grep、查找引用
+2. **检查导出** — 可能被外部使用
+3. **验证测试** — 没有测试依赖它
+4. **记录移除** — git 提交信息
 
-### Safe Removal Order
+### 安全移除顺序
 
-1. Remove unused imports first
-2. Remove unused private functions
-3. Remove unused exported functions
-4. Remove unused types/interfaces
-5. Remove unused files
+1. 先移除未使用的导入
+2. 再移除未使用的私有函数
+3. 再移除未使用的导出函数
+4. 再移除未使用的类型/接口
+5. 最后移除未使用的文件
 
-## Consolidation Phase
+## 合并阶段
 
-### Identify Duplicates
+### 识别重复
 
-- Similar functions with minor differences
-- Copy-pasted code blocks
-- Repeated patterns
+- 功能相似的函数
+- 复制粘贴的代码块
+- 重复的模式
 
-### Consolidation Strategies
+### 合并策略
 
-1. **Extract utility function** - for repeated logic
-2. **Create base class** - for similar classes
-3. **Use higher-order functions** - for repeated patterns
-4. **Create shared constants** - for magic values
+1. **提取工具函数** — 用于重复逻辑
+2. **创建基类** — 用于相似类
+3. **使用高阶函数** — 用于重复模式
+4. **创建共享常量** — 用于魔数
 
-## Verification
+## 验证
 
-After cleanup:
+清理后：
 
-1. `npm run build` - builds successfully
-2. `npm test` - all tests pass
-3. `npm run lint` - no new lint errors
-4. Manual smoke test - features work
+1. `npm run build` — 构建成功
+2. `npm test` — 所有测试通过
+3. `npm run lint` — 无新的 lint 错误
+4. 手动冒烟测试 — 功能正常
 
-## Report Format
+## 报告格式
 
 ```
-Dead Code Analysis
-==================
+死代码分析
+==========
 
-Removed:
-- file.ts: functionName (unused export)
-- utils.ts: helperFunction (no callers)
+已移除：
+- file.ts: functionName（未使用的导出）
+- utils.ts: helperFunction（无调用者）
 
-Consolidated:
-- formatDate() and formatDateTime() → dateUtils.format()
+已合并：
+- formatDate() 和 formatDateTime() → dateUtils.format()
 
-Remaining (manual review needed):
-- oldComponent.tsx: potentially unused, verify with team
+待处理（需要人工审查）：
+- oldComponent.tsx：可能未使用
 ```
 
 ---
 
-**CAUTION**: Always verify before removing. When in doubt, ask or add `// TODO: verify usage` comment.
+**注意**：移除前务必验证。如有疑问，询问或添加 `// TODO: verify usage` 注释。

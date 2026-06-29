@@ -10,51 +10,51 @@ metadata:
   role: expert
   scope: design
   output-format: document
-  related-skills: test-master, rag-architect, debugging-wizard
+  related-skills: test-specialist
 ---
 
-# Prompt Engineer
+# Prompt Engineer（提示词工程师）
 
-Expert prompt engineer specializing in designing, optimizing, and evaluating prompts that maximize LLM performance across diverse use cases.
+专门设计、优化和评估提示词（prompt）的专家，致力于在各种使用场景中最大化 LLM 性能。
 
-## When to Use This Skill
+## 使用时机
 
-- Designing prompts for new LLM applications
-- Optimizing existing prompts for better accuracy or efficiency
-- Implementing chain-of-thought or few-shot learning
-- Creating system prompts with personas and guardrails
-- Building structured output schemas (JSON mode, function calling)
-- Developing prompt evaluation and testing frameworks
-- Debugging inconsistent or poor-quality LLM outputs
-- Migrating prompts between different models or providers
+- 为新的 LLM 应用设计提示词
+- 优化现有提示词以提高准确性或效率
+- 实现 chain-of-thought（思维链）或 few-shot（少样本）学习
+- 创建包含角色人格（persona）和安全护栏（guardrails）的系统提示词
+- 构建结构化输出 schema（JSON 模式、函数调用）
+- 开发提示词评估与测试框架
+- 调试 LLM 输出不一致或质量低下的问题
+- 在不同模型或供应商之间迁移提示词
 
-## Core Workflow
+## 核心工作流程
 
-1. **Understand requirements** — Define task, success criteria, constraints, and edge cases
-2. **Design initial prompt** — Choose pattern (zero-shot, few-shot, CoT), write clear instructions
-3. **Test and evaluate** — Run diverse test cases, measure quality metrics
-   - **Validation checkpoint:** If accuracy < 80% on the test set, identify failure patterns before iterating (e.g., ambiguous instructions, missing examples, edge case gaps)
-4. **Iterate and optimize** — Make one change at a time; refine based on failures, reduce tokens, improve reliability
-5. **Document and deploy** — Version prompts, document behavior, monitor production
+1. **理解需求** — 明确任务、成功标准、约束条件和边界情况
+2. **设计初始提示词** — 选择合适的模式（zero-shot、few-shot、CoT），编写清晰的指令
+3. **测试与评估** — 运行多样化的测试用例，衡量质量指标
+   - **验证检查点：** 如果测试集准确率 < 80%，在迭代前识别失败模式（例如：模糊的指令、缺少示例、边界情况遗漏）
+4. **迭代与优化** — 每次只改动一处；根据失败情况进行优化，减少 token 消耗，提高可靠性
+5. **文档化与部署** — 对提示词进行版本管理，记录行为表现，监控生产环境
 
-## Reference Guide
+## 参考指南
 
-Load detailed guidance based on context:
+根据上下文加载详细指导：
 
-| Topic | Reference | Load When |
+| 主题 | 参考文件 | 何时加载 |
 |-------|-----------|-----------|
-| Prompt Patterns | `references/prompt-patterns.md` | Zero-shot, few-shot, chain-of-thought, ReAct |
-| Optimization | `references/prompt-optimization.md` | Iterative refinement, A/B testing, token reduction |
-| Evaluation | `references/evaluation-frameworks.md` | Metrics, test suites, automated evaluation |
-| Structured Outputs | `references/structured-outputs.md` | JSON mode, function calling, schema design |
-| System Prompts | `references/system-prompts.md` | Persona design, guardrails, injection defense |
-| Context Management | `references/context-management.md` | Attention budget, degradation patterns, context optimization |
+| 提示词模式 | `references/prompt-patterns.md` | zero-shot、few-shot、chain-of-thought、ReAct |
+| 优化 | `references/prompt-optimization.md` | 迭代优化、A/B 测试、token 缩减 |
+| 评估 | `references/evaluation-frameworks.md` | 指标、测试套件、自动化评估 |
+| 结构化输出 | `references/structured-outputs.md` | JSON 模式、函数调用、schema 设计 |
+| 系统提示词 | `references/system-prompts.md` | 角色人格设计、安全护栏、注入防御 |
+| 上下文管理 | `references/context-management.md` | 注意力预算、退化模式、上下文优化 |
 
-## Prompt Examples
+## 提示词示例
 
-### Zero-shot vs. Few-shot
+### Zero-shot 与 Few-shot 对比
 
-**Zero-shot (baseline):**
+**Zero-shot（基线）：**
 ```
 Classify the sentiment of the following review as Positive, Negative, or Neutral.
 
@@ -62,7 +62,7 @@ Review: {{review}}
 Sentiment:
 ```
 
-**Few-shot (improved reliability):**
+**Few-shot（提升可靠性）：**
 ```
 Classify the sentiment of the following review as Positive, Negative, or Neutral.
 
@@ -79,16 +79,16 @@ Review: {{review}}
 Sentiment:
 ```
 
-### Before/After Optimization
+### 优化前后对比
 
-**Before (vague, inconsistent outputs):**
+**优化前（模糊、输出不一致）：**
 ```
 Summarize this document.
 
 {{document}}
 ```
 
-**After (structured, token-efficient):**
+**优化后（结构化、节省 token）：**
 ```
 Summarize the document below in exactly 3 bullet points. Each bullet must be one sentence and start with an action verb. Do not include opinions or information not present in the document.
 
@@ -98,37 +98,37 @@ Document:
 Summary:
 ```
 
-## Constraints
+## 约束条件
 
-### MUST DO
-- Test prompts with diverse, realistic inputs including edge cases
-- Measure performance with quantitative metrics (accuracy, consistency)
-- Version prompts and track changes systematically
-- Document expected behavior and known limitations
-- Use few-shot examples that match target distribution
-- Validate structured outputs against schemas
-- Consider token costs and latency in design
-- Test across model versions before production deployment
+### 必须遵守
+- 使用多样化、真实的输入（包括边界情况）测试提示词
+- 使用量化指标（准确率、一致性）衡量性能
+- 对提示词进行版本管理，系统化追踪变更
+- 记录预期行为和已知限制
+- 使用与目标分布匹配的 few-shot 示例
+- 根据 schema 验证结构化输出
+- 在设计时考虑 token 成本和延迟
+- 在部署到生产环境前，跨模型版本进行测试
 
-### MUST NOT DO
-- Deploy prompts without systematic evaluation on test cases
-- Use few-shot examples that contradict instructions
-- Ignore model-specific capabilities and limitations
-- Skip edge case testing (empty inputs, unusual formats)
-- Make multiple changes simultaneously when debugging
-- Hardcode sensitive data in prompts or examples
-- Assume prompts transfer perfectly between models
-- Neglect monitoring for prompt degradation in production
+### 禁止行为
+- 未经系统性评估测试用例就部署提示词
+- 使用与指令矛盾的 few-shot 示例
+- 忽略模型特有的能力和限制
+- 跳过边界情况测试（空输入、异常格式）
+- 调试时同时进行多处改动
+- 在提示词或示例中硬编码敏感数据
+- 假设提示词可以在不同模型之间完美迁移
+- 忽视对生产环境中提示词退化（degradation）的监控
 
-## Output Templates
+## 输出模板
 
-When delivering prompt work, provide:
-1. Final prompt with clear sections (role, task, constraints, format)
-2. Test cases and evaluation results
-3. Usage instructions (temperature, max tokens, model version)
-4. Performance metrics and comparison with baselines
-5. Known limitations and edge cases
+交付提示词相关工作时，应提供：
+1. 包含清晰分段的最终提示词（角色、任务、约束、格式）
+2. 测试用例和评估结果
+3. 使用说明（temperature、max tokens、模型版本）
+4. 性能指标及与基线的对比
+5. 已知限制和边界情况
 
-## Coverage Note
+## 覆盖说明
 
-Reference files cover major prompting techniques (zero-shot, few-shot, CoT, ReAct, tree-of-thoughts), structured output patterns (JSON mode, function calling), context management (attention budgets, degradation mitigation, optimization), and model-specific guidance for GPT-4, Claude, and Gemini families. Consult the relevant reference before designing for a specific model or pattern.
+参考文件涵盖了主要的提示词技术（zero-shot、few-shot、CoT、ReAct、tree-of-thoughts）、结构化输出模式（JSON 模式、函数调用）、上下文管理（注意力预算、退化缓解、优化），以及针对 GPT-4、Claude 和 Gemini 模型系列的特定指导。在针对特定模型或模式进行设计前，请查阅相关参考文件。

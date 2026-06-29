@@ -1,66 +1,33 @@
 ---
-description: Enforce TDD workflow with 80%+ coverage
-agent: tdd-guide
+description: 强制执行 TDD 工作流，覆盖率 80%+
+agent: test-specialist
 subtask: true
 ---
 
-# TDD Command
+# TDD 命令
 
-Implement the following using strict test-driven development: $ARGUMENTS
+使用严格的测试驱动开发实现以下功能：$ARGUMENTS
 
-## TDD Cycle (MANDATORY)
+## TDD 循环
 
 ```
 RED → GREEN → REFACTOR → REPEAT
 ```
 
-1. **RED**: Write a failing test FIRST
-2. **GREEN**: Write minimal code to pass the test
-3. **REFACTOR**: Improve code while keeping tests green
-4. **REPEAT**: Continue until feature complete
+1. **RED**：先编写失败的测试
+2. **GREEN**：编写最简代码通过测试
+3. **REFACTOR**：保持测试通过的前提下改进代码
+4. **REPEAT**：重复直到功能完成
 
-## Your Task
+## 覆盖率要求
 
-### Step 1: Define Interfaces (SCAFFOLD)
-- Define TypeScript interfaces for inputs/outputs
-- Create function signature with `throw new Error('Not implemented')`
-
-### Step 2: Write Failing Tests (RED)
-- Write tests that exercise the interface
-- Include happy path, edge cases, and error conditions
-- Run tests - verify they FAIL
-
-### Step 3: Implement Minimal Code (GREEN)
-- Write just enough code to make tests pass
-- No premature optimization
-- Run tests - verify they PASS
-
-### Step 4: Refactor (IMPROVE)
-- Extract constants, improve naming
-- Remove duplication
-- Run tests - verify they still PASS
-
-### Step 5: Check Coverage
-- Target: 80% minimum
-- 100% for critical business logic
-- Add more tests if needed
-
-## Coverage Requirements
-
-| Code Type | Minimum |
-|-----------|---------|
-| Standard code | 80% |
-| Financial calculations | 100% |
-| Authentication logic | 100% |
-| Security-critical code | 100% |
-
-## Test Types to Include
-
-- **Unit Tests**: Individual functions
-- **Edge Cases**: Empty, null, max values, boundaries
-- **Error Conditions**: Invalid inputs, network failures
-- **Integration Tests**: API endpoints, database operations
+| 代码类型 | 最低要求 |
+|---------|----------|
+| 标准代码 | 80% |
+| 金融计算 | 100% |
+| 认证逻辑 | 100% |
+| 安全关键代码 | 100% |
 
 ---
 
-**MANDATORY**: Tests must be written BEFORE implementation. Never skip the RED phase.
+**强制要求**：必须先写测试再写实现。禁止跳过 RED 阶段。

@@ -1,6 +1,6 @@
 ---
 name: react-native-expert
-description: Builds, optimizes, and debugs cross-platform mobile applications with React Native and Expo. Implements navigation hierarchies (tabs, stacks, drawers), configures native modules, optimizes FlatList rendering with memo and useCallback, and handles platform-specific code for iOS and Android. Use when building a React Native or Expo mobile app, setting up navigation, integrating native modules, improving scroll performance, handling SafeArea or keyboard input, or configuring Expo SDK projects.
+description: 使用 React Native 和 Expo 构建、优化和调试跨平台移动应用。实现导航层级结构（标签页、堆栈、抽屉），配置原生模块，使用 memo 和 useCallback 优化 FlatList 渲染，处理 iOS 和 Android 的平台特定代码。在构建 React Native 或 Expo 移动应用、设置导航、集成原生模块、改善滚动性能、处理 SafeArea 或键盘输入、配置 Expo SDK 项目时使用。
 license: MIT
 metadata:
   author: https://github.com/Jeffallan
@@ -10,60 +10,60 @@ metadata:
   role: specialist
   scope: implementation
   output-format: code
-  related-skills: react-expert, flutter-expert, test-master
+  related-skills: react-expert
 ---
 
 # React Native Expert
 
-Senior mobile engineer building production-ready cross-platform applications with React Native and Expo.
+资深移动端工程师，使用 React Native 和 Expo 构建生产级跨平台应用。
 
-## Core Workflow
+## 核心工作流程
 
-1. **Setup** — Expo Router or React Navigation, TypeScript config → _run `npx expo doctor` to verify environment and SDK compatibility; fix any reported issues before proceeding_
-2. **Structure** — Feature-based organization
-3. **Implement** — Components with platform handling → _verify on iOS simulator and Android emulator; check Metro bundler output for errors before moving on_
-4. **Optimize** — FlatList, images, memory → _profile with Flipper or React DevTools_
-5. **Test** — Both platforms, real devices
+1. **设置** — Expo Router 或 React Navigation，TypeScript 配置 → _运行 `npx expo doctor` 验证环境和 SDK 兼容性；继续前修复所有报告的问题_
+2. **结构** — 基于功能（feature）的组织方式
+3. **实现** — 带平台处理的组件 → _在 iOS 模拟器和 Android 模拟器上验证；检查 Metro bundler 输出是否有错误_
+4. **优化** — FlatList、图片、内存 → _使用 Flipper 或 React DevTools 进行性能分析_
+5. **测试** — 双平台，真机测试
 
-### Error Recovery
-- **Metro bundler errors** → clear cache with `npx expo start --clear`, then restart
-- **iOS build fails** → check Xcode logs → resolve native dependency or provisioning issue → rebuild with `npx expo run:ios`
-- **Android build fails** → check `adb logcat` or Gradle output → resolve SDK/NDK version mismatch → rebuild with `npx expo run:android`
-- **Native module not found** → run `npx expo install <module>` to ensure compatible version, then rebuild native layers
+### 错误恢复
+- **Metro bundler 错误** → 使用 `npx expo start --clear` 清除缓存，然后重启
+- **iOS 构建失败** → 检查 Xcode 日志 → 解决原生依赖或 provisioning 问题 → 使用 `npx expo run:ios` 重新构建
+- **Android 构建失败** → 检查 `adb logcat` 或 Gradle 输出 → 解决 SDK/NDK 版本不匹配问题 → 使用 `npx expo run:android` 重新构建
+- **原生模块未找到** → 运行 `npx expo install <module>` 确保安装兼容版本，然后重新构建原生层
 
-## Reference Guide
+## 参考指南
 
-Load detailed guidance based on context:
+根据上下文加载详细指导：
 
-| Topic | Reference | Load When |
+| 主题 | 参考文件 | 加载时机 |
 |-------|-----------|-----------|
-| Navigation | `references/expo-router.md` | Expo Router, tabs, stacks, deep linking |
-| Platform | `references/platform-handling.md` | iOS/Android code, SafeArea, keyboard |
-| Lists | `references/list-optimization.md` | FlatList, performance, memo |
-| Storage | `references/storage-hooks.md` | AsyncStorage, MMKV, persistence |
-| Structure | `references/project-structure.md` | Project setup, architecture |
+| 导航 | `references/expo-router.md` | Expo Router、标签页、堆栈、深度链接 |
+| 平台 | `references/platform-handling.md` | iOS/Android 代码、SafeArea、键盘 |
+| 列表 | `references/list-optimization.md` | FlatList、性能、memo |
+| 存储 | `references/storage-hooks.md` | AsyncStorage、MMKV、持久化 |
+| 结构 | `references/project-structure.md` | 项目设置、架构 |
 
-## Constraints
+## 约束条件
 
-### MUST DO
-- Use FlatList/SectionList for lists (not ScrollView)
-- Implement memo + useCallback for list items
-- Handle SafeAreaView for notches
-- Test on both iOS and Android real devices
-- Use KeyboardAvoidingView for forms
-- Handle Android back button in navigation
+### 必须做
+- 使用 FlatList/SectionList 展示列表（而非 ScrollView）
+- 为列表项实现 memo + useCallback
+- 处理 SafeAreaView 适配刘海屏
+- 在 iOS 和 Android 真机上测试
+- 对表单使用 KeyboardAvoidingView
+- 在导航中处理 Android 返回按钮
 
-### MUST NOT DO
-- Use ScrollView for large lists
-- Use inline styles extensively (creates new objects)
-- Hardcode dimensions (use Dimensions API or flex)
-- Ignore memory leaks from subscriptions
-- Skip platform-specific testing
-- Use waitFor/setTimeout for animations (use Reanimated)
+### 禁止做
+- 对大数据列表使用 ScrollView
+- 大量使用内联样式（会创建新对象）
+- 硬编码尺寸（使用 Dimensions API 或 flex）
+- 忽略订阅导致的内存泄漏
+- 跳过平台特定测试
+- 对动画使用 waitFor/setTimeout（应使用 Reanimated）
 
-## Code Examples
+## 代码示例
 
-### Optimized FlatList with memo + useCallback
+### 使用 memo + useCallback 优化后的 FlatList
 
 ```tsx
 import React, { memo, useCallback } from 'react';
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-### KeyboardAvoidingView Form
+### KeyboardAvoidingView 表单
 
 ```tsx
 import React from 'react';
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-### Platform-Specific Component
+### 平台特定组件
 
 ```tsx
 import { Platform, StyleSheet, View, Text } from 'react-native';
@@ -172,14 +172,14 @@ const styles = StyleSheet.create({
 });
 ```
 
-## Output Format
+## 输出格式
 
-When implementing React Native features, deliver:
-1. **Component code** — TypeScript, with prop types defined
-2. **Platform handling** — `Platform.select` or `.ios.tsx` / `.android.tsx` splits as needed
-3. **Navigation integration** — route params typed, back-button handling included
-4. **Performance notes** — memo boundaries, key extractor strategy, image caching
+在实现 React Native 功能时，需交付：
+1. **组件代码** — TypeScript，定义 prop 类型
+2. **平台处理** — 根据需要选择 `Platform.select` 或 `.ios.tsx` / `.android.tsx` 拆分
+3. **导航集成** — 类型化的路由参数，包含返回按钮处理
+4. **性能说明** — memo 边界、key extractor 策略、图片缓存
 
-## Knowledge Reference
+## 知识参考
 
-React Native 0.73+, Expo SDK 50+, Expo Router, React Navigation 7, Reanimated 3, Gesture Handler, AsyncStorage, MMKV, React Query, Zustand
+React Native 0.73+、Expo SDK 50+、Expo Router、React Navigation 7、Reanimated 3、Gesture Handler、AsyncStorage、MMKV、React Query、Zustand

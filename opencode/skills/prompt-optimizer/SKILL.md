@@ -117,31 +117,33 @@ Map intent + scope + tech stack (from Phase 0) to specific ECC components.
 
 | Intent | Commands | Skills | Agents |
 |--------|----------|--------|--------|
-| New Feature | /plan, /tdd, /code-review, /verify | tdd-workflow, verification-loop | planner, tdd-guide, code-reviewer |
-| Bug Fix | /tdd, /build-fix, /verify | tdd-workflow | tdd-guide, build-error-resolver |
-| Refactor | /refactor-clean, /code-review, /verify | verification-loop | refactor-cleaner, code-reviewer |
-| Research | /plan | search-first, iterative-retrieval | — |
-| Testing | /tdd, /e2e, /test-coverage | tdd-workflow, e2e-testing | tdd-guide, e2e-runner |
-| Review | /code-review | security-review | code-reviewer, security-reviewer |
-| Documentation | /update-docs, /update-codemaps | — | doc-updater |
-| Infrastructure | /plan, /verify | docker-patterns, deployment-patterns, database-migrations | architect |
-| Design (MEDIUM-HIGH) | /plan | — | planner, architect |
-| Design (EPIC) | — | blueprint (invoke as skill) | planner, architect |
+| Intent | Commands | Skills |
+|--------|----------|--------|
+| New Feature | /plan, /test, /code-review, /verify | tdd-workflow, verification-loop |
+| Bug Fix | /test, /code-review, /verify | tdd-workflow |
+| Refactor | /refactor-clean, /code-review, /verify | verification-loop |
+| Research | /plan | search-first, iterative-retrieval |
+| Testing | /test, /e2e, /test-coverage | tdd-workflow, e2e-testing |
+| Review | /code-review, /security | security-review |
+| Documentation | /update-docs, /update-codemaps | code-documenter |
+| Infrastructure | /plan, /verify | docker-patterns, deployment-patterns |
+| Design (MEDIUM-HIGH) | /plan | architecture-designer |
+| Design (EPIC) | — | blueprint |
 
 #### By Tech Stack
 
-| Tech Stack | Skills to Add | Agent |
-|------------|--------------|-------|
-| Python / Django | django-patterns, django-tdd, django-security, django-verification, python-patterns, python-testing | python-reviewer |
-| Go | golang-patterns, golang-testing | go-reviewer, go-build-resolver |
-| Spring Boot / Java | springboot-patterns, springboot-tdd, springboot-security, springboot-verification, java-coding-standards, jpa-patterns | code-reviewer |
-| Kotlin / Android | kotlin-coroutines-flows, compose-multiplatform-patterns, android-clean-architecture | kotlin-reviewer |
-| TypeScript / React | frontend-patterns, backend-patterns, coding-standards | code-reviewer |
-| Swift / iOS | swiftui-patterns, swift-concurrency-6-2, swift-actor-persistence, swift-protocol-di-testing | code-reviewer |
-| PostgreSQL | postgres-patterns, database-migrations | database-reviewer |
-| Perl | perl-patterns, perl-testing, perl-security | code-reviewer |
-| C++ | cpp-coding-standards, cpp-testing | code-reviewer |
-| Other / Unlisted | coding-standards (universal) | code-reviewer |
+| Tech Stack | Skills |
+|------------|--------|
+| Python / Django | django-patterns, django-tdd, django-security, django-verification, python-patterns, python-testing |
+| Go | golang-patterns, golang-testing |
+| Spring Boot / Java | springboot-patterns, springboot-tdd, springboot-security, springboot-verification, java-coding-standards, jpa-patterns |
+| Kotlin / Android | kotlin-coroutines-flows, compose-multiplatform-patterns, android-clean-architecture |
+| TypeScript / React | frontend-patterns, backend-patterns |
+| Swift / iOS | swiftui-patterns, swift-concurrency-6-2, swift-actor-persistence, swift-protocol-di-testing |
+| PostgreSQL | postgres-patterns, database-migrations |
+| Perl | perl-patterns, perl-testing, perl-security |
+| C++ | cpp-coding-standards, cpp-testing |
+| Other / Unlisted | (CODING-STYLE.md as baseline) |
 
 ### Phase 4: Missing Context Detection
 
@@ -217,7 +219,7 @@ If Phase 0 auto-detected the answer, state it instead of asking.
 |------|-----------|---------|
 | Command | /plan | Plan architecture before coding |
 | Skill | tdd-workflow | TDD methodology guidance |
-| Agent | code-reviewer | Post-implementation review |
+| Skill | code-review | Post-implementation code review |
 | Model | Sonnet 4.6 | Recommended for this scope |
 
 ### Section 3: Optimized Prompt — Full Version
@@ -240,12 +242,12 @@ A compact version for experienced ECC users. Vary by intent type:
 
 | Intent | Quick Pattern |
 |--------|--------------|
-| New Feature | `/plan [feature]. /tdd to implement. /code-review. /verify.` |
-| Bug Fix | `/tdd — write failing test for [bug]. Fix to green. /verify.` |
+| New Feature | `/plan [feature]. /test to implement via TDD. /code-review. /verify.` |
+| Bug Fix | `/test — write failing test for [bug]. Fix to green. /verify.` |
 | Refactor | `/refactor-clean [scope]. /code-review. /verify.` |
 | Research | `Use search-first skill for [topic]. /plan based on findings.` |
-| Testing | `/tdd [module]. /e2e for critical flows. /test-coverage.` |
-| Review | `/code-review. Then use security-reviewer agent.` |
+| Testing | `/test [module]. /e2e for critical flows. /test-coverage.` |
+| Review | `/code-review. /security for vulnerability check.` |
 | Docs | `/update-docs. /update-codemaps.` |
 | EPIC | `Use blueprint skill for "[objective]". Execute phases with /verify gates.` |
 

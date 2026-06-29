@@ -1,47 +1,43 @@
 ---
-description: Export instincts for sharing
+description: 导出 instinct 以供分享
 agent: build
 ---
 
-# Instinct Export Command
+# Instinct 导出命令
 
-Export instincts for sharing with others: $ARGUMENTS
+从 continuous-learning-v2 系统导出 instinct：$ARGUMENTS
 
-## Your Task
+## 导出选项
 
-Export instincts from the continuous-learning-v2 system.
-
-## Export Options
-
-### Export All
+### 导出全部
 ```
 /instinct-export
 ```
 
-### Export High Confidence Only
+### 仅导出高置信度
 ```
 /instinct-export --min-confidence 0.8
 ```
 
-### Export by Category
+### 按类别导出
 ```
 /instinct-export --category coding
 ```
 
-### Export to Specific Path
+### 导出到指定路径
 ```
 /instinct-export --output ./my-instincts.json
 ```
 
-## Export Format
+## 导出格式
 
 ```json
 {
   "instincts": [
     {
       "id": "instinct-123",
-      "trigger": "[situation description]",
-      "action": "[recommended action]",
+      "trigger": "[场景描述]",
+      "action": "[建议操作]",
       "confidence": 0.85,
       "category": "coding",
       "applications": 10,
@@ -53,41 +49,31 @@ Export instincts from the continuous-learning-v2 system.
     "version": "1.0",
     "exported": "2025-01-15T10:00:00Z",
     "author": "username",
-    "total": 25,
-    "filter": "confidence >= 0.8"
+    "total": 25
   }
 }
 ```
 
-## Export Report
+## 导出报告
 
 ```
-Export Summary
-==============
-Output: ./instincts-export.json
-Total instincts: X
-Filtered: Y
-Exported: Z
+导出摘要
+=========
+输出：./instincts-export.json
+总计：X
+过滤后：Y
+已导出：Z
 
-Categories:
+类别：
 - coding: N
 - testing: N
 - security: N
-- git: N
 
-Top Instincts (by confidence):
+按置信度排序：
 1. [trigger] (0.XX)
 2. [trigger] (0.XX)
-3. [trigger] (0.XX)
 ```
-
-## Sharing
-
-After export:
-- Share JSON file directly
-- Upload to team repository
-- Publish to instinct registry
 
 ---
 
-**TIP**: Export high-confidence instincts (>0.8) for better quality shares.
+**提示**：导出高置信度 instinct（>0.8）以获得更好的分享质量。

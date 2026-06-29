@@ -1,88 +1,43 @@
 ---
-description: Import instincts from external sources
+description: 从外部源导入 instinct
 agent: build
 ---
 
-# Instinct Import Command
+# Instinct 导入命令
 
-Import instincts from a file or URL: $ARGUMENTS
+从文件或 URL 导入 instinct：$ARGUMENTS
 
-## Your Task
+## 导入源
 
-Import instincts into the continuous-learning-v2 system.
-
-## Import Sources
-
-### File Import
+### 文件导入
 ```
 /instinct-import path/to/instincts.json
 ```
 
-### URL Import
+### URL 导入
 ```
 /instinct-import https://example.com/instincts.json
 ```
 
-### Team Share Import
+### 团队分享导入
 ```
 /instinct-import @teammate/instincts
 ```
 
-## Import Format
+## 导入流程
 
-Expected JSON structure:
+1. **验证格式** — 检查 JSON 结构
+2. **去重** — 跳过已存在的 instinct
+3. **调整置信度** — 导入的 instinct 置信度降低（×0.8）
+4. **合并** — 添加到本地 instinct 存储
+5. **报告** — 显示导入摘要
 
-```json
-{
-  "instincts": [
-    {
-      "trigger": "[situation description]",
-      "action": "[recommended action]",
-      "confidence": 0.7,
-      "category": "coding",
-      "source": "imported"
-    }
-  ],
-  "metadata": {
-    "version": "1.0",
-    "exported": "2025-01-15T10:00:00Z",
-    "author": "username"
-  }
-}
-```
+## 冲突解决
 
-## Import Process
-
-1. **Validate format** - Check JSON structure
-2. **Deduplicate** - Skip existing instincts
-3. **Adjust confidence** - Reduce confidence for imports (×0.8)
-4. **Merge** - Add to local instinct store
-5. **Report** - Show import summary
-
-## Import Report
-
-```
-Import Summary
-==============
-Source: [path or URL]
-Total in file: X
-Imported: Y
-Skipped (duplicates): Z
-Errors: W
-
-Imported Instincts:
-- [trigger] (confidence: 0.XX)
-- [trigger] (confidence: 0.XX)
-...
-```
-
-## Conflict Resolution
-
-When importing duplicates:
-- Keep higher confidence version
-- Merge application counts
-- Update timestamp
+- 保留置信度较高的版本
+- 合并应用次数
+- 更新时间戳
 
 ---
 
-**TIP**: Review imported instincts with `/instinct-status` after import.
+**提示**：导入后用 `/instinct-status` 检查导入结果。

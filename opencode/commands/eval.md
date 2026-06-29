@@ -1,88 +1,64 @@
 ---
-description: Run evaluation against acceptance criteria
+description: 对照验收标准进行评估
 agent: build
 ---
 
-# Eval Command
+# 评估命令
 
-Evaluate implementation against acceptance criteria: $ARGUMENTS
+对照验收标准评估实现：$ARGUMENTS
 
-## Your Task
+## 评估流程
 
-Run structured evaluation to verify the implementation meets requirements.
-
-## Evaluation Framework
-
-### Grader Types
-
-1. **Binary Grader** - Pass/Fail
-   - Does it work? Yes/No
-   - Good for: feature completion, bug fixes
-
-2. **Scalar Grader** - Score 0-100
-   - How well does it work?
-   - Good for: performance, quality metrics
-
-3. **Rubric Grader** - Category scores
-   - Multiple dimensions evaluated
-   - Good for: comprehensive review
-
-## Evaluation Process
-
-### Step 1: Define Criteria
+### 步骤 1：定义标准
 
 ```
-Acceptance Criteria:
-1. [Criterion 1] - [weight]
-2. [Criterion 2] - [weight]
-3. [Criterion 3] - [weight]
+验收标准：
+1. [标准 1] - [权重]
+2. [标准 2] - [权重]
+3. [标准 3] - [权重]
 ```
 
-### Step 2: Run Tests
+### 步骤 2：运行测试
 
-For each criterion:
-- Execute relevant test
-- Collect evidence
-- Score result
+每条标准：
+- 执行相关测试
+- 收集证据
+- 评分
 
-### Step 3: Calculate Score
+### 步骤 3：计算得分
 
 ```
-Final Score = Σ (criterion_score × weight) / total_weight
+最终得分 = Σ (标准得分 × 权重) / 总权重
 ```
 
-### Step 4: Report
+### 步骤 4：报告
 
-## Evaluation Report
+### 总体：[通过/失败]（得分：X/100）
 
-### Overall: [PASS/FAIL] (Score: X/100)
+### 标准明细
 
-### Criterion Breakdown
+| 标准 | 得分 | 权重 | 加权 |
+|------|------|------|------|
+| [标准 1] | X/10 | 30% | X |
+| [标准 2] | X/10 | 40% | X |
 
-| Criterion | Score | Weight | Weighted |
-|-----------|-------|--------|----------|
-| [Criterion 1] | X/10 | 30% | X |
-| [Criterion 2] | X/10 | 40% | X |
-| [Criterion 3] | X/10 | 30% | X |
+### 证据
 
-### Evidence
+**标准 1：[名称]**
+- 测试：[测试内容]
+- 结果：[输出]
+- 证据：[截图、日志、输出]
 
-**Criterion 1: [Name]**
-- Test: [what was tested]
-- Result: [outcome]
-- Evidence: [screenshot, log, output]
+### 建议
 
-### Recommendations
+[如未通过，需要如何改进]
 
-[If not passing, what needs to change]
+## 评分类型
 
-## Pass@K Metrics
-
-For non-deterministic evaluations:
-- Run K times
-- Calculate pass rate
-- Report: "Pass@K = X/K"
+1. **二元评分** — 通过/失败，适合功能完成度
+2. **标量评分** — 0-100 分，适合性能/质量指标
+3. **量表评分** — 多维度评分，适合全面审查
 
 ---
 
-**TIP**: Use eval for acceptance testing before marking features complete.
+**提示**：在标记功能完成前使用评估进行验收测试。

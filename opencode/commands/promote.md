@@ -1,16 +1,16 @@
 ---
-description: Promote project instincts to global scope
+description: 将项目 instinct 提升到全局作用域
 agent: build
 ---
 
-# Promote Command
+# 提升命令
 
-Promote instincts in continuous-learning-v2: $ARGUMENTS
+提升 continuous-learning-v2 中的 instinct：$ARGUMENTS
 
-## Your Task
+## 你的任务
 
-Run:
+运行：
 
 ```bash
-python3 "<path_to_skills>/continuous-learning-v2/scripts/instinct-cli.py" promote $ARGUMENTS
+python3 "<skills_path>/continuous-learning-v2/scripts/instinct-cli.py" promote $ARGUMENTS
 ```

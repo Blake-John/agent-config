@@ -1,104 +1,32 @@
 ---
-description: Rust TDD workflow with unit and property tests
-agent: tdd-guide
+description: 对 Rust 代码强制执行 TDD 工作流
+agent: test-specialist
 subtask: true
 ---
 
-# Rust Test Command
+# Rust 测试命令
 
-Implement using Rust TDD methodology: $ARGUMENTS
+对 Rust 代码强制执行测试驱动开发：$ARGUMENTS
 
-## Your Task
-
-Apply test-driven development with Rust idioms:
-
-1. **Define types** - Structs, enums, traits
-2. **Write tests** - Unit tests in `#[cfg(test)]` modules
-3. **Implement minimal code** - Pass the tests
-4. **Check coverage** - Target 80%+
-
-## TDD Cycle for Rust
-
-### Step 1: Define Interface
-```rust
-pub struct Input {
-    // fields
-}
-
-pub fn process(input: &Input) -> Result<Output, Error> {
-    todo!()
-}
-```
-
-### Step 2: Write Tests
-```rust
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn valid_input_succeeds() {
-        let input = Input { /* ... */ };
-        let result = process(&input);
-        assert!(result.is_ok());
-    }
-
-    #[test]
-    fn invalid_input_returns_error() {
-        let input = Input { /* ... */ };
-        let result = process(&input);
-        assert!(result.is_err());
-    }
-}
-```
-
-### Step 3: Run Tests (RED)
-```bash
-cargo test
-```
-
-### Step 4: Implement (GREEN)
-```rust
-pub fn process(input: &Input) -> Result<Output, Error> {
-    // Minimal implementation that handles both paths
-    validate(input)?;
-    Ok(Output { /* ... */ })
-}
-```
-
-### Step 5: Check Coverage
-```bash
-cargo llvm-cov
-cargo llvm-cov --fail-under-lines 80
-```
-
-## Rust Testing Commands
+## 测试命令
 
 ```bash
-cargo test                        # Run all tests
-cargo test -- --nocapture         # Show println output
-cargo test test_name              # Run specific test
-cargo test --no-fail-fast         # Don't stop on first failure
-cargo test --lib                  # Unit tests only
-cargo test --test integration     # Integration tests only
-cargo test --doc                  # Doc tests only
-cargo bench                       # Run benchmarks
+cargo test                    # 运行所有测试
+cargo test -- --nocapture     # 显示输出
+cargo test --lib              # 仅单元测试
+cargo test --test integration # 仅集成测试
+cargo test --doc              # 仅文档测试
+cargo llvm-cov                # 覆盖率
+cargo llvm-cov --fail-under-lines 80  # 覆盖率门禁
 ```
 
-## Test File Organization
+## 测试类型
 
-```
-src/
-├── lib.rs             # Library root
-├── service.rs         # Implementation
-└── service/
-    └── tests.rs       # Or inline #[cfg(test)] mod tests {}
-tests/
-└── integration.rs     # Integration tests
-benches/
-└── benchmark.rs       # Criterion benchmarks
-```
+- **单元测试**：`#[cfg(test)] mod tests`，在源文件内
+- **集成测试**：`tests/` 目录下
+- **文档测试**：代码文档中的 `///` 示例
+- **属性测试**：使用 `proptest` 框架
 
 ---
 
-**TIP**: Use `rstest` for parameterized tests and `proptest` for property-based testing.
+**强制要求**：先写测试再实现。禁止跳过 RED 阶段。

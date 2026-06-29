@@ -1,6 +1,6 @@
 ---
 name: websocket-engineer
-description: Use when building real-time communication systems with WebSockets or Socket.IO. Invoke for bidirectional messaging, horizontal scaling with Redis, presence tracking, room management.
+description: 当使用 WebSocket 或 Socket.IO 构建实时通信系统时使用。适用于双向消息通信、Redis 水平扩展、在线状态追踪、房间管理。
 license: MIT
 metadata:
   author: https://github.com/Jeffallan
@@ -13,32 +13,32 @@ metadata:
   related-skills: fastapi-expert, nestjs-expert, devops-engineer, monitoring-expert, security-reviewer
 ---
 
-# WebSocket Engineer
+# WebSocket 工程师
 
-## Core Workflow
+## 核心工作流程
 
-1. **Analyze requirements** — Identify connection scale, message volume, latency needs
-2. **Design architecture** — Plan clustering, pub/sub, state management, failover
-3. **Implement** — Build WebSocket server with authentication, rooms, events
-4. **Validate locally** — Test connection handling, auth, and room behavior before scaling (e.g., `npx wscat -c ws://localhost:3000`); confirm auth rejection on missing/invalid tokens, room join/leave events, and message delivery
-5. **Scale** — Verify Redis connection and pub/sub round-trip before enabling the adapter; configure sticky sessions and confirm with test connections across multiple instances; set up load balancing
-6. **Monitor** — Track connections, latency, throughput, error rates; add alerts for connection-count spikes and error-rate thresholds
+1. **分析需求** — 确定连接规模、消息量、延迟需求
+2. **设计架构** — 规划集群、pub/sub、状态管理、故障转移
+3. **实现** — 构建带认证、房间、事件的 WebSocket 服务器
+4. **本地验证** — 在扩展前测试连接处理、认证和房间行为（例如 `npx wscat -c ws://localhost:3000`）；确认缺少/无效 token 时的认证拒绝、房间加入/离开事件以及消息投递
+5. **扩展** — 在启用 adapter 前验证 Redis 连接和 pub/sub 往返；配置 sticky sessions 并通过跨多个实例的测试连接确认；设置负载均衡
+6. **监控** — 追踪连接数、延迟、吞吐量、错误率；为连接数峰值和错误率阈值添加告警
 
-## Reference Guide
+## 参考指南
 
-Load detailed guidance based on context:
+根据上下文加载详细指导：
 
-| Topic | Reference | Load When |
+| 主题 | 参考文件 | 何时加载 |
 |-------|-----------|-----------|
-| Protocol | `references/protocol.md` | WebSocket handshake, frames, ping/pong, close codes |
-| Scaling | `references/scaling.md` | Horizontal scaling, Redis pub/sub, sticky sessions |
-| Patterns | `references/patterns.md` | Rooms, namespaces, broadcasting, acknowledgments |
-| Security | `references/security.md` | Authentication, authorization, rate limiting, CORS |
-| Alternatives | `references/alternatives.md` | SSE, long polling, when to choose WebSockets |
+| 协议 | `references/protocol.md` | WebSocket 握手、帧、ping/pong、关闭码 |
+| 扩展 | `references/scaling.md` | 水平扩展、Redis pub/sub、sticky sessions |
+| 模式 | `references/patterns.md` | 房间、命名空间、广播、确认机制 |
+| 安全 | `references/security.md` | 认证、授权、速率限制、CORS |
+| 替代方案 | `references/alternatives.md` | SSE、长轮询、何时选择 WebSocket |
 
-## Code Examples
+## 代码示例
 
-### Server Setup (Socket.IO with Auth and Room Management)
+### 服务端设置（带认证和房间管理的 Socket.IO）
 
 ```js
 import { createServer } from "http";
@@ -54,7 +54,7 @@ const io = new Server(httpServer, {
   pingInterval: 25000,
 });
 
-// Authentication middleware — runs before connection is established
+// 认证中间件 — 在建立连接前执行
 io.use((socket, next) => {
   const token = socket.handshake.auth.token;
   if (!token) return next(new Error("Authentication required"));
@@ -66,7 +66,7 @@ io.use((socket, next) => {
   }
 });
 
-// Redis adapter for horizontal scaling
+// 用于水平扩展的 Redis adapter
 const pubClient = createClient({ url: process.env.REDIS_URL });
 const subClient = pubClient.duplicate();
 await Promise.all([pubClient.connect(), subClient.connect()]);
@@ -76,7 +76,7 @@ io.on("connection", (socket) => {
   const { userId } = socket.data.user;
   console.log(`connected: ${userId} (${socket.id})`);
 
-  // Presence: mark user online
+  // 在线状态：标记用户在线
   pubClient.hSet("presence", userId, socket.id);
 
   socket.on("join-room", (roomId) => {
@@ -97,7 +97,7 @@ io.on("connection", (socket) => {
 httpServer.listen(3000);
 ```
 
-### Client-Side Reconnection with Exponential Backoff
+### 客户端重连（指数退避）
 
 ```js
 import { io } from "socket.io-client";
@@ -106,24 +106,24 @@ const socket = io("wss://api.example.com", {
   auth: { token: getAuthToken() },
   reconnection: true,
   reconnectionAttempts: 10,
-  reconnectionDelay: 1000,       // initial delay (ms)
-  reconnectionDelayMax: 30000,   // cap at 30 s
-  randomizationFactor: 0.5,      // jitter to avoid thundering herd
+  reconnectionDelay: 1000,       // 初始延迟（毫秒）
+  reconnectionDelayMax: 30000,   // 上限 30 秒
+  randomizationFactor: 0.5,      // 抖动避免惊群效应
 });
 
-// Queue messages while disconnected
+// 断线时排队消息
 let messageQueue = [];
 
 socket.on("connect", () => {
   console.log("connected:", socket.id);
-  // Flush queued messages
+  // 发送队列中的消息
   messageQueue.forEach((msg) => socket.emit("message", msg));
   messageQueue = [];
 });
 
 socket.on("disconnect", (reason) => {
   console.warn("disconnected:", reason);
-  if (reason === "io server disconnect") socket.connect(); // manual reconnect
+  if (reason === "io server disconnect") socket.connect(); // 手动重连
 });
 
 socket.on("connect_error", (err) => {
@@ -135,34 +135,34 @@ function sendMessage(roomId, text) {
   if (socket.connected) {
     socket.emit("message", msg);
   } else {
-    messageQueue.push(msg); // buffer until reconnected
+    messageQueue.push(msg); // 缓存直到重连
   }
 }
 ```
 
-## Constraints
+## 约束条件
 
-### MUST DO
-- Use sticky sessions for load balancing (WebSocket connections are stateful — requests must route to the same server instance)
-- Implement heartbeat/ping-pong to detect dead connections (TCP keepalive alone is insufficient)
-- Use rooms/namespaces for message scoping rather than filtering in application logic
-- Queue messages during disconnection windows to avoid silent data loss
-- Plan connection limits per instance before scaling horizontally
+### 必须执行
+- 使用 sticky sessions 进行负载均衡（WebSocket 连接是有状态的 — 请求必须路由到同一服务器实例）
+- 实现心跳/ping-pong 以检测死连接（仅靠 TCP keepalive 不够）
+- 使用房间/命名空间进行消息范围控制，而非在应用逻辑中过滤
+- 在断线窗口期间对消息进行排队，避免静默丢数据
+- 在水平扩展前规划每个实例的连接限制
 
-### MUST NOT DO
-- Store large state in memory without a clustering strategy (use Redis or an external store)
-- Mix WebSocket and HTTP on the same port without explicit upgrade handling
-- Forget to handle connection cleanup (presence records, room membership, in-flight timers)
-- Skip load testing before production — connection-count spikes behave differently from HTTP traffic spikes
+### 禁止执行
+- 在没有集群策略的情况下在内存中存储大量状态（应使用 Redis 或外部存储）
+- 未做显式升级处理就在同一端口混用 WebSocket 和 HTTP
+- 忘记处理连接清理（在线状态记录、房间成员、进行中的定时器）
+- 在生产前跳过负载测试 — 连接数峰值的行为与 HTTP 流量峰值不同
 
-## Output Templates
+## 输出模板
 
-When implementing WebSocket features, provide:
-1. Server setup (Socket.IO/ws configuration)
-2. Event handlers (connection, message, disconnect)
-3. Client library (connection, events, reconnection)
-4. Brief explanation of scaling strategy
+实现 WebSocket 功能时，提供：
+1. 服务端设置（Socket.IO/ws 配置）
+2. 事件处理器（connection、message、disconnect）
+3. 客户端库（连接、事件、重连）
+4. 扩展策略的简要说明
 
-## Knowledge Reference
+## 知识参考
 
-Socket.IO, ws, uWebSockets.js, Redis adapter, sticky sessions, nginx WebSocket proxy, JWT over WebSocket, rooms/namespaces, acknowledgments, binary data, compression, heartbeat, backpressure, horizontal pod autoscaling
+Socket.IO、ws、uWebSockets.js、Redis adapter、sticky sessions、nginx WebSocket 代理、JWT over WebSocket、房间/命名空间、确认机制、二进制数据、压缩、心跳、背压、水平 Pod 自动扩展

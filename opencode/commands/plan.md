@@ -1,49 +1,49 @@
 ---
-description: Create implementation plan with risk assessment
+description: 创建带风险评估的实现计划
 agent: planner
 subtask: true
 ---
 
-# Plan Command
+# 计划命令
 
-Create a detailed implementation plan for: $ARGUMENTS
+为以下需求创建详细的实现计划：$ARGUMENTS
 
-## Your Task
+## 你的任务
 
-1. **Restate Requirements** - Clarify what needs to be built
-2. **Identify Risks** - Surface potential issues, blockers, and dependencies
-3. **Create Step Plan** - Break down implementation into phases
-4. **Wait for Confirmation** - MUST receive user approval before proceeding
+1. **重述需求** — 明确需要构建什么
+2. **识别风险** — 暴露潜在问题、阻塞项和依赖
+3. **创建分步计划** — 将实现拆分为多个阶段
+4. **等待确认** — 必须在收到用户批准后才能继续
 
-## Output Format
+## 输出格式
 
-### Requirements Restatement
-[Clear, concise restatement of what will be built]
+### 需求重述
+[清晰简明地重述将要构建的内容]
 
-### Implementation Phases
-[Phase 1: Description]
-- Step 1.1
-- Step 1.2
+### 实现阶段
+[阶段 1：描述]
+- 步骤 1.1
+- 步骤 1.2
 ...
 
-[Phase 2: Description]
-- Step 2.1
-- Step 2.2
+[阶段 2：描述]
+- 步骤 2.1
+- 步骤 2.2
 ...
 
-### Dependencies
-[List external dependencies, APIs, services needed]
+### 依赖
+[列出外部依赖、API、服务]
 
-### Risks
-- HIGH: [Critical risks that could block implementation]
-- MEDIUM: [Moderate risks to address]
-- LOW: [Minor concerns]
+### 风险
+- HIGH：[可能阻塞实现的关键风险]
+- MEDIUM：[需要处理的中等风险]
+- LOW：[次要关注点]
 
-### Estimated Complexity
-[HIGH/MEDIUM/LOW with time estimates]
+### 预估复杂度
+[HIGH/MEDIUM/LOW 带时间预估]
 
-**WAITING FOR CONFIRMATION**: Proceed with this plan? (yes/no/modify)
+**等待确认**：按此计划执行？（是/否/修改）
 
 ---
 
-**CRITICAL**: Do NOT write any code until the user explicitly confirms with "yes", "proceed", or similar affirmative response.
+**关键**：在用户明确确认前，不得编写任何代码。

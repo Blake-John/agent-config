@@ -1,89 +1,71 @@
 ---
-description: Fix Rust build errors and borrow checker issues
+description: 修复 Rust 构建错误和借用检查器问题
 agent: build
 subtask: true
 ---
 
-# Rust Build Command
+# Rust 构建命令
 
-Fix Rust build, clippy, and dependency errors: $ARGUMENTS
+修复 Rust 构建、clippy 和依赖错误：$ARGUMENTS
 
-## Your Task
+## 你的任务
 
-1. **Run cargo check**: `cargo check 2>&1`
-2. **Run cargo clippy**: `cargo clippy -- -D warnings 2>&1`
-3. **Fix errors** one at a time
-4. **Verify fixes** don't introduce new errors
+1. **运行 cargo check**：`cargo check 2>&1`
+2. **运行 cargo clippy**：`cargo clippy -- -D warnings 2>&1`
+3. **逐个修复错误**
+4. **验证修复不引入新错误**
 
-## Common Rust Errors
+## 常见 Rust 错误
 
-### Borrow Checker
+### 借用检查器
 
 ```
 cannot borrow `x` as mutable because it is also borrowed as immutable
 ```
 
-**Fix**: Restructure to end immutable borrow first; clone only if justified
+**修复**：先结束不可变借用再获取可变借用；仅在有充分理由时 clone
 
-### Type Mismatch
+### 类型不匹配
 
 ```
 mismatched types: expected `T`, found `U`
 ```
 
-**Fix**: Add `.into()`, `as`, or explicit type conversion
+**修复**：添加 `.into()`、`as` 或显式类型转换
 
-### Missing Import
+### 缺少导入
 
 ```
 unresolved import `crate::module`
 ```
 
-**Fix**: Fix the `use` path or declare the module (add Cargo.toml deps only for external crates)
+**修复**：修正 `use` 路径或声明模块
 
-### Lifetime Errors
+### 生命周期错误
 
 ```
 does not live long enough
 ```
 
-**Fix**: Use owned type or add lifetime annotation
+**修复**：使用拥有所有权的类型或添加生命周期标注
 
-### Trait Not Implemented
+## 修复顺序
 
-```
-the trait `X` is not implemented for `Y`
-```
+1. **构建错误** — 代码必须能编绎
+2. **Clippy 警告** — 修复可疑结构
+3. **格式化** — `cargo fmt` 合规
 
-**Fix**: Add `#[derive(Trait)]` or implement manually
+## 验证
 
-## Fix Order
-
-1. **Build errors** - Code must compile
-2. **Clippy warnings** - Fix suspicious constructs
-3. **Formatting** - `cargo fmt` compliance
-
-## Build Commands
+修复后：
 
 ```bash
-cargo check 2>&1
-cargo clippy -- -D warnings 2>&1
-cargo fmt --check 2>&1
-cargo tree --duplicates
-cargo test
-```
-
-## Verification
-
-After fixes:
-
-```bash
-cargo check                  # Should succeed
-cargo clippy -- -D warnings  # No warnings allowed
-cargo fmt --check            # Formatting should pass
-cargo test                   # Tests should pass
+cargo check                  # 应成功
+cargo clippy -- -D warnings  # 不允许警告
+cargo fmt --check            # 格式化应通过
+cargo test                   # 测试应通过
 ```
 
 ---
 
-**IMPORTANT**: Fix errors only. No refactoring, no improvements. Get the build green with minimal changes.
+**重要**：只修复错误，不重构，不改进。用最小变更让构建通过。

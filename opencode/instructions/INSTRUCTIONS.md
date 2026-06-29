@@ -1,156 +1,74 @@
-# OpenCode Instructions
+# OpenCode 开发指令
 
-This document consolidates the core rules and guidelines from the Claude Code configuration for use with OpenCode.
-
-## Security Guidelines (CRITICAL)
-
-### Mandatory Security Checks
-
-Before ANY commit:
-
-- [ ] No hardcoded secrets (API keys, passwords, tokens)
-- [ ] All user inputs validated
-- [ ] SQL injection prevention (parameterized queries)
-- [ ] XSS prevention (sanitized HTML)
-- [ ] CSRF protection enabled
-- [ ] Authentication/authorization verified
-- [ ] Rate limiting on all endpoints
-- [ ] Error messages don't leak sensitive data
-
-### Secret Management
-
-```typescript
-// NEVER: Hardcoded secrets
-const apiKey = "sk-proj-xxxxx"
-
-// ALWAYS: Environment variables
-const apiKey = process.env.OPENAI_API_KEY
-
-if (!apiKey) {
-  throw new Error('OPENAI_API_KEY not configured')
-}
-```
-
-### Security Response Protocol
-
-If security issue found:
-
-1. STOP immediately
-2. Use **security-reviewer** agent
-3. Fix CRITICAL issues before continuing
-4. Rotate any exposed secrets
-5. Review entire codebase for similar issues
+本文件整合了 OpenCode 开发过程中的核心规则和指南。
 
 ---
 
-## Coding Style
+## 安全指南（关键）
 
-### Immutability (CRITICAL)
+### 强制要求
 
-ALWAYS create new objects, NEVER mutate:
+所有代码必须满足以下安全要求，具体实现细节参见 **security-reviewer** agent：
 
-```javascript
-// WRONG: Mutation
-function updateUser(user, name) {
-  user.name = name  // MUTATION!
-  return user
-}
+- **密钥管理**：所有密钥使用环境变量，禁止硬编码
+- **输入校验**：所有用户输入必须校验（SQL 注入、XSS、命令注入防护）
+- **认证授权**：敏感端点必须验证身份和权限
+- **错误处理**：错误信息不泄露敏感数据
+- **安全配置**：CSRF 防护、限流、安全头
 
-// CORRECT: Immutability
-function updateUser(user, name) {
-  return {
-    ...user,
-    name
-  }
-}
-```
+### 安全事件响应
 
-### File Organization
+发现安全问题时：
 
-MANY SMALL FILES > FEW LARGE FILES:
-
-- High cohesion, low coupling
-- 200-400 lines typical, 800 max
-- Extract utilities from large components
-- Organize by feature/domain, not by type
-
-### Error Handling
-
-ALWAYS handle errors comprehensively:
-
-```typescript
-try {
-  const result = await riskyOperation()
-  return result
-} catch (error) {
-  console.error('Operation failed:', error)
-  throw new Error('Detailed user-friendly message')
-}
-```
-
-### Input Validation
-
-ALWAYS validate user input:
-
-```typescript
-import { z } from 'zod'
-
-const schema = z.object({
-  email: z.string().email(),
-  age: z.number().int().min(0).max(150)
-})
-
-const validated = schema.parse(input)
-```
-
-### Code Quality Checklist
-
-Before marking work complete:
-
-- [ ] Code is readable and well-named
-- [ ] Functions are small (<50 lines)
-- [ ] Files are focused (<800 lines)
-- [ ] No deep nesting (>4 levels)
-- [ ] Proper error handling
-- [ ] No console.log statements
-- [ ] No hardcoded values
-- [ ] No mutation (immutable patterns used)
+1. 立即停止
+2. 使用 **security-reviewer** agent
+3. 优先修复 CRITICAL 级别问题
+4. 轮换所有已暴露的密钥
+5. 审查整个代码库类似问题
 
 ---
 
-## Testing Requirements
+## 编码规范
 
-### Minimum Test Coverage: 80%
+详见 [CODING-STYLE.md](./CODING-STYLE.md)。核心原则：
 
-Test Types (ALL required):
-
-1. **Unit Tests** - Individual functions, utilities, components
-2. **Integration Tests** - API endpoints, database operations
-3. **E2E Tests** - Critical user flows (Playwright)
-
-### Test-Driven Development
-
-MANDATORY workflow:
-
-1. Write test first (RED)
-2. Run test - it should FAIL
-3. Write minimal implementation (GREEN)
-4. Run test - it should PASS
-5. Refactor (IMPROVE)
-6. Verify coverage (80%+)
-
-### Troubleshooting Test Failures
-
-1. Use **tdd-guide** agent
-2. Check test isolation
-3. Verify mocks are correct
-4. Fix implementation, not tests (unless tests are wrong)
+- **不可变性**：始终创建新对象，永不修改现有对象
+- **KISS**：最简单的方案往往是最好的
+- **DRY**：提取重复逻辑，但不要过早抽象
+- **YAGNI**：不构建当前不需要的功能
 
 ---
 
-## Git Workflow
+## 测试要求
 
-### Commit Message Format
+### 最低覆盖率：80%
+
+必须覆盖三种测试类型：
+
+1. **单元测试** — 函数、工具、组件级别
+2. **集成测试** — API 端点、数据库操作
+3. **E2E 测试** — 关键用户流程
+
+### TDD 工作流
+
+```
+1. 编写测试（RED）→ 预期失败
+2. 最小实现（GREEN）→ 通过测试
+3. 重构（IMPROVE）→ 优化代码
+4. 验证覆盖率 ≥ 80%
+```
+
+### 测试失败排查
+
+1. 检查测试是否隔离
+2. 验证 mock 是否正确
+3. 优先修复实现，而不是修改测试（除非测试本身错误）
+
+---
+
+## Git 工作流
+
+### 提交信息格式
 
 ```
 <type>: <description>
@@ -158,114 +76,58 @@ MANDATORY workflow:
 <optional body>
 ```
 
-Types: feat, fix, refactor, docs, test, chore, perf, ci
+类型：feat, fix, refactor, docs, test, chore, perf, ci
 
-### Pull Request Workflow
+### 功能实现流程
 
-When creating PRs:
-
-1. Analyze full commit history (not just latest commit)
-2. Use `git diff [base-branch]...HEAD` to see all changes
-3. Draft comprehensive PR summary
-4. Include test plan with TODOs
-5. Push with `-u` flag if new branch
-
-### Feature Implementation Workflow
-
-1. **Plan First**
-   - Use **planner** agent to create implementation plan
-   - Identify dependencies and risks
-   - Break down into phases
-
-2. **TDD Approach**
-   - Use **tdd-guide** agent
-   - Write tests first (RED)
-   - Implement to pass tests (GREEN)
-   - Refactor (IMPROVE)
-   - Verify 80%+ coverage
-
-3. **Code Review**
-   - Use **code-reviewer** agent immediately after writing code
-   - Address CRITICAL and HIGH issues
-   - Fix MEDIUM issues when possible
-
-4. **Commit & Push**
-   - Detailed commit messages
-   - Follow conventional commits format
-
-For more details looks the [FEATIMPL](./FEATIMPL.md).
+1. **研究优先** — 搜索已有实现和库文档，避免重复造轮子
+2. **规划优先** — 使用 **planner** agent 创建实现计划
+3. **TDD 实现** — 使用 **test-specialist** agent 编写测试→实现→重构
+4. **代码审查** — 使用 **code-reviewer** agent 审查代码
+5. **文档更新** — 使用 **doc-writer** agent 更新文档
+6. **提交推送** — 详细提交信息，遵循 conventional commits
 
 ---
 
-## Agent Orchestration
+## Agent 编排
 
-### Available Agents
+### 可用 Agent
 
-| Agent | Purpose | When to Use |
-|-------|---------|-------------|
-| planner | Implementation planning | Complex features, refactoring |
-| architect | System design | Architectural decisions |
-| tdd-guide | Test-driven development | New features, bug fixes |
-| code-reviewer | Code review | After writing code |
-| security-reviewer | Security analysis | Before commits |
-| refactor-cleaner | Dead code cleanup | Code maintenance |
-| doc-updater | Documentation | Updating docs |
+| Agent | 职责 | 使用时机 |
+|-------|------|----------|
+| orchestrator | 编排调度中心，统一调度所有 subagent | 默认入口，复杂任务的主控 |
+| executor | 任务执行，测试运行，代码重构，进程监控 | 具体执行任务、运行测试、重构代码 |
+| explorer | 基于 codegraph 探索项目结构和代码 | 理解不熟悉的代码库 |
+| websearcher | 网络搜索和信息整理 | 需要查找外部资料、文档 |
+| planner | 制定实现计划 | 复杂功能、重构的前置规划 |
+| arch-designer | 系统架构设计 | 架构决策、技术选型 |
+| code-reviewer | 代码审查 | 编写代码后立即审查 |
+| test-specialist | 测试驱动开发 | 新功能、bug 修复 |
+| security-reviewer | 安全分析 | 提交前安全检查 |
+| refactor-cleaner | 死代码清理、代码整合 | 代码维护、重构后清理 |
+| doc-writer | 文档编写和更新 | 更新文档、生成技术文档 |
 
-### Immediate Agent Usage
+### 自动调度规则
 
-No user prompt needed:
+以下场景无需用户提示：
 
-1. Complex feature requests - Use **planner** agent
-2. Code just written/modified - Use **code-reviewer** agent
-3. Bug fix or new feature - Use **tdd-guide** agent
-4. Architectural decision - Use **architect** agent
+1. 复杂功能请求 → 使用 **planner** agent
+2. 代码刚编写/修改 → 使用 **code-reviewer** agent
+3. Bug 修复或新功能 → 使用 **test-specialist** agent
+4. 架构决策 → 使用 **arch-designer** agent
 
----
+### 调度策略
 
-## Performance Optimization
-
-### Model Selection Strategy
-
-**Haiku** (90% of Sonnet capability, 3x cost savings):
-
-- Lightweight agents with frequent invocation
-- Pair programming and code generation
-- Worker agents in multi-agent systems
-
-**Sonnet** (Best coding model):
-
-- Main development work
-- Orchestrating multi-agent workflows
-- Complex coding tasks
-
-**Opus** (Deepest reasoning):
-
-- Complex architectural decisions
-- Maximum reasoning requirements
-- Research and analysis tasks
-
-### Context Window Management
-
-Avoid last 20% of context window for:
-
-- Large-scale refactoring
-- Feature implementation spanning multiple files
-- Debugging complex interactions
-
-### Build Troubleshooting
-
-If build fails:
-
-1. Use **build-error-resolver** agent
-2. Analyze error messages
-3. Fix incrementally
-4. Verify after each fix
+- 用户指定则按用户要求执行
+- 未指定时由 orchestrator 综合判断任务复杂度后调度
+- 同一时间只有一个任务处于进行中状态
+- executor 是唯一具备循环执行能力的 agent
 
 ---
 
-## Common Patterns
+## 通用模式
 
-### API Response Format
+### API 响应格式
 
 ```typescript
 interface ApiResponse<T> {
@@ -280,22 +142,7 @@ interface ApiResponse<T> {
 }
 ```
 
-### Custom Hooks Pattern
-
-```typescript
-export function useDebounce<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value)
-
-  useEffect(() => {
-    const handler = setTimeout(() => setDebouncedValue(value), delay)
-    return () => clearTimeout(handler)
-  }, [value, delay])
-
-  return debouncedValue
-}
-```
-
-### Repository Pattern
+### Repository 模式
 
 ```typescript
 interface Repository<T> {
@@ -309,41 +156,19 @@ interface Repository<T> {
 
 ---
 
-## OpenCode-Specific Notes
+## 成功标准
 
-Since OpenCode does not support hooks, the following actions that were automated in Claude Code must be done manually:
+- 所有测试通过（覆盖率 ≥ 80%）
+- 无安全漏洞
+- 代码可读且可维护
+- 性能在可接受范围内
+- 满足用户需求
 
-### After Writing/Editing Code
+## 可用命令
 
-- Run `prettier --write <file>` to format JS/TS files
-- Run `npx tsc --noEmit` to check for TypeScript errors
-- Check for console.log statements and remove them
-
-### Before Committing
-
-- Run security checks manually
-- Verify no secrets in code
-- Run full test suite
-
-### Commands Available
-
-Use these commands in OpenCode:
-
-- `/plan` - Create implementation plan
-- `/tdd` - Enforce TDD workflow
-- `/code-review` - Review code changes
-- `/security` - Run security review
-- `/refactor-clean` - Remove dead code
-- `/orchestrate` - Multi-agent workflow
-
----
-
-## Success Metrics
-
-You are successful when:
-
-- All tests pass (80%+ coverage)
-- No security vulnerabilities
-- Code is readable and maintainable
-- Performance is acceptable
-- User requirements are met
+- `/plan` — 创建实现计划
+- `/test` — 执行 TDD 工作流
+- `/code-review` — 审查代码变更
+- `/security` — 运行安全检查
+- `/refactor-clean` — 移除死代码
+- `/orchestrate` — 多 agent 协作工作流

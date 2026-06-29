@@ -1,67 +1,52 @@
 ---
-description: Update documentation for recent changes
-agent: doc-updater
+description: 基于 git diff 更新文档以反映最近的变更
+agent: doc-writer
 subtask: true
 ---
 
-# Update Docs Command
+# 更新文档命令
 
-Update documentation to reflect recent changes: $ARGUMENTS
+更新文档以反映最近的代码变更：$ARGUMENTS
 
-## Your Task
+## 你的任务
 
-1. **Identify changed code** - `git diff --name-only`
-2. **Find related docs** - README, API docs, guides
-3. **Update documentation** - Keep in sync with code
-4. **Verify accuracy** - Docs match implementation
+1. **获取 git diff** — 查看已变更的文件
+2. **找出受影响的文档** — 确定需要更新的文档
+3. **保持一致性** — 将文档与当前实现同步
+4. **标记用户干预** — 如需要人工输入，使用 \`[TODO]\` 标记
 
-## Documentation Types
+## 需要更新的内容
 
-### README.md
-- Installation instructions
-- Quick start guide
-- Feature overview
-- Configuration options
+### 1. README.md
+- API 示例
+- 配置选项
+- 环境变量
+- 安装步骤
 
-### API Documentation
-- Endpoint descriptions
-- Request/response formats
-- Authentication details
-- Error codes
+### 2. API 文档
+- 端点 URL
+- 请求/响应格式
+- 认证方式
+- 错误码
 
-### Code Comments
-- JSDoc for public APIs
-- Complex logic explanations
-- TODO/FIXME cleanup
+### 3. 代码注释
+- JSDoc 块
+- 函数签名
+- 类型定义
+- 使用示例
 
-### Guides
-- How-to tutorials
-- Architecture decisions (ADRs)
-- Troubleshooting guides
+### 4. 用户指南
+- 工作流程
+- 配置说明
+- 故障排除
+- 常见用例
 
-## Update Checklist
+## 良好文档 vs 需要避免的
 
-- [ ] README reflects current features
-- [ ] API docs match endpoints
-- [ ] JSDoc updated for changed functions
-- [ ] Examples are working
-- [ ] Links are valid
-- [ ] Version numbers updated
-
-## Documentation Quality
-
-### Good Documentation
-- Accurate and up-to-date
-- Clear and concise
-- Has working examples
-- Covers edge cases
-
-### Avoid
-- Outdated information
-- Missing parameters
-- Broken examples
-- Ambiguous language
-
----
-
-**IMPORTANT**: Documentation should be updated alongside code changes, not as an afterthought.
+| 良好文档 | 需要避免 |
+|----------|----------|
+| 描述 WHY 而非 WHAT | "显而易见"的注释 |
+| 保持同步 | 更新代码后不更新的注释 |
+| 可工作的示例 | 过时的示例 |
+| 一致的格式 | 混合的风格 |
+| 面向读者 | 面向编绎器 |

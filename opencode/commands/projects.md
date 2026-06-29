@@ -1,16 +1,16 @@
 ---
-description: List registered projects and instinct counts
+description: 列出注册的项目和 instinct 数量
 agent: build
 ---
 
-# Projects Command
+# 项目命令
 
-Show continuous-learning-v2 project registry and stats: $ARGUMENTS
+显示 continuous-learning-v2 项目注册表和统计信息：$ARGUMENTS
 
-## Your Task
+## 你的任务
 
-Run:
+运行：
 
 ```bash
-python3 "<path_to_skills>/continuous-learning-v2/scripts/instinct-cli.py" projects
+python3 "<skills_path>/continuous-learning-v2/scripts/instinct-cli.py" projects
 ```

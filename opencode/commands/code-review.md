@@ -1,71 +1,65 @@
 ---
-description: Review code for quality, security, and maintainability
+description: 审查代码质量、安全性和可维护性
 agent: code-reviewer
 subtask: true
 ---
 
-# Code Review Command
+# 代码审查命令
 
-Review code changes for quality, security, and maintainability: $ARGUMENTS
+审查代码变更的质量、安全性和可维护性：$ARGUMENTS
 
-## Your Task
+## 检查类别
 
-1. **Analyze each file** for issues
-2. **Generate structured report**
-3. **Provide actionable recommendations**
+### 安全问题（CRITICAL）
 
-## Check Categories
+- [ ] 硬编码凭据、API 密钥、令牌
+- [ ] SQL 注入漏洞
+- [ ] XSS 漏洞
+- [ ] 缺少输入校验
+- [ ] 不安全的依赖
+- [ ] 路径遍历风险
+- [ ] 认证/授权缺陷
 
-### Security Issues (CRITICAL)
+### 代码质量（HIGH）
 
-- [ ] Hardcoded credentials, API keys, tokens
-- [ ] SQL injection vulnerabilities
-- [ ] XSS vulnerabilities
-- [ ] Missing input validation
-- [ ] Insecure dependencies
-- [ ] Path traversal risks
-- [ ] Authentication/authorization flaws
+- [ ] 函数超过 50 行
+- [ ] 文件超过 800 行
+- [ ] 嵌套深度超过 4 层
+- [ ] 缺少错误处理
+- [ ] console.log 语句
+- [ ] TODO/FIXME 注释
+- [ ] 公共 API 缺少 JSDoc
 
-### Code Quality (HIGH)
+### 最佳实践（MEDIUM）
 
-- [ ] Functions > 50 lines
-- [ ] Files > 800 lines
-- [ ] Nesting depth > 4 levels
-- [ ] Missing error handling
-- [ ] console.log statements
-- [ ] TODO/FIXME comments
-- [ ] Missing JSDoc for public APIs
+- [ ] 修改模式（应使用不可变模式）
+- [ ] 不必要的复杂性
+- [ ] 新代码缺少测试
+- [ ] 可访问性问题
+- [ ] 性能问题
 
-### Best Practices (MEDIUM)
+### 风格（LOW）
 
-- [ ] Mutation patterns (use immutable instead)
-- [ ] Unnecessary complexity
-- [ ] Missing tests for new code
-- [ ] Accessibility issues (a11y)
-- [ ] Performance concerns
+- [ ] 命名不一致
+- [ ] 缺少类型标注
+- [ ] 格式问题
 
-### Style (LOW)
+## 报告格式
 
-- [ ] Inconsistent naming
-- [ ] Missing type annotations
-- [ ] Formatting issues
-
-## Report Format
-
-For each issue found:
+每条问题：
 
 ```
-**[SEVERITY]** file.ts:123
-Issue: [Description]
-Fix: [How to fix]
+**[严重级别]** file.ts:123
+问题：[描述]
+修复：[如何修复]
 ```
 
-## Decision
+## 决策规则
 
-- **CRITICAL or HIGH issues**: Block commit, require fixes
-- **MEDIUM issues**: Recommend fixes before merge
-- **LOW issues**: Optional improvements
+- **CRITICAL 或 HIGH 问题**：阻止提交，必须修复
+- **MEDIUM 问题**：建议合入前修复
+- **LOW 问题**：可选改进
 
 ---
 
-**IMPORTANT**: Never approve code with security vulnerabilities!
+**重要**：绝不批准有安全漏洞的代码！

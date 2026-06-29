@@ -1,24 +1,24 @@
-# Loop Status Command
+# 循环状态命令
 
-Inspect active loop state, progress, and failure signals.
+检查活跃循环的状态、进度和失败信号。
 
-## Usage
+## 用法
 
 `/loop-status [--watch]`
 
-## What to Report
+## 报告内容
 
-- active loop pattern
-- current phase and last successful checkpoint
-- failing checks (if any)
-- estimated time/cost drift
-- recommended intervention (continue/pause/stop)
+- 活跃循环模式
+- 当前阶段和最后成功检查点
+- 失败的检查（如有）
+- 预计时间/成本偏差
+- 建议干预（继续/暂停/停止）
 
-## Watch Mode
+## 观察模式
 
-When `--watch` is present, refresh status periodically and surface state changes.
+使用 `--watch` 时，定期刷新状态并显示状态变更。
 
-## Arguments
+## 参数
 
-$ARGUMENTS:
-- `--watch` optional
+$ARGUMENTS：
+- `--watch` 可选

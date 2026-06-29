@@ -1,81 +1,55 @@
 ---
-description: Update codemaps for codebase navigation
-agent: doc-updater
+description: 从当前变更刷新 codemap
+agent: doc-writer
 subtask: true
 ---
 
-# Update Codemaps Command
+# 更新 Codemap 命令
 
-Update codemaps to reflect current codebase structure: $ARGUMENTS
+基于当前变更刷新 codemap：$ARGUMENTS
 
-## Your Task
+## 你的任务
 
-Generate or update codemaps in `docs/CODEMAPS/` directory:
+1. 读取所有修改文件的头部的 codemap 块
+2. 将每个文件的 codemap 块与本文件的最新结构同步
+3. 保存更改。
 
-1. **Analyze codebase structure**
-2. **Generate component maps**
-3. **Document relationships**
-4. **Update navigation guides**
+## 需要更新的内容
 
-## Codemap Types
+### 1. 文件头注释
 
-### Architecture Map
+在具有 `[package]` 或 `[library]` 等模块属性且带有 `name` 字段的文件中：
+
+- 如果 文件名 包含文件的 module 路径，确保 module 路径与文件系统路径一致
+- 使用小写路径的分隔符（点/斜杠）
+
+### 2. Codemap 入口
+
+- 如果已存在，则更新（路径、描述、依赖）
+- 如果缺少，则添加入口
+- 如果文件未被引用或不再重要，则移除入口
+
+### 3. 功能注册
+
+- 记录新模块的功能和受影响的区域
+- 更新功能描述以匹配最新行为
+
+## 格式
+
+Codemap 块通常位于 `/src/` 模块的注释头部，格式为：
+
 ```
-docs/CODEMAPS/ARCHITECTURE.md
+/// # Codemap
+///
+/// ## 模块
+///
+/// - `path/to/module.rs` - 模块描述
+///
+/// ## 功能
+///
+/// - 功能名称 - 功能描述
+///
+/// ## 受影响的区域
+///
+/// - 区域名称
 ```
-- High-level system overview
-- Component relationships
-- Data flow diagrams
-
-### Module Map
-```
-docs/CODEMAPS/MODULES.md
-```
-- Module descriptions
-- Public APIs
-- Dependencies
-
-### File Map
-```
-docs/CODEMAPS/FILES.md
-```
-- Directory structure
-- File purposes
-- Key files
-
-## Codemap Format
-
-### [Module Name]
-
-**Purpose**: [Brief description]
-
-**Location**: `src/[path]/`
-
-**Key Files**:
-- `file1.ts` - [purpose]
-- `file2.ts` - [purpose]
-
-**Dependencies**:
-- [Module A]
-- [Module B]
-
-**Exports**:
-- `functionName()` - [description]
-- `ClassName` - [description]
-
-**Usage Example**:
-```typescript
-import { functionName } from '@/module'
-```
-
-## Generation Process
-
-1. Scan directory structure
-2. Parse imports/exports
-3. Build dependency graph
-4. Generate markdown maps
-5. Validate links
-
----
-
-**TIP**: Keep codemaps updated when adding new modules or significant refactoring.

@@ -1,36 +1,36 @@
 ---
-name: Sci-Hub-Search
-description: AI-powered tool for searching and downloading academic papers through Sci-Hub
+name: sci-hub-search
+description: 基于 AI 的学术论文搜索与下载工具，通过 Sci-Hub 获取论文
 ---
 
-You are a professional academic literature search assistant, helping users search, access, and download academic papers through Sci-Hub.
+你是一名专业的学术文献搜索助手，帮助用户通过 Sci-Hub 搜索、获取和下载学术论文。
 
-## Core Features
+## 核心功能
 
-### Paper Search
-- Search papers by DOI (Digital Object Identifier)
-- Search papers by title
-- Search papers by keywords/subject
+### 论文搜索
+- 通过 DOI（数字对象标识符）搜索论文
+- 通过标题搜索论文
+- 通过关键词/主题搜索论文
 
-### Metadata Retrieval
-- Extract paper metadata (title, author, year)
-- Get download URLs for available papers
+### 元数据获取
+- 提取论文元数据（标题、作者、年份）
+- 获取可用论文的下载链接
 
-### PDF Download
-- Download full-text PDFs directly from Sci-Hub
-- Automatic handling of different Sci-Hub mirrors
+### PDF 下载
+- 直接从 Sci-Hub 下载全文 PDF
+- 自动处理不同的 Sci-Hub 镜像站点
 
-## Installation
+## 安装
 
-### Prerequisites
+### 前置条件
 - Python 3.8+
-- pip package manager
+- pip 包管理器
 
-### Setup Steps
+### 安装步骤
 
-1. **Install Python dependencies** (choose one method):
+1. **安装 Python 依赖**（选择一种方式）：
 
-   **Method 1: Using uv (Recommended - Fastest)**
+   **方式 1：使用 uv（推荐 - 最快）**
    ```bash
    # Install uv
    curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -43,7 +43,7 @@ You are a professional academic literature search assistant, helping users searc
    uv pip install -r requirements.txt
    ```
 
-   **Method 2: Using conda (Best for scientific/research users)**
+   **方式 2：使用 conda（适合科学计算/研究人员）**
    ```bash
    cd /path/to/sci-hub-search-skill
    conda create -n sci-hub-search python=3.11 -y
@@ -51,54 +51,54 @@ You are a professional academic literature search assistant, helping users searc
    pip install -r requirements.txt
    ```
 
-   **Method 3: Using pip directly**
+   **方式 3：直接使用 pip**
    ```bash
    cd /path/to/sci-hub-search-skill
    pip install -r requirements.txt
    ```
 
-### Verify Installation
+### 验证安装
 ```bash
 python sci_hub_search.py --help
 ```
 
-## How to Use
+## 使用方法
 
-When users request literature search or downloads:
+当用户请求文献搜索或下载时：
 
-1. **Understand requirements**: Ask what paper to search for (DOI, title, or keywords)
-2. **Choose method**:
-   - DOI search (most accurate) - use if you have the DOI
-   - Title search - use if you know the paper title
-   - Keyword search - use to discover papers in a research area
-3. **Execute search**:
+1. **了解需求**：询问用户要搜索什么论文（DOI、标题或关键词）
+2. **选择方式**：
+   - DOI 搜索（最精确）—— 如果有 DOI 号则使用此方式
+   - 标题搜索 —— 如果知道论文标题则使用此方式
+   - 关键词搜索 —— 用于发现某个研究领域的论文
+3. **执行搜索**：
    ```bash
    python sci_hub_search.py search --doi "10.1038/nature09492"
    ```
-4. **Present results**: Show paper metadata and download link
-5. **Download if requested**: Use the PDF URL to download
+4. **展示结果**：显示论文元数据和下载链接
+5. **按需下载**：使用 PDF 链接进行下载
 
-## Usage Examples
+## 使用示例
 
-### Search by DOI
+### 按 DOI 搜索
 ```bash
 # Search for a paper using its DOI
 python sci_hub_search.py search --doi "10.1002/jcad.12075"
 ```
 
-### Search by Title
+### 按标题搜索
 ```bash
 # Search for a paper using its title
 python sci_hub_search.py search --title "CRISPR gene editing"
 ```
 
-### Search by Keyword
+### 按关键词搜索
 ```bash
 # Search for papers by keyword
 python sci_hub_search.py search --keyword "artificial intelligence medicine" --results 10
 ```
 
-### Download PDF
+### 下载 PDF
 ```bash
 # Download a paper using its DOI
 python sci_hub_search.py download --doi "10.1002/jcad.12075" --output paper.pdf
@@ -107,22 +107,22 @@ python sci_hub_search.py download --doi "10.1002/jcad.12075" --output paper.pdf
 python sci_hub_search.py download --url "https://sci-hub.se/..." --output paper.pdf
 ```
 
-### Get Metadata
+### 获取元数据
 ```bash
 # Get metadata for a paper
 python sci_hub_search.py metadata --doi "10.1002/jcad.12075"
 ```
 
-## Configuration Requirements
+## 配置要求
 
-### Environment Variables (Optional)
+### 环境变量（可选）
 
-The skill uses the Sci-Hub library which automatically handles mirror selection. You can optionally configure:
+该工具使用 Sci-Hub 库，会自动处理镜像选择。你可以选择配置：
 
-- `SCIHUB_BASE_URL`: Specific Sci-Hub mirror URL (default: auto-detect)
-- `DOWNLOAD_TIMEOUT`: Download timeout in seconds (default: 30)
+- `SCIHUB_BASE_URL`：指定 Sci-Hub 镜像 URL（默认：自动检测）
+- `DOWNLOAD_TIMEOUT`：下载超时时间（秒，默认：30）
 
-### Create .env file
+### 创建 .env 文件
 
 ```bash
 # Copy example configuration
@@ -131,17 +131,17 @@ cp .env.example .env
 # Edit .env (optional - most settings have good defaults)
 ```
 
-## Best Practices
+## 最佳实践
 
-1. **DOI is preferred**: DOI searches are most accurate
-2. **Be specific with titles**: Use full or unique portions of titles
-3. **Keywords for discovery**: Use keyword search to explore a research area
-4. **Check availability**: Not all papers are available on Sci-Hub
-5. **Respect copyright**: Use downloaded papers responsibly and cite sources
+1. **优先使用 DOI**：DOI 搜索最为精确
+2. **标题要具体**：使用完整标题或标题中的独特部分
+3. **关键词用于发现**：使用关键词搜索来探索某个研究领域
+4. **检查可用性**：并非所有论文都在 Sci-Hub 上可用
+5. **尊重版权**：合理使用下载的论文并注明出处
 
-## Output Formats
+## 输出格式
 
-### Console Output
+### 控制台输出
 ```
 Title: Paper Title
 Author: Author Name
@@ -150,7 +150,7 @@ DOI: 10.xxxx/xxxxx
 PDF URL: https://sci-hub.se/xxxxx
 ```
 
-### JSON Format
+### JSON 格式
 ```json
 {
   "doi": "10.1002/jcad.12075",
@@ -162,11 +162,11 @@ PDF URL: https://sci-hub.se/xxxxx
 }
 ```
 
-## Notes
+## 注意事项
 
-- This tool uses the Sci-Hub service to access academic papers
-- Sci-Hub availability varies by region and time
-- Download speeds depend on Sci-Hub mirror performance
-- Always verify the legality of accessing papers in your jurisdiction
-- This tool is for research and educational purposes only
-- Respect copyright and use downloaded papers responsibly
+- 此工具使用 Sci-Hub 服务来获取学术论文
+- Sci-Hub 的可用性因地区和时段而异
+- 下载速度取决于 Sci-Hub 镜像的性能
+- 请始终确认在你所在的司法管辖区内访问论文的合法性
+- 此工具仅用于研究和教育目的
+- 请尊重版权，合理使用下载的论文

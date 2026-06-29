@@ -3,118 +3,118 @@ name: dev-workflow
 description: 项目开发工作流程。指导新功能和 bug 修复的完整实现流程，包括研究、设计、实现、测试、审查和提交六个阶段。适用于需要按照标准流程进行开发的任务。需要和 agent-engine 结合使用。
 ---
 
-# Development Workflow Skill
+# 开发工作流技能
 
-## Overview
+## 概述
 
-This workflow guides the whole project development, providing a comprehensive framework to ensure the development to be nice.
+本工作流指导整个项目开发过程，提供一个全面的框架，确保开发顺利进行。
 
-It should work with `agent-engine` skill for a more detailed control of development process.
+它应与 `agent-engine` 技能配合使用，以更精细地控制开发过程。
 
-## When to Use This Skill
+## 何时使用此技能
 
-Use this skill when:
+在以下情况下使用此技能：
 
-- Implementing new features for the Rust Todo application
-- Fixing bugs in the project
-- User explicitly requests to follow the development workflow
-- Starting any significant code change that requires structured approach
+- 为 Rust Todo 应用实现新功能
+- 修复项目中的 bug
+- 用户明确要求遵循开发工作流
+- 开始任何需要结构化方法的重要代码变更
 
-## Feature Implementation Flow
+## 功能实现流程
 
 ```
 Research → Design → Implement → Test → Review → Commit
 ```
 
-## Phase 1: Research
+## 阶段 1：研究
 
-Use the proper agent and skills to start a research task.
+使用以下工作流进行研究。
 
-### Step 1.1 - Codebase Research
+### 步骤 1.1 - 代码库研究
 
-- Read existing code in relevant modules
-- Check similar patterns in codebase
-- Document current behavior and data structures
+- 阅读相关模块中的现有代码
+- 检查代码库中的相似模式
+- 记录当前行为和数据结构
 
-### Step 1.2 - External Research (Required)
+### 步骤 1.2 - 外部研究（必需）
 
-- Launch **deep-researcher** subagent to search for:
-  - Existing Rust libraries for the feature
-  - Open-source implementations (GitHub)
-  - Best practices from crates.io
-- Filter and summarize findings
-- Report: "Useful because..." for each finding
+- 搜索以下内容：
+  - 适用于该功能的现有 Rust 库
+  - 开源实现（GitHub）
+  - 来自 crates.io 的最佳实践
+- 筛选并总结发现
+- 报告：每条发现说明"有用是因为……"
 
-### Step 1.3 - Requirement Clarification
+### 步骤 1.3 - 需求澄清
 
-- Verify feature scope with user if unclear
-- Confirm edge cases
-- Ask: "For this feature, I understand X. Is this correct?"
-
----
-
-## Phase 2: Design
-
-Use the proper agent and skills to start a design task.
-
-### Step 2.1 - Framework Design
-
-- Design the project architecture and tech stack
-- Outline the implementation structure
-- Identify files and functions to modify
-- Define interfaces between modules
-
-### Step 2.2 - Framework Review
-
-- Present design to user
-- Verify design matches feature requirements
-- Adjust based on feedback
-
-### Step 2.3 - Checklist
-
-- [ ] New data structures defined
-- [ ] New functions outlined
-- [ ] Existing code to modify identified
-- [ ] Edge cases considered
+- 如果功能范围不明确，与用户确认
+- 确认边界情况
+- 询问："对于这个功能，我的理解是 X。这样对吗？"
 
 ---
 
-## Phase 3: Implement
+## 阶段 2：设计
 
-Use the proper agent and skills to start a implementation task.
+使用以下工作流进行设计。
 
-See the FEATIMPL instructions.
+### 步骤 2.1 - 框架设计
 
----
+- 设计项目架构和技术栈
+- 规划实现结构
+- 确定需要修改的文件和函数
+- 定义模块之间的接口
 
-## Phase 4: Test
+### 步骤 2.2 - 框架审查
 
-Use the proper agent and skills to start a test task.
+- 向用户展示设计方案
+- 验证设计是否符合功能需求
+- 根据反馈进行调整
 
----
+### 步骤 2.3 - 检查清单
 
-## Phase 5: Review
-
-Use the proper agent and skills to start a review task.
-
-### Step 5.1 - Code Review
-
-- Launch **code-reviewer** subagent
-- Address CRITICAL/HIGH issues
-- Fix MEDIUM issues when possible
-
-### Step 5.2 - Quality Check
-
-- [ ] No new warnings
-- [ ] No hardcoded values
-- [ ] Comments accurate
-- [ ] README updated if needed
+- [ ] 已定义新数据结构
+- [ ] 已规划新函数
+- [ ] 已确定需要修改的现有代码
+- [ ] 已考虑边界情况
 
 ---
 
-## Phase 6: Commit
+## 阶段 3：实现
 
-### Commit Message Format
+使用以下工作流进行实现。
+
+参见 FEATIMPL 指令。
+
+---
+
+## 阶段 4：测试
+
+使用以下工作流进行测试。
+
+---
+
+## 阶段 5：审查
+
+使用以下工作流进行审查。
+
+### 步骤 5.1 - 代码审查
+
+- 进行彻底的代码审查
+- 处理 CRITICAL/HIGH 级别问题
+- 尽可能修复 MEDIUM 级别问题
+
+### 步骤 5.2 - 质量检查
+
+- [ ] 无新警告
+- [ ] 无硬编码值
+- [ ] 注释准确
+- [ ] 如有必要，更新 README
+
+---
+
+## 阶段 6：提交
+
+### 提交信息格式
 
 ```
 <type>: <description>
@@ -122,9 +122,9 @@ Use the proper agent and skills to start a review task.
 <optional body>
 ```
 
-Types: feat, fix, refactor, docs, test, chore, polish
+类型：feat, fix, refactor, docs, test, chore, polish
 
-**Example**:
+**示例**：
 
 ```
 feat: implement sort mode with date/urgency options
